@@ -1,0 +1,15 @@
+[
+    {
+        "name": "Galo",
+        "health": 240,
+        "speed": 19.0,
+        "exp": 0.0,
+        "sp": 26,
+        "damage_base": 10.0,
+        "current_equip_melee": {
+            "damage": 32,
+            "price": 0,
+            "type": null
+        }
+    }
+]
