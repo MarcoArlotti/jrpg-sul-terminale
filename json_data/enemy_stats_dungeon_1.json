@@ -1,16 +1,18 @@
 [
     {
         "name": "SHADOW",
-        "health": 46,
+        "health": 110,
         "speed": 15.0,
         "type": "ice",
-        "dungeon": 1
+        "dungeon": 1,
+        "exp_drop": 3
     },
     {
         "name": "FLYING SHADOW",
-        "health": 20,
+        "health": 76,
         "speed": 37.0,
         "type": "air",
-        "dungeon": 1
+        "dungeon": 1,
+        "exp_drop": 2.3
     }
 ]

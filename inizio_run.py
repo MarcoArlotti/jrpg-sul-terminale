@@ -42,17 +42,19 @@ def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li conve
     
     shadow = {
     "name":"SHADOW", 
-    "health":46,                        
+    "health":110,                        
     "speed":15.00,
     "type":"ice",
-    "dungeon":1
+    "dungeon":1,
+    "exp_drop":3
     }
     flying_shadow = {
         "name":"FLYING SHADOW",
-        "health":20,
+        "health":76,
         "speed":37.00,
         "type":"air",
-        "dungeon":1
+        "dungeon":1,
+        "exp_drop":2.3
     }
 
     nemici = [shadow,flying_shadow]
@@ -61,7 +63,7 @@ def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li conve
 
 
 def crea_battaglia(global_level):
-    
+
     lista_nemici = []
     flip = ["1","2","3"]
     #lista_hp = []
@@ -118,7 +120,6 @@ def selettore_nemici(lista_nemici,id):
         lista_nemici_json = json.load(file_nemici)
 
     nemico_ = random.choice(lista_nemici_json)
-    print(colored(lista_nemici_json, "red"))
     nome = nemico_["name"]
     nemico_["id"] = id
     nemico_.update({"name":(nome + f" ({id})")})
@@ -160,11 +161,9 @@ def attaccare(giocatore_vivo,lista_nemici):
         for nemico in lista_nemici:
 
             id_nemico = nemico["id"]
-            print(id_nemico)
+            
             
             if chi_attaccare == id_nemico:
-                print(chi_attaccare)
-                print(id_nemico)
 
                 print(f"il nemico {id_nemico} subisce {damage_tot}hp di danno!")
 
@@ -172,19 +171,23 @@ def attaccare(giocatore_vivo,lista_nemici):
                 danno_aggiorato = hp_nemico - damage_tot
                 nemico.update({"health":danno_aggiorato})                   
                 
-                print(f"chi attacare == {chi_attaccare}")
-                print(f"id nemico == {id_nemico}") #questo blocco viene eseguito 2 volte BUG
                 break
             
-        #if chi_attaccare != id_nemico:
-        #    print("il nemico selezionato non esite/valore non valido")
-        #    rifai == True
+        if chi_attaccare != id_nemico:
+            print(colored("il nemico selezionato non esite/valore non valido","red"))
+            chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
+            rifai = True
             
             
         for nemico in lista_nemici:
             vita_rimasta_nemico = nemico["health"]
             print(vita_rimasta_nemico)
             if vita_rimasta_nemico <= 0:
+                exp_drop = nemico["exp_drop"]
+                exp_player = giocatore_vivo["exp"]
+                exp_ottenuta = exp_player + exp_drop
+                giocatore_vivo.update({"exp":exp_ottenuta})
+                print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
                 lista_nemici.remove(nemico)
                 id_ = nemico["id"]
                 print(f"nemico di id {id_} è morto")
@@ -201,23 +204,32 @@ def sistema_turni(lista_nemici):
 
     battaglia_vinta = False
     battaglia_persa = False
+    turno = 0
     while battaglia_vinta == False and battaglia_persa == False:
+         
         for giocatore_vivo in lista_giocatori_v:
             scelta_nel_turno(giocatore_vivo,lista_nemici)
 
-            if lista_nemici == []: #fine battaglia
+            if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
                 print(colored("battaglia vinta!!","light_blue"))
                 battaglia_vinta = True
-            if lista_giocatori_v == []: #fine partita
+            if lista_giocatori_v == []: #avviene la fine della partita (perdendo) se lista_giocatori_v == vuota
                 print(colored("team asfaltato... \n\nF","red"))
                 battaglia_persa = True
+        for nemico in lista_nemici:
+            AI_nemico(nemico,lista_nemici)
 
 
 
+        turno = turno + 1
+        print(colored(turno,"light_cyan")) #conteggio turni
 
 
+def AI_nemico(nemico,lista_nemici):
+    pass
 
-#il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo (dungeon) a piani
+
+#il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
 global_level = inizio_run() 
 
 dichiara_enemy()
