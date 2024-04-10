@@ -1,16 +1,16 @@
 [
     {
-        "HEALTH": 46,
-        "NAME": "SHADOW",
-        "SPEED": 15.0,
-        "TYPE": "ice",
+        "name": "SHADOW",
+        "health": 46,
+        "speed": 15.0,
+        "type": "ice",
         "dungeon": 1
     },
     {
-        "HEALTH": 20,
-        "NAME": "FLYING SHADOW",
-        "SPEED": 37.0,
-        "TYPE": "air",
+        "name": "FLYING SHADOW",
+        "health": 20,
+        "speed": 37.0,
+        "type": "air",
         "dungeon": 1
     }
 ]
