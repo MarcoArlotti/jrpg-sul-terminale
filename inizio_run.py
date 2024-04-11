@@ -204,7 +204,7 @@ def imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_pla
     print("ha subito",end= " ")
     print(colored(f"{T_damage_tot}hp","green"),end=" ")
     print("di danno",end="\n\n")
-    da_non_usare = str(input(""))
+    da_non_usare = str(input("")) #serve solo per fermare il terminale
     return lista_nomi_nemico
 
 
