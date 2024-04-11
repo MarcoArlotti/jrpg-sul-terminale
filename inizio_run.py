@@ -3,7 +3,7 @@ import os
 import random
 import termcolor
 from termcolor import colored
-
+os.system("cls")
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
@@ -134,12 +134,13 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici):
     choice = str(input("\n\nche cosa si vuole fare?"))
     match choice:
         case "1": #attacco base
-            lista_nemici = attaccare(giocatore_vivo,lista_nemici)
+            lista_nemici,T_nome_,T_damage_tot = attaccare(giocatore_vivo,lista_nemici)
        
         case "2": #TODO difendersi (immagina...)
             pass
         case "3":
             pass
+    return T_nome_,T_damage_tot
 
 
 
@@ -161,14 +162,10 @@ def attaccare(giocatore_vivo,lista_nemici):
             id_nemico = nemico["id"]
             
             nome_ = nemico["name"]
-            if chi_attaccare == id_nemico:
-                
-                print(f"il nemico",end=" ")
-                print(colored(nome_,"red"),end=" ")
-                print("ha subito",end= " ")
-                print(colored(f"{damage_tot}hp","green"),end=" ")
-                print("di danno",end="\n\n")
+            if chi_attaccare == id_nemico: #serve nome_,damage_tot
 
+                T_nome_ = nome_
+                T_damage_tot = damage_tot
                 hp_nemico = nemico["health"]
                 danno_aggiorato = hp_nemico - damage_tot
                 nemico.update({"health":danno_aggiorato})                   
@@ -183,7 +180,7 @@ def attaccare(giocatore_vivo,lista_nemici):
             
         for nemico in lista_nemici:
             vita_rimasta_nemico = nemico["health"]
-            print(vita_rimasta_nemico)
+            
             if vita_rimasta_nemico <= 0:
                 exp_drop = nemico["exp_drop"]
                 exp_player = giocatore_vivo["exp"]
@@ -191,17 +188,23 @@ def attaccare(giocatore_vivo,lista_nemici):
                 giocatore_vivo.update({"exp":exp_ottenuta})
                 print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
                 lista_nemici.remove(nemico)
-                id_ = nemico["id"]
-                print(f"nemico di id {id_} è morto")
+        
                 break
         
-    return lista_nemici
+    return lista_nemici,T_nome_,T_damage_tot
 
-def imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player):
-    #svuotare il terminale os.BHO("cls") TODO
+def imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,T_nome_,T_damage_tot):
+    
     for nomi_nemico in lista_nomi_nemico:
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
         lista_nomi_nemico = None
+
+    print(f"il nemico",end=" ") #print del danno inflitto al nemico selezionato
+    print(colored(T_nome_,"red"),end=" ")
+    print("ha subito",end= " ")
+    print(colored(f"{T_damage_tot}hp","green"),end=" ")
+    print("di danno",end="\n\n")
+    da_non_usare = str(input(""))
     return lista_nomi_nemico
 
 
@@ -212,16 +215,15 @@ def sistema_turni(lista_nemici):
         lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
-    lista_hp_nemico = []
-    lista_nomi_nemico = []
-    lista_nomi_player = []
-    lista_sp_player = []
-    lista_hp_player = []
     battaglia_vinta = False
     battaglia_persa = False
     turno = 0
     while battaglia_vinta == False and battaglia_persa == False:
-
+        lista_hp_nemico = []
+        lista_nomi_nemico = []
+        lista_nomi_player = []
+        lista_sp_player = []
+        lista_hp_player = []
         for giocatore_vivo in lista_giocatori_v:
 
             nome_player = giocatore_vivo["name"]
@@ -230,19 +232,20 @@ def sistema_turni(lista_nemici):
             sp_player = giocatore_vivo["sp"]
             lista_sp_player.append(sp_player)
 
-            hp_player = giocatore_vivo["health"]
-            lista_hp_player.append(hp_player)
+            #hp_player = giocatore_vivo["health"]
+            #lista_hp_player.append(hp_player)
 
-        for nemico in lista_nemici:
+        for nemico_ in lista_nemici:
 
-            hp_nemico = nemico["health"]
-            lista_hp_nemico.append(hp_nemico)
+            hp_nemico = nemico_["health"]
+            lista_hp_nemico.append(hp_nemico) #BUG
 
-            nomi_nemici = nemico["name"]
+            nomi_nemici = nemico_["name"]
             lista_nomi_nemico.append(nomi_nemici)
-        lista_nomi_nemico = imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player)
+        T_nome_,T_damage_tot = scelta_nel_turno(giocatore_vivo,lista_nemici)
+        lista_nomi_nemico = imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,T_nome_,T_damage_tot)
 
-        scelta_nel_turno(giocatore_vivo,lista_nemici)
+        
         if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
             print(colored("battaglia vinta!!","light_blue"))
             battaglia_vinta = True
@@ -251,7 +254,7 @@ def sistema_turni(lista_nemici):
             battaglia_persa = True
         
         for nemico in lista_nemici:
-            AI_nemico(nemico,lista_nemici)
+            AI_nemico(nemico,lista_nemici,lista_giocatori_v)
 
         turno = turno + 1
         print(colored(turno,"light_cyan")) #conteggio turni
@@ -259,13 +262,12 @@ def sistema_turni(lista_nemici):
         
 
 
-def AI_nemico(nemico,lista_nemici):
+def AI_nemico(nemico,lista_nemici,lista_giocatori_v):
     pass
 
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
 global_level = inizio_run() 
-
 dichiara_enemy()
 
 lista_nemici = crea_battaglia(global_level)
