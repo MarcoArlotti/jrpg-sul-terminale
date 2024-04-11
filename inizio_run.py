@@ -33,7 +33,7 @@ def inizio_run(): #tutte le stat sono portare a 0
     lista_player = []
     lista_player.append(player)
 
-    with open("lista_giocatori.json","w") as file_json: #creazione del json player_stats
+    with open("json_data/lista_giocatori.json","w") as file_json: #creazione del json player_stats
         json.dump(lista_player, file_json, indent=4)
     return global_level
 
@@ -58,7 +58,7 @@ def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li conve
     }
 
     nemici = [shadow,flying_shadow]
-    with open("enemy_stats_dungeon_1.json","w") as file_json:
+    with open("json_data/enemy_stats_dungeon_1.json","w") as file_json:
         json.dump(nemici,file_json,indent=4)
 
 
@@ -66,8 +66,7 @@ def crea_battaglia(global_level):
 
     lista_nemici = []
     flip = ["1","2","3"]
-    #lista_hp = []
-    #lista_nomi = []
+
     if global_level < 5: #il livello dei nemici fa variare la quantità che appareranno #GLOBAL_LEVEL
         
         quanti_nemici = random.choices(flip,weights=[20,40,15],k=1)
@@ -80,7 +79,7 @@ def crea_battaglia(global_level):
         lista_nemici = spawn_nemici(quanti_nemici,lista_nemici)
     
 
-    #imposta_hud(lista_hp,lista_nomi)
+    
     return lista_nemici
 
 
@@ -91,7 +90,7 @@ def spawn_nemici(quanti_nemici,lista_nemici):
         lista_nemici = selettore_nemici(lista_nemici,id)
 
 
-        #print(f"un nemici è uscito, {lista_nomi}\n{lista_hp}")
+
 
     elif quanti_nemici == ["2"]:
         id = 1
@@ -100,7 +99,7 @@ def spawn_nemici(quanti_nemici,lista_nemici):
         lista_nemici = selettore_nemici(lista_nemici,id)
 
 
-        #print(f"due nemici sono usciti, {lista_nomi}\n{lista_hp}")
+
 
     elif quanti_nemici ==  ["3"]:
         id = 1
@@ -110,30 +109,29 @@ def spawn_nemici(quanti_nemici,lista_nemici):
         id = 3
         lista_nemici = selettore_nemici(lista_nemici,id)
 
-        #print(f"tre nemici sono usciti, {lista_nomi}\n{lista_hp}")
+
 
     return lista_nemici
 
 
 def selettore_nemici(lista_nemici,id):
-    with open("enemy_stats_dungeon_1.json","r") as file_nemici:
+    with open("json_data/enemy_stats_dungeon_1.json","r") as file_nemici:
         lista_nemici_json = json.load(file_nemici)
 
     nemico_ = random.choice(lista_nemici_json)
     nome = nemico_["name"]
     nemico_["id"] = id
     nemico_.update({"name":(nome + f" ({id})")})
-    nome = None
 
     lista_nemici.append(nemico_)
-    print(nemico_)
+
     return lista_nemici
 
 
 def scelta_nel_turno(giocatore_vivo,lista_nemici):
     
     
-    choice = str(input("che cosa si vuole fare?"))
+    choice = str(input("\n\nche cosa si vuole fare?"))
     match choice:
         case "1": #attacco base
             lista_nemici = attaccare(giocatore_vivo,lista_nemici)
@@ -162,10 +160,14 @@ def attaccare(giocatore_vivo,lista_nemici):
 
             id_nemico = nemico["id"]
             
-            
+            nome_ = nemico["name"]
             if chi_attaccare == id_nemico:
-
-                print(f"il nemico {id_nemico} subisce {damage_tot}hp di danno!")
+                
+                print(f"il nemico",end=" ")
+                print(colored(nome_,"red"),end=" ")
+                print("ha subito",end= " ")
+                print(colored(f"{damage_tot}hp","green"),end=" ")
+                print("di danno",end="\n\n")
 
                 hp_nemico = nemico["health"]
                 danno_aggiorato = hp_nemico - damage_tot
@@ -195,34 +197,66 @@ def attaccare(giocatore_vivo,lista_nemici):
         
     return lista_nemici
 
+def imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player):
+    #svuotare il terminale os.BHO("cls") TODO
+    for nomi_nemico in lista_nomi_nemico:
+        print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
+        lista_nomi_nemico = None
+    return lista_nomi_nemico
+
+
+    
 def sistema_turni(lista_nemici):
-    with open("lista_giocatori.json","r") as lista_giocatori:
+    with open("json_data/lista_giocatori.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
         lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
-
+    lista_hp_nemico = []
+    lista_nomi_nemico = []
+    lista_nomi_player = []
+    lista_sp_player = []
+    lista_hp_player = []
     battaglia_vinta = False
     battaglia_persa = False
     turno = 0
     while battaglia_vinta == False and battaglia_persa == False:
-         
-        for giocatore_vivo in lista_giocatori_v:
-            scelta_nel_turno(giocatore_vivo,lista_nemici)
 
-            if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
-                print(colored("battaglia vinta!!","light_blue"))
-                battaglia_vinta = True
-            if lista_giocatori_v == []: #avviene la fine della partita (perdendo) se lista_giocatori_v == vuota
-                print(colored("team asfaltato... \n\nF","red"))
-                battaglia_persa = True
+        for giocatore_vivo in lista_giocatori_v:
+
+            nome_player = giocatore_vivo["name"]
+            lista_nomi_player.append(nome_player)
+
+            sp_player = giocatore_vivo["sp"]
+            lista_sp_player.append(sp_player)
+
+            hp_player = giocatore_vivo["health"]
+            lista_hp_player.append(hp_player)
+
+        for nemico in lista_nemici:
+
+            hp_nemico = nemico["health"]
+            lista_hp_nemico.append(hp_nemico)
+
+            nomi_nemici = nemico["name"]
+            lista_nomi_nemico.append(nomi_nemici)
+        lista_nomi_nemico = imposta_hud(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player)
+
+        scelta_nel_turno(giocatore_vivo,lista_nemici)
+        if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
+            print(colored("battaglia vinta!!","light_blue"))
+            battaglia_vinta = True
+        if lista_giocatori_v == []: #avviene la fine della partita (perdendo) se lista_giocatori_v == vuota
+            print(colored("team asfaltato... \n\nF","red"))
+            battaglia_persa = True
+        
         for nemico in lista_nemici:
             AI_nemico(nemico,lista_nemici)
 
-
-
         turno = turno + 1
         print(colored(turno,"light_cyan")) #conteggio turni
+
+        
 
 
 def AI_nemico(nemico,lista_nemici):
@@ -234,5 +268,5 @@ global_level = inizio_run()
 
 dichiara_enemy()
 
-lista_nemici_fix = crea_battaglia(global_level)
-sistema_turni(lista_nemici_fix)
+lista_nemici = crea_battaglia(global_level)
+sistema_turni(lista_nemici)
