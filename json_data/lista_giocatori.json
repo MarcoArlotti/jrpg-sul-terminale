@@ -10,6 +10,21 @@
             "damage": 32,
             "price": 0,
             "type": null
-        }
+        },
+        "guard": false
+    },
+    {
+        "name": "Caso",
+        "health": 220,
+        "speed": 23.0,
+        "exp": 0.0,
+        "sp": 22,
+        "damage_base": 9.0,
+        "current_equip_melee": {
+            "damage": 32,
+            "price": 0,
+            "type": null
+        },
+        "guard": false
     }
 ]

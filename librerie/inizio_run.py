@@ -3,36 +3,43 @@ import os
 import random
 import termcolor
 from termcolor import colored
-
-os.system("cls")
+import combattimento
+from combattimento import attaccare,difendersi,fuoco,curarsi
+#os.system("cls")
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
     #dichiarazione delle statistiche basi
-    health = int(240)
-    sp = int(26)
     global_level = 1
     #name = input(str("\ninsersci il nome del tuo personaggio:\n'"))
-    name = "Galo"
-    speed = float(19)
-    damage_base = float(10) #danno percentuale da aggiungere al danno grezzo dell'arma
-    damage = int(32)
     melee = {
-        "damage":damage,
+        "damage":int(32),
         "price":0,
         "type":None
     }
-    player = {
-        "name":name,
-        "health":health,
-        "speed":speed,
-        "exp":0.00,
-        "sp":sp,
-        "damage_base":damage_base,
-        "current_equip_melee":melee
-    }
-    lista_player = []
-    lista_player.append(player)
+    lista_player = [
+        {
+            "name":"Galo",
+            "health":int(240),
+            "speed":float(19),
+            "exp":0.00,
+            "sp":int(26),
+            "damage_base":float(10),
+            "current_equip_melee":melee,
+            "guard":False
+        }
+        ,{
+            "name":"Caso",
+            "health":int(220),
+            "speed":float(23),
+            "exp":0.00,
+            "sp":int(22),
+            "damage_base":float(9),
+            "current_equip_melee":melee,
+            "guard":False
+        }
+    ]
+    
 
     with open("json_data/lista_giocatori.json","w") as file_json: #creazione del json player_stats
         json.dump(lista_player, file_json, indent=4)
@@ -130,90 +137,30 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici):
     
     for nemico in lista_nemici:
         nomi_nemico = nemico["name"]
-        os.system("cls") #MOMENTANEAMENTE QUI, TODO trovare un punto miglore
+        #os.system("cls")# NON FUNZIONANTE QUI, TODO trovare un punto miglore
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
     choice = str(input("\n\n1        2        3        4\n"))
     match choice:
         case "1": #attacco base
-            giocatore_vivo,lista_nemici,T_nome_,damage_tot = attaccare(giocatore_vivo,lista_nemici)
+            giocatore_vivo,lista_nemici = attaccare(giocatore_vivo,lista_nemici)
        
-        case "2": #TODO difendersi (immagina...)
-            pass
+        case "2": #difendersi (immagina...)
+            difendersi(giocatore_vivo)
+
+
         case "3": #TODO magie
             pass
-    return giocatore_vivo,lista_nemici,T_nome_,damage_tot
+        case "5": #oggetti/inventario(eccetto armature/armi...)
 
+            with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
+                lista_oggetti_curativi = json.load(lista_oggetti_curativi)
 
+            for cura in lista_oggetti_curativi:
+                print(cura["name"])
+            cura_scelta = str(input("")) #per ora
+            curarsi(cura_scelta,lista_oggetti_curativi)
+    return giocatore_vivo,lista_nemici
 
-def attaccare(giocatore_vivo,lista_nemici):
-    
-    current_equip_melee = giocatore_vivo["current_equip_melee"]
-    damage_melee = current_equip_melee["damage"] #preso il danno grezzo dalla arma equipaggiata
-    damage_base_percentuale = giocatore_vivo["damage_base"] #percentuale di danno aumentato all'arma equipaggiata che aumenta di valore livellando
-    damage_percentuale = (damage_melee * damage_base_percentuale)/100
-    damage_tot = damage_melee + damage_percentuale
-    damage_tot = int(damage_tot) #conversione per non avere la virgola nel danno
-    
-    chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
-    rifai = True
-    while rifai == True:
-        rifai = False
-        for nemico_ in lista_nemici:
-
-            id_nemico = nemico_["id"]
-            
-            nome_ = nemico_["name"]
-            if chi_attaccare == id_nemico: #serve nome_,damage_tot
-
-                T_nome_ = nome_
-                hp_nemico = nemico_["health"]
-                danno_aggiorato = hp_nemico - damage_tot
-                nemico_.update({"health":danno_aggiorato})                   
-                
-                break
-            
-        if chi_attaccare != id_nemico:
-            print(colored("il nemico selezionato non esite/valore non valido","red"))
-            chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
-            rifai = True
-            
-            
-        for nemico in lista_nemici:
-            vita_rimasta_nemico = nemico["health"]
-            
-            if vita_rimasta_nemico <= 0:
-                exp_drop = nemico["exp_drop"]
-                exp_player = giocatore_vivo["exp"]
-                exp_ottenuta = exp_player + exp_drop
-                giocatore_vivo.update({"exp":exp_ottenuta})
-                print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
-                lista_nemici.remove(nemico)
-        
-                break
-        
-    return giocatore_vivo,lista_nemici,T_nome_,damage_tot
-
-def imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot):
-    
-    for nome in lista_nomi_nemico:
-        if nome == #id del nemico (da convertire da id a nome)
-        print(f"il nemico",end=" ") #print del danno inflitto al nemico selezionato
-        print(colored(nome,"red"),end=" ")
-        print("ha subito",end= " ")
-        print(colored(f"{damage_tot}hp","green"),end=" ")
-        print("di danno",end="\n\n")
-    giocatore_attivo_nome = giocatore_vivo["name"]
-    for nome_player in lista_nomi_player:
-        nome_player_ = nome_player["name"]
-
-        print(colored(nome_player_,"cyan"),end="    ")
-        if nome_player_ == giocatore_attivo_nome:
-            print(colored(nome_player_,"grey"),end="    ")
-            
-
-
-    rallenta_terminale = str(input(colored("press any button...","grey"))) #serve solo per fermare/rallentare il terminale
-    return lista_nomi_nemico
 
 
     
@@ -253,8 +200,9 @@ def sistema_turni(lista_nemici):
             nomi_nemici = nemico_["name"]
             lista_nomi_nemico.append(nomi_nemici)
         
-        giocatore_vivo,lista_nemici,T_nome_,damage_tot = scelta_nel_turno(giocatore_vivo,lista_nemici)
-        lista_nomi_nemico = imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot)
+        for giocatore_vivo in lista_giocatori_v:
+            giocatore_vivo,lista_nemici = scelta_nel_turno(giocatore_vivo,lista_nemici)
+#        lista_nomi_nemico = imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot)
 
         
         if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
@@ -278,9 +226,16 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v):
 
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
-global_level = inizio_run() 
+iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
+if iniziare_run == "yes":
+    global_level = inizio_run() 
+    print("salvataggio creato")
+elif iniziare_run == "no":
+    pass
+
+
 
 dichiara_enemy()
-
+global_level = 1
 lista_nemici = scelta_percentuali(global_level)
 sistema_turni(lista_nemici)
