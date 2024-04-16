@@ -20,7 +20,8 @@ def inizio_run(): #tutte le stat sono portare a 0
     lista_player = [
         {
             "name":"Galo",
-            "health":int(240),
+            "max_health":240,
+            "health":int(130),
             "speed":float(19),
             "exp":0.00,
             "sp":int(26),
@@ -30,7 +31,8 @@ def inizio_run(): #tutte le stat sono portare a 0
         }
         ,{
             "name":"Caso",
-            "health":int(220),
+            "max_health":220,
+            "health":int(210),
             "speed":float(23),
             "exp":0.00,
             "sp":int(22),

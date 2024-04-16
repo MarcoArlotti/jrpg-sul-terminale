@@ -15,6 +15,7 @@
     },
     {
         "name": "Caso",
+        "max_health":240,
         "health": 220,
         "speed": 23.0,
         "exp": 0.0,

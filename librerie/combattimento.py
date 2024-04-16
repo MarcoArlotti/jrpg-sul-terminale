@@ -66,12 +66,13 @@ def curarsi(cura_scelta,lista_giocatori_v):
 
     for cura in lista_oggetti_curativi:
         cura_ = cura["name"]
+
         if cura_scelta == cura_:
 
             print(cura_)
             info = colored("inserire il nome...","grey")
             chi_curare = str(input(f"chi si vuole curare?\n{info} "))
-            vita_recuperata = cura["effetto"] #TODO for persona in lista_persone: (TUTTI)
+            vita_recuperata = cura["effetto"] 
             for persona in lista_giocatori_v:
                 nome_persona = persona["name"]
                 if chi_curare == nome_persona:
@@ -80,6 +81,6 @@ def curarsi(cura_scelta,lista_giocatori_v):
                     persona.update({"health":vita_finale})
                     nome_persona = colored(nome_persona,"cyan")
                     vita_recuperata = colored(vita_recuperata,"green")
-                    print(f"{nome_persona} si è curato di {vita_recuperata}hp")
-                break
+                    print(f"{nome_persona} si è curato di {vita_recuperata} hp") #TODO fare in modo di non aggiungere vita massima in più curandosi
+                    break
 
