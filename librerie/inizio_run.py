@@ -71,6 +71,7 @@ def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li conve
     with open("json_data/enemy_stats_dungeon_1.json","w") as file_json:
         json.dump(nemici,file_json,indent=4)
 
+
 def scelta_percentuali(global_level):
 
     lista_nemici = []
@@ -90,6 +91,7 @@ def scelta_percentuali(global_level):
 
     
     return lista_nemici
+
 
 def random_quanti_nemici(quanti_nemici,lista_nemici):
 
@@ -120,6 +122,7 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
 
 
     return lista_nemici
+
 
 def random_che_nemico_pescare(lista_nemici,id):
     with open("json_data/enemy_stats_dungeon_1.json","r") as file_nemici:
@@ -168,11 +171,14 @@ def sistema_turni(lista_nemici):
     with open("json_data/lista_giocatori.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
         lista_giocatori_v = []
+
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
+
     battaglia_vinta = False
     battaglia_persa = False
     turno = 0
+
     while battaglia_vinta == False and battaglia_persa == False:
         lista_hp_nemico = []
         lista_nomi_nemico = []

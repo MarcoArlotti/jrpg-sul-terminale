@@ -1,11 +1,11 @@
 [
     {
-        "name":"50 hp up",
+        "name":"50",
         "effetto":50,
         "valore":10.0
     },
     {
-        "name":"100 hp up",
+        "name":"100",
         "effetto":100,
         "valore":25.0
     }

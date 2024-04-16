@@ -73,14 +73,28 @@ def curarsi(cura_scelta,lista_giocatori_v):
             info = colored("inserire il nome...","grey")
             chi_curare = str(input(f"chi si vuole curare?\n{info} "))
             vita_recuperata = cura["effetto"] 
+
             for persona in lista_giocatori_v:
                 nome_persona = persona["name"]
+
                 if chi_curare == nome_persona:
-                    vita = persona["health"]
-                    vita_finale = vita + vita_recuperata
+
+                    vita_persona = persona["health"]
+                    vita_max = persona["max_health"]
+
+                    vita_finale = vita_persona + vita_recuperata
+                    
+                    if vita_finale > vita_max:
+                        vita_finale = vita_max
+                        vita_info = vita_finale
+
+                    elif vita_finale < vita_max:
+                        vita_info = vita_finale
+
                     persona.update({"health":vita_finale})
                     nome_persona = colored(nome_persona,"cyan")
-                    vita_recuperata = colored(vita_recuperata,"green")
-                    print(f"{nome_persona} si è curato di {vita_recuperata} hp") #TODO fare in modo di non aggiungere vita massima in più curandosi
+                    vita_recuperata = colored(vita_info,"green")
+                    print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
+                    print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
                     break
 

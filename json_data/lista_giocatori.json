@@ -1,7 +1,8 @@
 [
     {
         "name": "Galo",
-        "health": 240,
+        "max_health": 240,
+        "health": 130,
         "speed": 19.0,
         "exp": 0.0,
         "sp": 26,
@@ -15,8 +16,8 @@
     },
     {
         "name": "Caso",
-        "max_health":240,
-        "health": 220,
+        "max_health": 220,
+        "health": 210,
         "speed": 23.0,
         "exp": 0.0,
         "sp": 22,
