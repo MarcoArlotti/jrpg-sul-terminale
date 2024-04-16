@@ -146,24 +146,22 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
     choice = str(input("\n\n1        2        3        4\n"))
     match choice:
-        case "1": #attacco base
+        case "1": #attaccare HA bisogno di un "rifai input"
             giocatore_vivo,lista_nemici = attaccare(giocatore_vivo,lista_nemici)
        
-        case "2": #difendersi (immagina...)
+        case "2": #difendersi NON ha bisogno un "rifai input"
             difendersi(giocatore_vivo)
 
 
         case "3": #TODO magie
             pass
-        case "5": #oggetti/inventario(eccetto armature/armi...)
-
+        case "5": #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
             with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
                 lista_oggetti_curativi = json.load(lista_oggetti_curativi)
 
             for cura in lista_oggetti_curativi:
                 print(cura["name"])
-            cura_scelta = str(input("")) #per ora
-            curarsi(cura_scelta,lista_giocatori_v)
+            curarsi(lista_giocatori_v)
     return giocatore_vivo,lista_nemici
 
     
@@ -179,7 +177,7 @@ def sistema_turni(lista_nemici):
     battaglia_persa = False
     turno = 0
 
-    while battaglia_vinta == False and battaglia_persa == False:
+    while battaglia_vinta == False and battaglia_persa == False: #ciclo di turni fino alla morte di tutti i nemici o alleati
         lista_hp_nemico = []
         lista_nomi_nemico = []
         lista_nomi_player = []
@@ -201,7 +199,7 @@ def sistema_turni(lista_nemici):
             print(nemico_)
 
             hp_nemico = nemico_["health"]
-            lista_hp_nemico.append(hp_nemico) #BUG
+            lista_hp_nemico.append(hp_nemico) 
 
             nomi_nemici = nemico_["name"]
             lista_nomi_nemico.append(nomi_nemici)

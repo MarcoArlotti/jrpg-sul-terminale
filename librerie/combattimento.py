@@ -55,46 +55,54 @@ def attaccare(giocatore_vivo,lista_nemici):
     return giocatore_vivo,lista_nemici,T_nome_,damage_tot
 def difendersi(giocatore_vivo):
     giocatore_vivo.update({"guard":True})
-    guard = giocatore_vivo["guard"]
     giocatore = giocatore_vivo["name"]
     giocatore = colored(giocatore,"light_cyan")
     print(f"il giocatore {giocatore} si sta difendendo")
     aspetta_input()
-def curarsi(cura_scelta,lista_giocatori_v):
+def curarsi(lista_giocatori_v):
     with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
         lista_oggetti_curativi = json.load(lista_oggetti_curativi)
+        rifai = True
+        while rifai == True:
+            rifai = False
+            cura_scelta = str(input(colored("scelgiere scrivendo il nome dell'oggetto... ","grey")))
 
-    for cura in lista_oggetti_curativi:
-        cura_ = cura["name"]
+            for cura in lista_oggetti_curativi:
+                cura_ = cura["name"]
 
-        if cura_scelta == cura_:
+                if cura_scelta == cura_:
+                
+                    print(cura_)
+                    info = colored("inserire il nome...","grey")
+                    chi_curare = str(input(f"chi si vuole curare?\n{info} "))
+                    vita_recuperata = cura["effetto"] 
 
-            print(cura_)
-            info = colored("inserire il nome...","grey")
-            chi_curare = str(input(f"chi si vuole curare?\n{info} "))
-            vita_recuperata = cura["effetto"] 
+                    for persona in lista_giocatori_v:
+                        nome_persona = persona["name"]
 
-            for persona in lista_giocatori_v:
-                nome_persona = persona["name"]
+                        if chi_curare == nome_persona:
+                        
+                            vita_persona = persona["health"]
+                            vita_max = persona["max_health"]
 
-                if chi_curare == nome_persona:
+                            vita_finale = vita_persona + vita_recuperata
 
-                    vita_persona = persona["health"]
-                    vita_max = persona["max_health"]
+                            if vita_finale > vita_max:
+                                vita_finale = vita_max
+                                vita_info = vita_finale
 
-                    vita_finale = vita_persona + vita_recuperata
-                    
-                    if vita_finale > vita_max:
-                        vita_finale = vita_max
-                        vita_info = vita_finale
+                            elif vita_finale < vita_max:
+                                vita_info = vita_finale
 
-                    elif vita_finale < vita_max:
-                        vita_info = vita_finale
-
-                    persona.update({"health":vita_finale})
-                    nome_persona = colored(nome_persona,"cyan")
-                    vita_recuperata = colored(vita_info,"green")
-                    print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
-                    print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
-                    break
-
+                            persona.update({"health":vita_finale})
+                            nome_persona = colored(nome_persona,"cyan")
+                            vita_recuperata = colored(vita_info,"green")
+                            print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
+                            print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
+                            break
+                    if chi_curare != nome_persona:
+                        print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                        rifai = True
+            if cura_scelta != cura_:
+                print(colored("cura non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                rifai = True
