@@ -133,7 +133,7 @@ def random_che_nemico_pescare(lista_nemici,id):
     return lista_nemici
 
 
-def scelta_nel_turno(giocatore_vivo,lista_nemici):
+def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
     
     for nemico in lista_nemici:
         nomi_nemico = nemico["name"]
@@ -158,10 +158,8 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici):
             for cura in lista_oggetti_curativi:
                 print(cura["name"])
             cura_scelta = str(input("")) #per ora
-            curarsi(cura_scelta,lista_oggetti_curativi)
+            curarsi(cura_scelta,lista_oggetti_curativi,lista_giocatori_v)
     return giocatore_vivo,lista_nemici
-
-
 
     
 def sistema_turni(lista_nemici):
@@ -201,7 +199,7 @@ def sistema_turni(lista_nemici):
             lista_nomi_nemico.append(nomi_nemici)
         
         for giocatore_vivo in lista_giocatori_v:
-            giocatore_vivo,lista_nemici = scelta_nel_turno(giocatore_vivo,lista_nemici)
+            giocatore_vivo,lista_nemici = scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v)
 #        lista_nomi_nemico = imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot)
 
         
@@ -218,8 +216,7 @@ def sistema_turni(lista_nemici):
         turno = turno + 1
         print(colored(turno,"light_cyan")) #conteggio turni
 
-        
-
+    
 
 def AI_nemico(nemico,lista_nemici,lista_giocatori_v):
     pass

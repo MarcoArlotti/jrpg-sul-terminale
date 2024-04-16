@@ -60,14 +60,23 @@ def difendersi(giocatore_vivo):
     giocatore = colored(giocatore,"light_cyan")
     print(f"il giocatore {giocatore} si sta difendendo")
     aspetta_input()
-def curarsi(cura_scelta,lista_oggetti_curativi):
+def curarsi(cura_scelta,lista_oggetti_curativi,lista_giocatori_v):
     for cura in lista_oggetti_curativi:
         cura_ = cura["name"]
         if cura_scelta == cura_:
+
             print(cura_)
             info = colored("inserire il nome...","grey")
             chi_curare = str(input(f"chi si vuole curare?\n{info} "))
             vita_recuperata = cura_["effetto"] #TODO for persona in lista_persone: (TUTTI)
-            
-            break
+            for persona in lista_giocatori_v:
+                nome_persona = persona["name"]
+                if chi_curare == nome_persona:
+                    vita = persona["health"]
+                    vita_finale = vita + vita_recuperata
+                    persona.update({"health":vita_finale})
+                    nome_persona = colored(nome_persona,"cyan")
+                    vita_recuperata = colored(vita_recuperata,"green")
+                    print(f"{nome_persona} si è curato di {vita_recuperata}hp")
+                break
 
