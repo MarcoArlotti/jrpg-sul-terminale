@@ -2,10 +2,12 @@ import json
 import random
 from termcolor import colored
 def aspetta_input():
-    a = input(colored("press return to continuee...","grey"))
+    a = input(colored("press return to continue...","grey"))
 
 def fuoco(potenza,persona_v): #fuoco ad attacco debole,medio,pesante,area
     pass
+
+
 def attaccare(giocatore_vivo,lista_nemici):
     
     current_equip_melee = giocatore_vivo["current_equip_melee"]
@@ -23,10 +25,8 @@ def attaccare(giocatore_vivo,lista_nemici):
 
             id_nemico = nemico_["id"]
             
-            nome_ = nemico_["name"]
             if chi_attaccare == id_nemico: #serve nome_,damage_tot
 
-                T_nome_ = nome_
                 hp_nemico = nemico_["health"]
                 danno_aggiorato = hp_nemico - damage_tot
                 nemico_.update({"health":danno_aggiorato})                   
@@ -34,7 +34,7 @@ def attaccare(giocatore_vivo,lista_nemici):
                 break
             
         if chi_attaccare != id_nemico:
-            print(colored("il nemico selezionato non esite/valore non valido","red"))
+            print(colored("il nemico selezionato non esite/valore non valido","grey"))
             chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
             rifai = True
             
@@ -51,14 +51,17 @@ def attaccare(giocatore_vivo,lista_nemici):
                 lista_nemici.remove(nemico)
         
                 break
-        
-    return giocatore_vivo,lista_nemici,T_nome_,damage_tot
+    return giocatore_vivo,lista_nemici
+
+
 def difendersi(giocatore_vivo):
     giocatore_vivo.update({"guard":True})
     giocatore = giocatore_vivo["name"]
     giocatore = colored(giocatore,"light_cyan")
-    print(f"il giocatore {giocatore} si sta difendendo")
+    print(f"il {giocatore} si sta difendendo")
     aspetta_input()
+
+
 def curarsi(lista_giocatori_v):
     with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
         lista_oggetti_curativi = json.load(lista_oggetti_curativi)
@@ -106,3 +109,34 @@ def curarsi(lista_giocatori_v):
             if cura_scelta != cura_:
                 print(colored("cura non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
                 rifai = True
+    #return lista_oggetti(- cura_scelta)
+
+
+def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano):
+    nemico_nome = colored(nemico["name"],"light_red")
+
+    if numero_piano <= 2: #se i nemici si trovano al piano 3 o inferiore attaccheranno e basta
+        danno_nemico = nemico["damage"]
+
+        chi_attaccare_player = random.choice(lista_giocatori_v)
+        chi_attaccare_player_nome = chi_attaccare_player["name"]
+
+        for giocatore in lista_giocatori_v:
+            nome_giocatore = giocatore["name"]
+
+            if nome_giocatore == chi_attaccare_player_nome:
+                vita_player = giocatore["health"]
+                parata_attiva = giocatore["guard"]
+
+                if parata_attiva == True:
+                    danno_nemico = int(danno_nemico / 2)
+
+                vita_player = vita_player - danno_nemico
+                giocatore_nome = colored(nome_giocatore,"cyan")
+                danno_nemico = colored(danno_nemico,"red")
+
+                print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
+                aspetta_input()
+            
+    giocatore.update({"health":vita_player})
+    #TODO eseguire un return aggionando lo stato del player     return lista_giocatori_v,giocatore?

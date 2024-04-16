@@ -5,7 +5,8 @@
         "speed": 15.0,
         "type": "ice",
         "dungeon": 1,
-        "exp_drop": 3
+        "exp_drop": 3,
+        "damage":35
     },
     {
         "name": "FLYING SHADOW",
@@ -13,6 +14,7 @@
         "speed": 37.0,
         "type": "air",
         "dungeon": 1,
-        "exp_drop": 2.3
+        "exp_drop": 2.3,
+        "damage":38
     }
 ]

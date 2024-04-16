@@ -4,14 +4,13 @@ import random
 import termcolor
 from termcolor import colored
 import combattimento
-from combattimento import attaccare,difendersi,fuoco,curarsi
+from combattimento import attaccare,difendersi,fuoco,curarsi,AI_nemico,aspetta_input
 #os.system("cls")
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
     #dichiarazione delle statistiche basi
-    global_level = 1
-    #name = input(str("\ninsersci il nome del tuo personaggio:\n'"))
+    numero_piano = 1
     melee = {
         "damage":int(32),
         "price":0,
@@ -45,45 +44,45 @@ def inizio_run(): #tutte le stat sono portare a 0
 
     with open("json_data/lista_giocatori.json","w") as file_json: #creazione del json player_stats
         json.dump(lista_player, file_json, indent=4)
-    return global_level
+    return numero_piano
 
 
-def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li converte in un json (list-->.json)
-    
-    shadow = {
-    "name":"SHADOW", 
-    "health":110,                        
-    "speed":15.00,
-    "type":"ice",
-    "dungeon":1,
-    "exp_drop":3
-    }
-    flying_shadow = {
-        "name":"FLYING SHADOW",
-        "health":76,
-        "speed":37.00,
-        "type":"air",
-        "dungeon":1,
-        "exp_drop":2.3
-    }
+#def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li converte in un json (list-->.json)
+#    
+#    shadow = {
+#    "name":"SHADOW", 
+#    "health":110,                        
+#    "speed":15.00,
+#    "type":"ice",
+#    "dungeon":1,
+#    "exp_drop":3
+#    }
+#    flying_shadow = {
+#        "name":"FLYING SHADOW",
+#        "health":76,
+#        "speed":37.00,
+#        "type":"air",
+#        "dungeon":1,
+#        "exp_drop":2.3
+#    }
+#
+#    nemici = [shadow,flying_shadow]
+#    with open("json_data/enemy_stats_dungeon_1.json","w") as file_json:
+#        json.dump(nemici,file_json,indent=4)
 
-    nemici = [shadow,flying_shadow]
-    with open("json_data/enemy_stats_dungeon_1.json","w") as file_json:
-        json.dump(nemici,file_json,indent=4)
 
-
-def scelta_percentuali(global_level):
+def scelta_percentuali(numero_piano):
 
     lista_nemici = []
     flip = ["1","2","3"]
 
-    if global_level < 5: #il livello dei nemici fa variare la quantità che appareranno #GLOBAL_LEVEL
+    if numero_piano < 5: #il livello dei nemici fa variare la quantità che appareranno #GLOBAL_LEVEL
         
         quanti_nemici = random.choices(flip,weights=[20,40,15],k=1)
 
         lista_nemici = random_quanti_nemici(quanti_nemici,lista_nemici)
         
-    elif global_level < 15 and global_level >= 5:
+    elif numero_piano < 15 and numero_piano >= 5:
 
         quanti_nemici = random.choices(flip,weights=[15,50,40],k=1)
         lista_nemici = random_quanti_nemici(quanti_nemici,lista_nemici)
@@ -128,23 +127,26 @@ def random_che_nemico_pescare(lista_nemici,id):
     with open("json_data/enemy_stats_dungeon_1.json","r") as file_nemici:
         lista_nemici_json = json.load(file_nemici)
 
-    nemico_ = random.choice(lista_nemici_json)
-    nome = nemico_["name"]
-    nemico_["id"] = id
-    nemico_.update({"name":(nome + f" ({id})")})
+    nemico_uscito = random.choice(lista_nemici_json)
+    nome = nemico_uscito["name"]
+    nemico_uscito["id"] = id
+    nemico_uscito.update({"name":(nome + f" ({id})")})
 
-    lista_nemici.append(nemico_)
+    lista_nemici.append(nemico_uscito)
 
     return lista_nemici
 
 
 def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
-    
+    player_vivo_nome = colored(giocatore_vivo["name"],"cyan")
+    print(f"è il turno del {player_vivo_nome} ")
+
     for nemico in lista_nemici:
         nomi_nemico = nemico["name"]
         #os.system("cls")# NON FUNZIONANTE QUI, TODO trovare un punto miglore
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
-    choice = str(input("\n\n1        2        3        4\n"))
+    print(colored("\nattaccare   difendersi                             curarsi","blue"))
+    choice = str(input("\n\n1               2           3           4           5\n"))
     match choice:
         case "1": #attaccare HA bisogno di un "rifai input"
             giocatore_vivo,lista_nemici = attaccare(giocatore_vivo,lista_nemici)
@@ -165,7 +167,7 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
     return giocatore_vivo,lista_nemici
 
     
-def sistema_turni(lista_nemici):
+def sistema_turni(lista_nemici,piano_livello):
     with open("json_data/lista_giocatori.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
         lista_giocatori_v = []
@@ -196,7 +198,6 @@ def sistema_turni(lista_nemici):
             lista_hp_player.append(hp_player)
 
         for nemico_ in lista_nemici:
-            print(nemico_)
 
             hp_nemico = nemico_["health"]
             lista_hp_nemico.append(hp_nemico) 
@@ -217,28 +218,25 @@ def sistema_turni(lista_nemici):
             battaglia_persa = True
         
         for nemico in lista_nemici:
-            AI_nemico(nemico,lista_nemici,lista_giocatori_v)
-
+            AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano)
         turno = turno + 1
         print(colored(turno,"light_cyan")) #conteggio turni
 
     
 
-def AI_nemico(nemico,lista_nemici,lista_giocatori_v):
-    pass
+
 
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
 iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
 if iniziare_run == "yes":
-    global_level = inizio_run() 
-    print("salvataggio creato")
+    numero_piano = inizio_run() 
+    print("salvataggio creato...")
 elif iniziare_run == "no":
+    print("continuando dall'ultimo salvataggio...")
     pass
 
 
-
-dichiara_enemy()
-global_level = 1
-lista_nemici = scelta_percentuali(global_level)
-sistema_turni(lista_nemici)
+numero_piano = 1
+lista_nemici = scelta_percentuali(numero_piano)
+sistema_turni(lista_nemici,numero_piano)
