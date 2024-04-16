@@ -158,7 +158,7 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
             for cura in lista_oggetti_curativi:
                 print(cura["name"])
             cura_scelta = str(input("")) #per ora
-            curarsi(cura_scelta,lista_oggetti_curativi,lista_giocatori_v)
+            curarsi(cura_scelta,lista_giocatori_v)
     return giocatore_vivo,lista_nemici
 
     

@@ -60,7 +60,10 @@ def difendersi(giocatore_vivo):
     giocatore = colored(giocatore,"light_cyan")
     print(f"il giocatore {giocatore} si sta difendendo")
     aspetta_input()
-def curarsi(cura_scelta,lista_oggetti_curativi,lista_giocatori_v):
+def curarsi(cura_scelta,lista_giocatori_v):
+    with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
+        lista_oggetti_curativi = json.load(lista_oggetti_curativi)
+
     for cura in lista_oggetti_curativi:
         cura_ = cura["name"]
         if cura_scelta == cura_:
@@ -68,7 +71,7 @@ def curarsi(cura_scelta,lista_oggetti_curativi,lista_giocatori_v):
             print(cura_)
             info = colored("inserire il nome...","grey")
             chi_curare = str(input(f"chi si vuole curare?\n{info} "))
-            vita_recuperata = cura_["effetto"] #TODO for persona in lista_persone: (TUTTI)
+            vita_recuperata = cura["effetto"] #TODO for persona in lista_persone: (TUTTI)
             for persona in lista_giocatori_v:
                 nome_persona = persona["name"]
                 if chi_curare == nome_persona:
