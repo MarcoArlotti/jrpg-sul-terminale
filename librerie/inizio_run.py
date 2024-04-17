@@ -1,9 +1,7 @@
 import json
 import os
 import random
-import termcolor
 from termcolor import colored
-import combattimento
 from combattimento import attaccare,difendersi,fuoco,curarsi,AI_nemico,aspetta_input
 #os.system("cls")
 #python -> json = .dump
@@ -178,6 +176,7 @@ def sistema_turni(lista_nemici,piano_livello):
     battaglia_vinta = False
     battaglia_persa = False
     turno = 0
+    lista_giocatori_m = [] #lista dei giocatori morti
 
     while battaglia_vinta == False and battaglia_persa == False: #ciclo di turni fino alla morte di tutti i nemici o alleati
         lista_hp_nemico = []
@@ -185,42 +184,51 @@ def sistema_turni(lista_nemici,piano_livello):
         lista_nomi_player = []
         lista_sp_player = []
         lista_hp_player = []
-
-        for giocatore_vivo in lista_giocatori_v:
-
-            nome_player = giocatore_vivo["name"]
-            lista_nomi_player.append(nome_player)
-
-            sp_player = giocatore_vivo["sp"]
-            lista_sp_player.append(sp_player)
-
-            hp_player = giocatore_vivo["health"]
-            lista_hp_player.append(hp_player)
-
-        for nemico_ in lista_nemici:
-
-            hp_nemico = nemico_["health"]
-            lista_hp_nemico.append(hp_nemico) 
-
-            nomi_nemici = nemico_["name"]
-            lista_nomi_nemico.append(nomi_nemici)
         
-        for giocatore_vivo in lista_giocatori_v:
-            giocatore_vivo,lista_nemici = scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v)
-#        lista_nomi_nemico = imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot)
 
-        
         if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
+            
             print(colored("battaglia vinta!!","light_blue"))
             battaglia_vinta = True
-        if lista_giocatori_v == []: #avviene la fine della partita (perdendo) se lista_giocatori_v == vuota
+        elif lista_giocatori_v == []: #avviene la fine della partita (perdendo) se lista_giocatori_v == vuota
+
             print(colored("team asfaltato... \n\nF","red"))
             battaglia_persa = True
-        
-        for nemico in lista_nemici:
-            AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano)
-        turno = turno + 1
-        print(colored(turno,"light_cyan")) #conteggio turni
+            
+        if battaglia_vinta == False and battaglia_persa == False:
+            for giocatore_vivo in lista_giocatori_v:
+
+                nome_player = giocatore_vivo["name"]
+                lista_nomi_player.append(nome_player)
+
+                sp_player = giocatore_vivo["sp"]
+                lista_sp_player.append(sp_player)
+
+                hp_player = giocatore_vivo["health"]
+                lista_hp_player.append(hp_player)
+
+            for nemico_ in lista_nemici:
+
+                hp_nemico = nemico_["health"]
+                lista_hp_nemico.append(hp_nemico) 
+
+                nomi_nemici = nemico_["name"]
+                lista_nomi_nemico.append(nomi_nemici)
+
+            for giocatore_vivo in lista_giocatori_v:
+                giocatore_vivo,lista_nemici = scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v)
+            
+            #lista_nomi_nemico = imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot)
+
+            for nemico in lista_nemici:
+                lista_giocatori_v = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
+            for persona in lista_giocatori_v:
+                vita_rimasta = colored(persona["health"],"green")
+                vita_max = colored(persona["max_health"],"light_green")
+                nome_persona = colored(persona["name"],"cyan")
+                print(f"il {nome_persona} {vita_rimasta}/{vita_max}hp")
+            turno = turno + 1
+            print(colored(turno,"light_cyan")) #conteggio turni
 
     
 

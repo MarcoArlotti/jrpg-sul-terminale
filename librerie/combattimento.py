@@ -112,7 +112,7 @@ def curarsi(lista_giocatori_v):
     #return lista_oggetti(- cura_scelta)
 
 
-def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano):
+def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m):
     nemico_nome = colored(nemico["name"],"light_red")
 
     if numero_piano <= 2: #se i nemici si trovano al piano 3 o inferiore attaccheranno e basta
@@ -139,4 +139,14 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano):
                 aspetta_input()
             
     giocatore.update({"health":vita_player})
+    for giocatore in lista_giocatori_v:
+        vita_player = giocatore["health"]
+        if vita_player <= 0:
+            lista_giocatori_m.append(giocatore)
+            lista_giocatori_v.remove(giocatore)
+            print(colored("il","red"),end=" ")
+            print(colored(giocatore["name"],"cyan"),end=" ")
+            print(colored("è morto","red"),end="\n")
+
+    return lista_giocatori_v
     #TODO eseguire un return aggionando lo stato del player     return lista_giocatori_v,giocatore?
