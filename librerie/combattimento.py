@@ -69,7 +69,7 @@ def curarsi(lista_giocatori_v):
         while rifai == True:
             rifai = False
             cura_scelta = str(input(colored("scelgiere scrivendo il nome dell'oggetto... ","grey")))
-
+            cura_trovata = False
             for cura in lista_oggetti_curativi:
                 cura_ = cura["name"]
 
@@ -79,7 +79,8 @@ def curarsi(lista_giocatori_v):
                     info = colored("inserire il nome...","grey")
                     chi_curare = str(input(f"chi si vuole curare?\n{info} "))
                     vita_recuperata = cura["effetto"] 
-
+                    nome_trovato = False
+                    cura_trovata = False
                     for persona in lista_giocatori_v:
                         nome_persona = persona["name"]
 
@@ -102,14 +103,45 @@ def curarsi(lista_giocatori_v):
                             vita_recuperata = colored(vita_info,"green")
                             print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
                             print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
+                            nome_trovato = True
                             break
-                    if chi_curare != nome_persona:
+                    if nome_trovato == False:
                         print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
                         rifai = True
-            if cura_scelta != cura_:
+                        
+                    cura_trovata = True
+
+            if cura_trovata == False:
                 print(colored("cura non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
                 rifai = True
     #return lista_oggetti(- cura_scelta)
+
+"""
+
+def myFunc(e):
+  return e['age']
+
+def riordina(lista3):
+    lista3.sort(key=myFunc)
+
+    return lista3
+lista3_ordinata = riordina(lista3)
+print(lista3_ordinata)
+
+"""
+def posizione(lista_giocatori):
+    return lista_giocatori["posizione"]
+#da fare per quella in battaglia
+def riordina_lista_giocatori_in_battaglia(lista_giocatori_v):
+    pass
+def riordina_lista_giocatori_fuori_battaglia(lista_giocatori):
+
+    lista_giocatori.sort(key=posizione)
+    return lista_giocatori
+
+
+
+        
 
 
 def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m):

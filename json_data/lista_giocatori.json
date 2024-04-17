@@ -12,7 +12,8 @@
             "price": 0,
             "type": null
         },
-        "guard": false
+        "guard": false,
+        "posizione": 0
     },
     {
         "name": "Caso",
@@ -27,6 +28,23 @@
             "price": 0,
             "type": null
         },
-        "guard": false
+        "guard": false,
+        "posizione": 1
+    },
+    {
+        "name": "Osuba",
+        "max_health": 294,
+        "health": 1,
+        "speed": 40.0,
+        "exp": 0.0,
+        "sp": 30,
+        "damage_base": 20.0,
+        "current_equip_melee": {
+            "damage": 32,
+            "price": 0,
+            "type": null
+        },
+        "guard": false,
+        "posizione": 2
     }
 ]

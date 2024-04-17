@@ -2,8 +2,8 @@ import json
 import os
 import random
 from termcolor import colored
-from combattimento import attaccare,difendersi,fuoco,curarsi,AI_nemico,aspetta_input
-#os.system("cls")
+from combattimento import attaccare,difendersi,fuoco,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia
+#os.system("str")
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
@@ -18,24 +18,38 @@ def inizio_run(): #tutte le stat sono portare a 0
         {
             "name":"Galo",
             "max_health":240,
-            "health":int(130),
+            "health":int(240),
             "speed":float(19),
             "exp":0.00,
             "sp":int(26),
             "damage_base":float(10),
             "current_equip_melee":melee,
-            "guard":False
+            "guard":False,
+            "posizione":0
         }
         ,{
             "name":"Caso",
             "max_health":220,
-            "health":int(210),
+            "health":int(220),
             "speed":float(23),
             "exp":0.00,
             "sp":int(22),
             "damage_base":float(9),
             "current_equip_melee":melee,
-            "guard":False
+            "guard":False,
+            "posizione":1
+        },
+        {
+            "name":"Osuba",
+            "max_health":294,
+            "health":int(294),
+            "speed":float(40),
+            "exp":0.00,
+            "sp":int(30),
+            "damage_base":float(17),
+            "current_equip_melee":melee,
+            "guard":False,
+            "posizione":2
         }
     ]
     
@@ -74,7 +88,7 @@ def scelta_percentuali(numero_piano):
     lista_nemici = []
     flip = ["1","2","3"]
 
-    if numero_piano < 5: #il livello dei nemici fa variare la quantità che appareranno #GLOBAL_LEVEL
+    if numero_piano < 5: #il livello dei nemici fa variare la quantità che appariranno #GLOBAL_LEVEL
         
         quanti_nemici = random.choices(flip,weights=[20,40,15],k=1)
 
@@ -188,12 +202,13 @@ def sistema_turni(lista_nemici,piano_livello):
 
         if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
             
-            print(colored("battaglia vinta!!","light_blue"))
+            print(colored("battaglia vinta!","light_blue"))
             battaglia_vinta = True
         elif lista_giocatori_v == []: #avviene la fine della partita (perdendo) se lista_giocatori_v == vuota
 
-            print(colored("team asfaltato... \n\nF","red"))
+            print(colored("team asfaltato...\n","red"))
             battaglia_persa = True
+            #os.system("shutdown/c\"/SKILL ISSUE\"")
             
         if battaglia_vinta == False and battaglia_persa == False:
             for giocatore_vivo in lista_giocatori_v:
@@ -227,8 +242,23 @@ def sistema_turni(lista_nemici,piano_livello):
                 vita_max = colored(persona["max_health"],"light_green")
                 nome_persona = colored(persona["name"],"cyan")
                 print(f"il {nome_persona} {vita_rimasta}/{vita_max}hp")
-            turno = turno + 1
+            turno =+ 1
             print(colored(turno,"light_cyan")) #conteggio turni
+    
+
+    lista_giocatori = []
+    for persona in lista_giocatori_m:
+
+        persona.update({"health":1})
+        lista_giocatori.append(persona)
+
+    for persona in lista_giocatori_v:
+
+        lista_giocatori.append(persona)
+    lista_giocatori = riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
+
+    
+
 
     
 
