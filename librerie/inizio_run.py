@@ -90,7 +90,11 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
         nomi_nemico = nemico["name"]
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
     print(colored("\nattaccare   difendersi                             curarsi","blue"))
-    if lista_nemici != []:
+    lista_vuota = False
+    if lista_nemici == []:
+        lista_vuota = True
+
+    if lista_vuota == False:
         choice = str(input("\n\n1               2           3           4           5\n"))
         match choice:
             case "1": #attaccare HA bisogno di un "rifai input"
@@ -109,8 +113,6 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
                 for cura in lista_oggetti_curativi:
                     print(cura["name"])
                 curarsi(lista_giocatori_v)
-    elif lista_nemici == []:
-        pass
     return giocatore_vivo,lista_nemici
 
     
