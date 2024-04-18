@@ -1,4 +1,5 @@
 import json
+import os
 import random
 from termcolor import colored
 def aspetta_input():
@@ -8,61 +9,68 @@ def fuoco(potenza,persona_v): #fuoco ad attacco debole,medio,pesante,area
     pass
 
 
-def attaccare(giocatore_vivo,lista_nemici):
-    
-    current_equip_melee = giocatore_vivo["current_equip_melee"]
-    damage_melee = current_equip_melee["damage"] #preso il danno grezzo dalla arma equipaggiata
-    damage_base_percentuale = giocatore_vivo["damage_base"] #percentuale di danno aumentato all'arma equipaggiata che aumenta di valore livellando
-    damage_percentuale = (damage_melee * damage_base_percentuale)/100
-    damage_tot = damage_melee + damage_percentuale
-    damage_tot = int(damage_tot) #conversione per non avere la virgola nel danno
-    
-    chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
-    rifai = True
-    while rifai == True:
-        rifai = False
-        for nemico_ in lista_nemici:
+def attaccare(giocatore_vivo,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
+    os.system("clear")
+    if lista_nemici != []:
+        current_equip_melee = giocatore_vivo["current_equip_melee"]
+        damage_melee = current_equip_melee["damage"] #preso il danno grezzo dalla arma equipaggiata
+        damage_base_percentuale = giocatore_vivo["damage_base"] #percentuale di danno aumentato all'arma equipaggiata che aumenta di valore livellando
+        damage_percentuale = (damage_melee * damage_base_percentuale)/100
+        damage_tot = damage_melee + damage_percentuale
+        damage_tot = int(damage_tot) #conversione per non avere la virgola nel danno
 
-            id_nemico = nemico_["id"]
-            
-            if chi_attaccare == id_nemico: #serve nome_,damage_tot
+        chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
+        os.system("clear")
+        rifai = True
+        while rifai == True:
+            rifai = False
+            for nemico_ in lista_nemici:
 
-                hp_nemico = nemico_["health"]
-                danno_aggiorato = hp_nemico - damage_tot
-                nemico_.update({"health":danno_aggiorato})                   
+                id_nemico = nemico_["id"]
+
+                if chi_attaccare == id_nemico: #serve nome_,damage_tot
+
+                    hp_nemico = nemico_["health"]
+                    danno_aggiorato = hp_nemico - damage_tot
+                    nemico_.update({"health":danno_aggiorato})                   
+
+                    break
                 
-                break
-            
-        if chi_attaccare != id_nemico:
-            print(colored("il nemico selezionato non esite/valore non valido","grey"))
-            chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
-            rifai = True
-            
-            
-        for nemico in lista_nemici:
-            vita_rimasta_nemico = nemico["health"]
-            
-            if vita_rimasta_nemico <= 0:
-                exp_drop = nemico["exp_drop"]
-                exp_player = giocatore_vivo["exp"]
-                exp_ottenuta = exp_player + exp_drop
-                giocatore_vivo.update({"exp":exp_ottenuta})
-                print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
-                lista_nemici.remove(nemico)
-        
-                break
-    return giocatore_vivo,lista_nemici
+            if chi_attaccare != id_nemico:
+                print(colored("il nemico selezionato non esite/valore non valido","grey"))
+                chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
+                rifai = True
+
+
+            for nemico in lista_nemici:
+                vita_rimasta_nemico = nemico["health"]
+
+                if vita_rimasta_nemico <= 0:
+                    exp_drop = nemico["exp_drop"]
+                    exp_player = giocatore_vivo["exp"]
+                    exp_ottenuta = exp_player + exp_drop
+                    giocatore_vivo.update({"exp":exp_ottenuta})
+                    print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
+                    lista_nemici.remove(nemico)
+
+                    break
+    elif lista_nemici == []:
+        pass
+        return giocatore_vivo,lista_nemici
 
 
 def difendersi(giocatore_vivo):
+    os.system("clear")
     giocatore_vivo.update({"guard":True})
     giocatore = giocatore_vivo["name"]
     giocatore = colored(giocatore,"light_cyan")
     print(f"il {giocatore} si sta difendendo")
     aspetta_input()
+    os.system("clear")
 
 
 def curarsi(lista_giocatori_v):
+    os.system("clear")
     with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
         lista_oggetti_curativi = json.load(lista_oggetti_curativi)
         rifai = True
@@ -116,19 +124,7 @@ def curarsi(lista_giocatori_v):
                 rifai = True
     #return lista_oggetti(- cura_scelta)
 
-"""
 
-def myFunc(e):
-  return e['age']
-
-def riordina(lista3):
-    lista3.sort(key=myFunc)
-
-    return lista3
-lista3_ordinata = riordina(lista3)
-print(lista3_ordinata)
-
-"""
 def posizione(lista_giocatori):
     return lista_giocatori["posizione"]
 #da fare per quella in battaglia
@@ -169,6 +165,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
 
                 print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
                 aspetta_input()
+                os.system("clear")
             
     giocatore.update({"health":vita_player})
     for giocatore in lista_giocatori_v:

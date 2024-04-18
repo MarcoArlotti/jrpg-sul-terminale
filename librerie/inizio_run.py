@@ -3,84 +3,17 @@ import os
 import random
 from termcolor import colored
 from combattimento import attaccare,difendersi,fuoco,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia
-#os.system("str")
+
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
     #dichiarazione delle statistiche basi
-    numero_piano = 1
-    melee = {
-        "damage":int(32),
-        "price":0,
-        "type":None
-    }
-    lista_player = [
-        {
-            "name":"Galo",
-            "max_health":240,
-            "health":int(240),
-            "speed":float(19),
-            "exp":0.00,
-            "sp":int(26),
-            "damage_base":float(10),
-            "current_equip_melee":melee,
-            "guard":False,
-            "posizione":0
-        }
-        ,{
-            "name":"Caso",
-            "max_health":220,
-            "health":int(220),
-            "speed":float(23),
-            "exp":0.00,
-            "sp":int(22),
-            "damage_base":float(9),
-            "current_equip_melee":melee,
-            "guard":False,
-            "posizione":1
-        },
-        {
-            "name":"Osuba",
-            "max_health":294,
-            "health":int(294),
-            "speed":float(40),
-            "exp":0.00,
-            "sp":int(30),
-            "damage_base":float(17),
-            "current_equip_melee":melee,
-            "guard":False,
-            "posizione":2
-        }
-    ]
-    
 
-    with open("json_data/lista_giocatori.json","w") as file_json: #creazione del json player_stats
-        json.dump(lista_player, file_json, indent=4)
-    return numero_piano
+    with open("json_data/lista_giocatori.json","r") as file_json_lista_giocatori: #spostamento dei giocatori nella lista in gioco
+        lista_giocatori = json.load(file_json_lista_giocatori)
+    with open("json_data/lista_giocatori_in_game.json","w") as file_json_lista_giocatori_giocatori_in_game:
+        json.dump(lista_giocatori,file_json_lista_giocatori_giocatori_in_game,indent=4)
 
-
-#def dichiara_enemy(): #trasporta una lista con tutti i tipi di nemici e li converte in un json (list-->.json)
-#    
-#    shadow = {
-#    "name":"SHADOW", 
-#    "health":110,                        
-#    "speed":15.00,
-#    "type":"ice",
-#    "dungeon":1,
-#    "exp_drop":3
-#    }
-#    flying_shadow = {
-#        "name":"FLYING SHADOW",
-#        "health":76,
-#        "speed":37.00,
-#        "type":"air",
-#        "dungeon":1,
-#        "exp_drop":2.3
-#    }
-#
-#    nemici = [shadow,flying_shadow]
-#    with open("json_data/enemy_stats_dungeon_1.json","w") as file_json:
-#        json.dump(nemici,file_json,indent=4)
 
 
 def scelta_percentuali(numero_piano):
@@ -155,35 +88,36 @@ def scelta_nel_turno(giocatore_vivo,lista_nemici,lista_giocatori_v):
 
     for nemico in lista_nemici:
         nomi_nemico = nemico["name"]
-        #os.system("cls")# NON FUNZIONANTE QUI, TODO trovare un punto miglore
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
     print(colored("\nattaccare   difendersi                             curarsi","blue"))
-    choice = str(input("\n\n1               2           3           4           5\n"))
-    match choice:
-        case "1": #attaccare HA bisogno di un "rifai input"
-            giocatore_vivo,lista_nemici = attaccare(giocatore_vivo,lista_nemici)
-       
-        case "2": #difendersi NON ha bisogno un "rifai input"
-            difendersi(giocatore_vivo)
+    if lista_nemici != []:
+        choice = str(input("\n\n1               2           3           4           5\n"))
+        match choice:
+            case "1": #attaccare HA bisogno di un "rifai input"
+                giocatore_vivo,lista_nemici = attaccare(giocatore_vivo,lista_nemici)
+
+            case "2": #difendersi NON ha bisogno un "rifai input"
+                difendersi(giocatore_vivo)
 
 
-        case "3": #TODO magie
-            pass
-        case "5": #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
-            with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
-                lista_oggetti_curativi = json.load(lista_oggetti_curativi)
+            case "3": #TODO magie
+                pass
+            case "5": #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
+                with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
+                    lista_oggetti_curativi = json.load(lista_oggetti_curativi)
 
-            for cura in lista_oggetti_curativi:
-                print(cura["name"])
-            curarsi(lista_giocatori_v)
+                for cura in lista_oggetti_curativi:
+                    print(cura["name"])
+                curarsi(lista_giocatori_v)
+    elif lista_nemici == []:
+        pass
     return giocatore_vivo,lista_nemici
 
     
-def sistema_turni(lista_nemici,piano_livello):
-    with open("json_data/lista_giocatori.json","r") as lista_giocatori:
+def sistema_turni(lista_nemici,numero_piano):
+    with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
-        lista_giocatori_v = []
-
+    lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
 
@@ -245,7 +179,6 @@ def sistema_turni(lista_nemici,piano_livello):
             turno =+ 1
             print(colored(turno,"light_cyan")) #conteggio turni
     
-
     lista_giocatori = []
     for persona in lista_giocatori_m:
 
@@ -256,25 +189,39 @@ def sistema_turni(lista_nemici,piano_livello):
 
         lista_giocatori.append(persona)
     lista_giocatori = riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
-
-    
-
-
-    
-
-
+    return numero_piano,lista_giocatori
 
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
+
+os.system("clear")
 iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
+os.system("clear")
 if iniziare_run == "yes":
-    numero_piano = inizio_run() 
+
+    inizio_run() 
     print("salvataggio creato...")
+
+    numero_piano = 0
+    
 elif iniziare_run == "no":
+    
     print("continuando dall'ultimo salvataggio...")
+
     pass
 
 
-numero_piano = 1
-lista_nemici = scelta_percentuali(numero_piano)
-sistema_turni(lista_nemici,numero_piano)
+
+
+for numero_piano in range(6):
+    os.system("clear")
+    numero_piano_c = colored(numero_piano + 1 ,"light_red")
+    lista_nemici = scelta_percentuali(numero_piano)
+
+    with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
+        lista_giocatori = json.load(lista_giocatori)
+
+    numero_piano,lista_giocatori = sistema_turni(lista_nemici,numero_piano)
+    print(lista_giocatori)
+    print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
+    
