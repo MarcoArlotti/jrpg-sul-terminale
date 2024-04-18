@@ -159,9 +159,10 @@ def sistema_turni(lista_nemici,numero_piano):
     lista_giocatori_ = lista_giocatori_v
     with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v:
         json.dump(lista_giocatori_,lista_giocatori_v,indent=4)
-        
+
 #inizio sistema a turni
     while battaglia_vinta == False and battaglia_persa == False: #ciclo di turni fino alla morte di tutti i nemici o alleati
+        #ad ogni loop i player vengono resettati e il json dei nemici in game non viene aggiornato
         with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori_v:
             lista_giocatori_v = json.load(lista_giocatori_v)
         
