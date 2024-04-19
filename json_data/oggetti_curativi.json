@@ -1,0 +1,14 @@
+[
+    {
+        "name":"cura_parziale",
+        "effetto":50,
+        "valore":2.0,
+        "type":"cura_vita"
+    },
+    {
+        "name":"cura_sp",
+        "effetto":30,
+        "valore":15.0,
+        "type":"cura_sp"
+    }
+]

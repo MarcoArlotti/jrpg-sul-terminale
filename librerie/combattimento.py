@@ -9,7 +9,7 @@ def fuoco(potenza,persona_v): #fuoco ad attacco debole,medio,pesante,area
     pass
 
 
-def attaccare(giocatore_vivo,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
+def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
 
     battaglia_vinta = False
     if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
@@ -17,9 +17,9 @@ def attaccare(giocatore_vivo,lista_nemici): #TODO si rompe il programma perchè 
     if battaglia_vinta == True:
         pass
     elif battaglia_vinta == False:
-        current_equip_melee = giocatore_vivo["current_equip_melee"]
+        current_equip_melee = giocatore_vivo_["current_equip_melee"]
         damage_melee = current_equip_melee["damage"] #preso il danno grezzo dalla arma equipaggiata
-        damage_base_percentuale = giocatore_vivo["damage_base"] #percentuale di danno aumentato all'arma equipaggiata che aumenta di valore livellando
+        damage_base_percentuale = giocatore_vivo_["damage_base"] #percentuale di danno aumentato all'arma equipaggiata che aumenta di valore livellando
         damage_percentuale = (damage_melee * damage_base_percentuale)/100
         damage_tot = damage_melee + damage_percentuale
         damage_tot = int(damage_tot) #conversione per non avere la virgola nel danno
@@ -57,14 +57,14 @@ def attaccare(giocatore_vivo,lista_nemici): #TODO si rompe il programma perchè 
                 vita_rimasta_nemico = nemico["health"]
                 if vita_rimasta_nemico <= 0:
                     exp_drop = nemico["exp_drop"]
-                    exp_player = giocatore_vivo["exp"]
+                    exp_player = giocatore_vivo_["exp"]
                     exp_ottenuta = exp_player + exp_drop
-                    giocatore_vivo.update({"exp":exp_ottenuta})
+                    giocatore_vivo_.update({"exp":exp_ottenuta})
                     print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
                     lista_nemici.remove(nemico)
                     break
 
-    return giocatore_vivo,lista_nemici
+    return giocatore_vivo_,lista_nemici
 
 
 def difendersi(giocatore_vivo):
@@ -149,33 +149,40 @@ def riordina_lista_giocatori_fuori_battaglia(lista_giocatori):
 
 
 def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m):
-    nemico_nome = colored(nemico["name"],"light_red")
+    giocatori_morti = False
 
-    if numero_piano <= 2: #se i nemici si trovano al piano 3 o inferiore attaccheranno e basta
-        danno_nemico = nemico["damage"]
+    if lista_giocatori_v == []:
+        giocatori_morti = True
+        
+    if giocatori_morti == False:
+        nemico_nome = colored(nemico["name"],"light_red")
+        if numero_piano <= 2: #se i nemici si trovano al piano 3 o inferiore attaccheranno e basta
+            danno_nemico = nemico["damage"]
 
-        chi_attaccare_player = random.choice(lista_giocatori_v)
-        chi_attaccare_player_nome = chi_attaccare_player["name"]
+            chi_attaccare_player = random.choice(lista_giocatori_v)
+            chi_attaccare_player_nome = chi_attaccare_player["name"]
 
-        for giocatore in lista_giocatori_v:
-            nome_giocatore = giocatore["name"]
+            for giocatore in lista_giocatori_v:
+                nome_giocatore = giocatore["name"]
 
-            if nome_giocatore == chi_attaccare_player_nome:
-                vita_player = giocatore["health"]
-                parata_attiva = giocatore["guard"]
+                if nome_giocatore == chi_attaccare_player_nome:
+                    vita_player = giocatore["health"]
+                    parata_attiva = giocatore["guard"]
 
-                if parata_attiva == True:
-                    danno_nemico = int(danno_nemico / 2)
+                    if parata_attiva == True:
+                        danno_nemico = int(danno_nemico / 2)
 
-                vita_player = vita_player - danno_nemico
-                giocatore_nome = colored(nome_giocatore,"cyan")
-                danno_nemico = colored(danno_nemico,"red")
+                    vita_player = vita_player - danno_nemico
+                    giocatore_nome = colored(nome_giocatore,"cyan")
+                    danno_nemico = colored(danno_nemico,"red")
 
-                print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
-                aspetta_input()
-                os.system("cls")
+                    print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
+                    giocatore.update({"health":vita_player})
+                    aspetta_input()
+                    os.system("cls")
+                    break
             
-    giocatore.update({"health":vita_player})
+    
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]
         if vita_player <= 0:
@@ -188,4 +195,3 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
             print(colored("è morto","red"),end="\n")
 
     return lista_giocatori_v
-    #TODO eseguire un return aggionando lo stato del player     return lista_giocatori_v,giocatore?
