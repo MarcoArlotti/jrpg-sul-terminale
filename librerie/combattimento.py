@@ -79,58 +79,71 @@ def difendersi(giocatore_vivo):
 
 def curarsi(lista_giocatori_v):
     os.system("cls")
-    with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
-        lista_oggetti_curativi = json.load(lista_oggetti_curativi)
-        rifai = True
-        while rifai == True:
-            rifai = False
-            cura_scelta = str(input(colored("scelgiere scrivendo il nome dell'oggetto... ","grey")))
-            cura_trovata = False
-            for cura in lista_oggetti_curativi:
-                cura_ = cura["name"]
-
-                if cura_scelta == cura_:
-                
-                    print(cura_)
-                    info = colored("inserire il nome...","grey")
-                    chi_curare = str(input(f"chi si vuole curare?\n{info} "))
-                    vita_recuperata = cura["effetto"] 
-                    nome_trovato = False
-                    cura_trovata = False
-                    for persona in lista_giocatori_v:
-                        nome_persona = persona["name"]
-
-                        if chi_curare == nome_persona:
-                        
-                            vita_persona = persona["health"]
-                            vita_max = persona["max_health"]
-
-                            vita_finale = vita_persona + vita_recuperata
-
-                            if vita_finale > vita_max:
-                                vita_finale = vita_max
-                                vita_info = vita_finale
-
-                            elif vita_finale < vita_max:
-                                vita_info = vita_finale
-
-                            persona.update({"health":vita_finale})
-                            nome_persona = colored(nome_persona,"cyan")
-                            vita_recuperata = colored(vita_info,"green")
-                            print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
-                            print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
-                            nome_trovato = True
-                            break
-                    if nome_trovato == False:
-                        print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
-                        rifai = True
-                        
-                    cura_trovata = True
-
-            if cura_trovata == False:
-                print(colored("cura non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
-                rifai = True
+    rifai = True
+    while rifai == True:
+        rifai = False
+        cura_scelta = menù_oggetti()
+        cura_trovata = False
+        for cura in lista_oggetti_curativi:
+            cura_ = cura["name"]
+            if cura_scelta == cura_:
+            
+                print(cura_)
+                info = colored("inserire il nome...","grey")
+                chi_curare = str(input(f"chi si vuole curare?\n{info} "))
+                vita_recuperata = cura["effetto"] 
+                nome_trovato = False
+                cura_trovata = False
+                for persona in lista_giocatori_v:
+                    nome_persona = persona["name"]
+                    if chi_curare == nome_persona:
+                    
+                        vita_persona = persona["health"]
+                        vita_max = persona["max_health"]
+                        vita_finale = vita_persona + vita_recuperata
+                        if vita_finale > vita_max:
+                            vita_finale = vita_max
+                            vita_info = vita_finale
+                        elif vita_finale < vita_max:
+                            vita_info = vita_finale
+                        persona.update({"health":vita_finale})
+                        nome_persona = colored(nome_persona,"cyan")
+                        vita_recuperata = colored(vita_info,"green")
+                        print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
+                        print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
+                        nome_trovato = True
+                        break
+                if nome_trovato == False:
+                    print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                    rifai = True
+                    
+                cura_trovata = True
+        if cura_trovata == False:
+            print(colored("cura non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+            rifai = True
     #return lista_oggetti(- cura_scelta)
+def name_item(lista_oggetti_zaino):
+    return lista_oggetti_zaino["name"]
+def menù_oggetti():
+    with open("json_data/zaino.json","r") as lista_oggetti_zaino:
+        lista_oggetti_zaino = json.load(lista_oggetti_zaino)
+    lista_oggetti_zaino.sort(key=name_item) #riordinamento oggetti per nome
+
+    lista_oggetti_cure = []
+    lista_oggetti_vari = [] #oggetti che non sono cure che verranno usate dopo per riaggiornare zaino.json
+
+    for oggetto in lista_oggetti_zaino:
+        tipologia_oggetto = oggetto["type"]
+
+        if tipologia_oggetto == "hp" or tipologia_oggetto == "sp" or tipologia_oggetto == "revive": #smistamento tra cure ed altri oggetti
+            oggetto.append(lista_oggetti_cure)
+        else:
+            oggetto.append(lista_oggetti_vari)
+    
+    while  #TODO menù a 9 scelte + 3 di movimento
+
+        
+    
 
 
 def posizione(lista_giocatori):
@@ -142,11 +155,6 @@ def riordina_lista_giocatori_fuori_battaglia(lista_giocatori):
 
     lista_giocatori.sort(key=posizione)
     return lista_giocatori
-
-
-
-        
-
 
 def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m):
     giocatori_morti = False

@@ -13,8 +13,58 @@ def inizio_run(): #tutte le stat sono portare a 0
         lista_giocatori = json.load(file_json_lista_giocatori)
     with open("json_data/lista_giocatori_in_game.json","w") as file_json_lista_giocatori_giocatori_in_game:
         json.dump(lista_giocatori,file_json_lista_giocatori_giocatori_in_game,indent=4)
+
     with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
         lista_oggetti_curativi = json.load(lista_oggetti_curativi)
+
+    #3 cure parziali, 2 cure ps, un med metà
+    #TODO in base alla difficoltà, aumentare/diminuire, costo/quantità degli oggetti
+    zaino = [{
+        "name":"cura parziale",
+        "effetto":50,
+        "valore":3.5,
+        "type":"hp"
+    },
+    {
+        "name":"cura parziale",
+        "effetto":50,
+        "valore":3.5,
+        "type":"hp"
+    },
+    {
+        "name":"cura pesante",
+        "effetto":80,
+        "valore":6.8,
+        "type":"hp"
+    },
+    {
+        "name":"cura sp",
+        "effetto":30,
+        "valore":7.5,
+        "type":"sp"
+    },
+    {
+        "name":"cura sp",
+        "effetto":30,
+        "valore":7.5,
+        "type":"sp"
+    },
+    {
+        "name":"med metà",
+        "effetto":"metà",
+        "valore":16.0,
+        "type":"revive"
+    },
+    {
+        "name":"med metà",
+        "effetto":"metà",
+        "valore":16.0,
+        "type":"revive"
+    },
+    
+    ]
+    with open("json_data\zaino.json","w") as zaino_json:
+        json.dump(zaino,zaino_json,indent=4)
 
 
 
@@ -154,10 +204,13 @@ def sistema_turni(lista_nemici,numero_piano):
             lista_giocatori_v = json.load(lista_giocatori_v)
         
         lista_hp_nemico = []
+        lista_hp_nemico_max = []
         lista_nomi_nemico = []
         lista_nomi_player = []
-        lista_sp_player = []
+        lista_sp = []
+        lista_sp_max = []
         lista_hp_player = []
+        lista_hp_player_max = []
 
         if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
             
@@ -185,8 +238,8 @@ def sistema_turni(lista_nemici,numero_piano):
                 nome_player = giocatore_vivo["name"]
                 lista_nomi_player.append(nome_player)
 
-                sp_player = giocatore_vivo["sp"]
-                lista_sp_player.append(sp_player)
+                sp = giocatore_vivo["sp"]
+                lista_sp.append(sp)
 
                 hp_player = giocatore_vivo["health"]
                 lista_hp_player.append(hp_player)
@@ -202,7 +255,7 @@ def sistema_turni(lista_nemici,numero_piano):
             for giocatore_vivo_ in lista_giocatori_v:
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v) #giocatore_vivo_ in return?
             
-            #lista_nomi_nemico = imposta_hud(giocatore_vivo,lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp_player,damage_tot)
+            lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
 
             for nemico in lista_nemici:
                 lista_giocatori_v = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)

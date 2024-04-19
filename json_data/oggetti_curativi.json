@@ -1,14 +1,50 @@
 [
     {
-        "name":"cura_parziale",
+        "name":"cura parziale",
         "effetto":50,
-        "valore":2.0,
-        "type":"cura_vita"
+        "valore":3.5,
+        "type":"hp"
     },
     {
-        "name":"cura_sp",
+        "name":"cura pesante",
+        "effetto":80,
+        "valore":6.8,
+        "type":"hp"
+    },
+    {
+        "name":"cura pesantissima",
+        "effetto":150,
+        "valore":28.5,
+        "type":"hp"
+    },
+    {
+        "name":"cura sp",
         "effetto":30,
+        "valore":7.5,
+        "type":"sp"
+    },
+    {
+        "name":"cura sp pesante",
+        "effetto":65,
         "valore":15.0,
-        "type":"cura_sp"
+        "type":"sp"
+    },
+    {
+        "name":"cura sp pesantissima",
+        "effetto":100,
+        "valore":38.0,
+        "type":"sp"
+    },
+    {
+        "name":"med metà",
+        "effetto":"metà",
+        "valore":16.0,
+        "type":"revive"
+    },
+    {
+        "name":"med massimo",
+        "effetto":"max",
+        "valore":30.5,
+        "type":"revive"
     }
 ]
