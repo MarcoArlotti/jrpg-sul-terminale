@@ -136,56 +136,67 @@ def menù_oggetti():
 
     finito = False
     numero_min = 0
-
     while finito == False:
-        if len(lista_oggetti_cure) > 8:
+        non_fare_for = False
+        if len(lista_oggetti_cure) > 9: # menù
             try:
-                for i in range(9):
+                for i in range(9): #TODO come capire se è più lungo di 9 (se no crash programma)
                     n_attuale = i + numero_min
                     cura_attuale = lista_oggetti_cure[n_attuale]
                     print(colored(cura_attuale["name"],"green"),end=" ")
                     print(colored(cura_attuale["numero_nella_lista"],"grey"))
                 scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+                try:
+                    scelta = int(scelta)
+                except:
+                    scelta = str(scelta)
             except:
-                lista_cure_lunghezza = len(lista_oggetti_cure)
-                lista_cure_lunghezza = lista_cure_lunghezza - numero_min
-
-                for i in range(lista_cure_lunghezza):
-                    n_attuale = i + numero_min
-                    cura_attuale = lista_oggetti_cure[n_attuale]
-                    print(colored(cura_attuale["name"],"green"),end=" ")
-                    print(colored(cura_attuale["numero_nella_lista"],"grey"))
-                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+                if len(lista_oggetti_cure) < 10:
+                    for i in range(len(lista_oggetti_cure) - numero_min):
+                        n_attuale = i + numero_min
+                        cura_attuale = lista_oggetti_cure[n_attuale]
+                        print(colored(cura_attuale["name"],"green"),end=" ")
+                        print(colored(cura_attuale["numero_nella_lista"],"grey"))
+                    scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+                    try:
+                        scelta = int(scelta)
+                    except:
+                        scelta = str(scelta)
 
             if scelta == ">":
                 numero_min = numero_min + 9
+                non_fare_for = True
             elif scelta == "<" and numero_min >= 9:
                 numero_min = numero_min -9
-            elif scelta == "<" and numero_min < 9: #in caso di valore non valido
-                print(colored("non puoi tornare indietro adesso...\n","grey"))
-                cura_scelta = None
-                break
+                if scelta == "<" and numero_min < 9: #in caso di valore non valido
+                    print(colored("non puoi tornare indietro adesso...\n","grey"))
+                    cura_scelta = None
+                    non_fare_for = True
+                    break
             elif scelta == "stop":
-                #TODO torna indietro
+                #TODO torna indietro (cancella scelta cura)
+                non_fare_for = True
                 pass
             else:
                 #TODO VALORE MESSO NON VALIDO rifai = True
+                non_fare_for = True
                 pass
-            if scelta >= 1:
-                scelta = scelta + numero_min
-                cura_scelta = lista_oggetti_cure[scelta]
-                lista_oggetti_cure.remove(cura_scelta)
-                finito = True
-            for oggetto_ in lista_oggetti_vari:
-                lista_oggetti_tutti.append(oggetto_)
-            for cura_ in lista_oggetti_cure:
-                lista_oggetti_tutti.append(cura_)
-            with open("json_data/zaino.json","w") as zaino:
-                json.dump(lista_oggetti_tutti,zaino,indent=4)
+            if non_fare_for == False:
+                if scelta >= 1:
+                    cura_scelta = lista_oggetti_cure[scelta - 1]
+                    lista_oggetti_cure.remove(cura_scelta)
+                    finito = True
+                if finito == True:
+                    for oggetto_ in lista_oggetti_vari:
+                        lista_oggetti_tutti.append(oggetto_)
+                    for cura_ in lista_oggetti_cure:
+                        lista_oggetti_tutti.append(cura_)
+                    with open("json_data/zaino.json","w") as zaino:
+                        json.dump(lista_oggetti_tutti,zaino,indent=4)
                 
-        else:
-            for i in range(len(lista_oggetti_cure)):
-                cura_attuale = lista_oggetti_cure[i]
+        elif len(lista_oggetti_cure) <= 9 and finito == False: #selezione basica di max len di 9
+            for a in range(len(lista_oggetti_cure)):
+                cura_attuale = lista_oggetti_cure[a]
                 print(colored(cura_attuale["name"],"green"),end=" ")
                 print(colored(cura_attuale["numero_nella_lista"],"grey"))
             scelta = input(colored("mettere cosa scegliere \"stop\" o  un numero tra 1 e 9...\n","grey"))
@@ -194,8 +205,10 @@ def menù_oggetti():
             except:
                 scelta = str(scelta)
             lunghezza_lista = len(lista_oggetti_cure)
-            if scelta <= lunghezza_lista:
-                cura_scelta = lista_oggetti_cure[scelta]
+            print(type(scelta))
+            if scelta <= lunghezza_lista and scelta == type(int):
+
+                cura_scelta = lista_oggetti_cure[scelta - 1]
                 lista_oggetti_cure.remove(cura_scelta)
                 finito = True
                 for oggetto_ in lista_oggetti_vari:
@@ -206,7 +219,6 @@ def menù_oggetti():
                     json.dump(lista_oggetti_tutti,zaino,indent=4)
             elif scelta == "stop":
                 pass
-
     return cura_scelta
 
 

@@ -132,7 +132,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v):
     for nemico in lista_nemici:
         nomi_nemico = nemico["name"]
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
-    print(colored("\nattaccare   difendersi                             curarsi","blue"))
+    print(colored("\nattaccare   difendersi                         curarsi","blue"))
     if battaglia_vinta == False:
         
         rifai_input = True
