@@ -80,48 +80,36 @@ def difendersi(giocatore_vivo):
 def curarsi(lista_giocatori_v):
     os.system("cls")
     rifai = True
+    cura_scelta = None
+    while cura_scelta == None:
+        cura_scelta = menù_oggetti()
     while rifai == True:
         rifai = False
-        cura_scelta = menù_oggetti()
-        cura_trovata = False
-        for cura in lista_oggetti_curativi:
-            cura_ = cura["name"]
-            if cura_scelta == cura_:
+        chi_curare = str(input(f"chi si vuole curare?\n"))
+        vita_recuperata = cura_scelta["effetto"] 
+        nome_trovato = False
+        for persona in lista_giocatori_v:
+            nome_persona = persona["name"]
+            if chi_curare == nome_persona:
             
-                print(cura_)
-                info = colored("inserire il nome...","grey")
-                chi_curare = str(input(f"chi si vuole curare?\n{info} "))
-                vita_recuperata = cura["effetto"] 
-                nome_trovato = False
-                cura_trovata = False
-                for persona in lista_giocatori_v:
-                    nome_persona = persona["name"]
-                    if chi_curare == nome_persona:
-                    
-                        vita_persona = persona["health"]
-                        vita_max = persona["max_health"]
-                        vita_finale = vita_persona + vita_recuperata
-                        if vita_finale > vita_max:
-                            vita_finale = vita_max
-                            vita_info = vita_finale
-                        elif vita_finale < vita_max:
-                            vita_info = vita_finale
-                        persona.update({"health":vita_finale})
-                        nome_persona = colored(nome_persona,"cyan")
-                        vita_recuperata = colored(vita_info,"green")
-                        print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
-                        print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
-                        nome_trovato = True
-                        break
-                if nome_trovato == False:
-                    print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
-                    rifai = True
-                    
-                cura_trovata = True
-        if cura_trovata == False:
-            print(colored("cura non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                vita_persona = persona["health"]
+                vita_max = persona["max_health"]
+                vita_finale = vita_persona + vita_recuperata
+                if vita_finale > vita_max:
+                    vita_finale = vita_max
+                    vita_info = vita_finale
+                elif vita_finale < vita_max:
+                    vita_info = vita_finale
+                persona.update({"health":vita_finale})
+                nome_persona = colored(nome_persona,"cyan")
+                vita_recuperata = colored(vita_info,"green")
+                print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
+                print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
+                nome_trovato = True
+                break
+        if nome_trovato == False:
+            print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
             rifai = True
-    #return lista_oggetti(- cura_scelta)
 def name_item(lista_oggetti_zaino):
     return lista_oggetti_zaino["name"]
 def menù_oggetti():
@@ -130,17 +118,103 @@ def menù_oggetti():
     lista_oggetti_zaino.sort(key=name_item) #riordinamento oggetti per nome
 
     lista_oggetti_cure = []
-    lista_oggetti_vari = [] #oggetti che non sono cure che verranno usate dopo per riaggiornare zaino.json
-
+    lista_oggetti_vari = [] #oggetti che non sono cure che verranno usate dopo per riaggiornare zaino.json?
+    lista_oggetti_tutti = []
     for oggetto in lista_oggetti_zaino:
         tipologia_oggetto = oggetto["type"]
 
         if tipologia_oggetto == "hp" or tipologia_oggetto == "sp" or tipologia_oggetto == "revive": #smistamento tra cure ed altri oggetti
-            oggetto.append(lista_oggetti_cure)
+            lista_oggetti_cure.append(oggetto)
         else:
-            oggetto.append(lista_oggetti_vari)
-    
-    while  #TODO menù a 9 scelte + 3 di movimento
+            lista_oggetti_vari.append(oggetto)
+
+    #menù a 9 scelte + 2 di movimento + torna inditro
+    numero_cura = 1
+    for cura in lista_oggetti_cure:
+        cura.update({"numero_nella_lista":numero_cura})
+        numero_cura = numero_cura + 1
+
+    finito = False
+    numero_min = 0
+
+    while finito == False:
+        if len(lista_oggetti_cure) > 8:
+            try:
+                for i in range(9):
+                    n_attuale = i + numero_min
+                    cura_attuale = lista_oggetti_cure[n_attuale]
+                    print(colored(cura_attuale["name"],"green"),end=" ")
+                    print(colored(cura_attuale["numero_nella_lista"],"grey"))
+                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+            except:
+                lista_cure_lunghezza = len(lista_oggetti_cure)
+                lista_cure_lunghezza = lista_cure_lunghezza - numero_min
+
+                for i in range(lista_cure_lunghezza):
+                    n_attuale = i + numero_min
+                    cura_attuale = lista_oggetti_cure[n_attuale]
+                    print(colored(cura_attuale["name"],"green"),end=" ")
+                    print(colored(cura_attuale["numero_nella_lista"],"grey"))
+                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+
+            if scelta == ">":
+                numero_min = numero_min + 9
+            elif scelta == "<" and numero_min >= 9:
+                numero_min = numero_min -9
+            elif scelta == "<" and numero_min < 9: #in caso di valore non valido
+                print(colored("non puoi tornare indietro adesso...\n","grey"))
+                cura_scelta = None
+                break
+            elif scelta == "stop":
+                #TODO torna indietro
+                pass
+            else:
+                #TODO VALORE MESSO NON VALIDO rifai = True
+                pass
+            if scelta >= 1:
+                scelta = scelta + numero_min
+                cura_scelta = lista_oggetti_cure[scelta]
+                lista_oggetti_cure.remove(cura_scelta)
+                finito = True
+            for oggetto_ in lista_oggetti_vari:
+                lista_oggetti_tutti.append(oggetto_)
+            for cura_ in lista_oggetti_cure:
+                lista_oggetti_tutti.append(cura_)
+            with open("json_data/zaino.json","w") as zaino:
+                json.dump(lista_oggetti_tutti,zaino,indent=4)
+                
+        else:
+            for i in range(len(lista_oggetti_cure)):
+                cura_attuale = lista_oggetti_cure[i]
+                print(colored(cura_attuale["name"],"green"),end=" ")
+                print(colored(cura_attuale["numero_nella_lista"],"grey"))
+            scelta = input(colored("mettere cosa scegliere \"stop\" o  un numero tra 1 e 9...\n","grey"))
+            try:
+                scelta = int(scelta)
+            except:
+                scelta = str(scelta)
+            lunghezza_lista = len(lista_oggetti_cure)
+            if scelta <= lunghezza_lista:
+                cura_scelta = lista_oggetti_cure[scelta]
+                lista_oggetti_cure.remove(cura_scelta)
+                finito = True
+                for oggetto_ in lista_oggetti_vari:
+                    lista_oggetti_tutti.append(oggetto_)
+                for cura_ in lista_oggetti_cure:
+                    lista_oggetti_tutti.append(cura_)
+                with open("json_data/zaino.json","w") as zaino:
+                    json.dump(lista_oggetti_tutti,zaino,indent=4)
+            elif scelta == "stop":
+                pass
+
+    return cura_scelta
+
+
+
+
+
+
+
 
         
     

@@ -160,22 +160,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v):
             case 4: #TODO tag out (solo se protagonista)
                 pass
             case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
-                with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
-                    json.load(lista_oggetti_curativi)
-
-                for cura in lista_oggetti_curativi:
-                    print(cura["name"])
                 curarsi(lista_giocatori_v)
-                lista_oggetti_curativi_ = lista_oggetti_curativi
-                with open("json_data/oggetti_curativi.json","w") as lista_oggetti_curativi:
-                    json.dump(lista_oggetti_curativi_,lista_oggetti_curativi,indent=4)
-
-    #with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori_v:
-    #    lista_giocatori_v = json.load(lista_giocatori_v)
-    #lista_giocatori_ = lista_giocatori_v
-    #with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v:
-    #    json.dump(lista_giocatori_,lista_giocatori_v,indent=4)
-        
     return lista_nemici
 
     
