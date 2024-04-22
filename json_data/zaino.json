@@ -1,13 +1,13 @@
 [
     {
-        "name": "cura parziale",
+        "name": "cura parziale(sasso)",
         "effetto": 50,
         "valore": 3.5,
         "type": "hp",
         "numero_nella_lista": 2
     },
     {
-        "name": "cura pesante",
+        "name": "cura pesante(1)",
         "effetto": 80,
         "valore": 6.8,
         "type": "hp",

@@ -137,7 +137,8 @@ def menù_oggetti():
     finito = False
     numero_min = 0
     while finito == False:
-        non_fare_for = False
+        non_fare_for = False 
+        finito = False
         if len(lista_oggetti_cure) > 9: # menù
             try:
                 for i in range(9): #TODO come capire se è più lungo di 9 (se no crash programma)
@@ -151,28 +152,28 @@ def menù_oggetti():
                 except:
                     scelta = str(scelta)
             except:
-                if len(lista_oggetti_cure) < 10:
-                    for i in range(len(lista_oggetti_cure) - numero_min):
-                        n_attuale = i + numero_min
-                        cura_attuale = lista_oggetti_cure[n_attuale]
-                        print(colored(cura_attuale["name"],"green"),end=" ")
-                        print(colored(cura_attuale["numero_nella_lista"],"grey"))
-                    scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
-                    try:
-                        scelta = int(scelta)
-                    except:
-                        scelta = str(scelta)
+                lunghezza_lista_meno_min =len(lista_oggetti_cure) - numero_min - 1
+                for j in range(lunghezza_lista_meno_min):
+                    n_attuale = j + numero_min 
+
+                    cura_attuale = lista_oggetti_cure[n_attuale] #BUG lui va i out of index
+                    print(colored(cura_attuale["name"],"green"),end=" ")
+                    print(colored(cura_attuale["numero_nella_lista"],"grey"))
+                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+                try:
+                    scelta = int(scelta)
+                except:
+                    scelta = str(scelta)
 
             if scelta == ">":
                 numero_min = numero_min + 9
                 non_fare_for = True
             elif scelta == "<" and numero_min >= 9:
-                numero_min = numero_min -9
-                if scelta == "<" and numero_min < 9: #in caso di valore non valido
-                    print(colored("non puoi tornare indietro adesso...\n","grey"))
-                    cura_scelta = None
-                    non_fare_for = True
-                    break
+                if numero_min != 0:
+                    numero_min = numero_min -9
+                non_fare_for = True
+                
+
             elif scelta == "stop":
                 #TODO torna indietro (cancella scelta cura)
                 non_fare_for = True
@@ -182,7 +183,9 @@ def menù_oggetti():
                 non_fare_for = True
                 pass
             if non_fare_for == False:
+
                 if scelta >= 1:
+                    finito = True
                     cura_scelta = lista_oggetti_cure[scelta - 1]
                     lista_oggetti_cure.remove(cura_scelta)
                     finito = True
@@ -204,13 +207,14 @@ def menù_oggetti():
                 scelta = int(scelta)
             except:
                 scelta = str(scelta)
-            lunghezza_lista = len(lista_oggetti_cure)
-            print(type(scelta))
-            if scelta <= lunghezza_lista and scelta == type(int):
 
+
+            lunghezza_lista = len(lista_oggetti_cure)
+            if scelta <= lunghezza_lista and scelta == type(int):
+                finito = True
                 cura_scelta = lista_oggetti_cure[scelta - 1]
                 lista_oggetti_cure.remove(cura_scelta)
-                finito = True
+                
                 for oggetto_ in lista_oggetti_vari:
                     lista_oggetti_tutti.append(oggetto_)
                 for cura_ in lista_oggetti_cure:
