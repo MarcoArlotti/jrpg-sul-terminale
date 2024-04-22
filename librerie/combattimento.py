@@ -167,6 +167,8 @@ def menù_oggetti():
 
             if scelta == ">":
                 numero_min = numero_min + 9
+                if numero_min > len(lista_oggetti_cure):
+                    numero_min = numero_min - 9
                 non_fare_for = True
             elif scelta == "<" and numero_min >= 9:
                 if numero_min != 0:
