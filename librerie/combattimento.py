@@ -77,20 +77,27 @@ def difendersi(giocatore_vivo):
     os.system("cls")
 
 def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
-    lista_oggetti_zaino.remove(cura_scelta)
+    posizione_oggetto_scelto = cura_scelta["numero_nella_lista"]
+    for oggetto in lista_oggetti_zaino:
+        posizione_oggetto = oggetto["numero_nella_lista"]
+        if posizione_oggetto == posizione_oggetto_scelto:
+            lista_oggetti_zaino.remove(oggetto)
+            break
     with open("json_data/zaino.json","w") as zaino:
         json.dump(lista_oggetti_zaino,zaino,indent=4)
 
-def curarsi(lista_giocatori_v,lista_giocatori_m):
+def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
+
     rifai_input = False
-    with open("json_data/zaino.json","r") as lista_oggetti_zaino:
-        lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     os.system("cls")
     rifai = True
     cura_scelta = None
     while cura_scelta == None:
         cura_scelta = menù_oggetti()
+    
     while rifai == True:
+        with open("json_data/zaino.json","r") as lista_oggetti_zaino:
+            lista_oggetti_zaino = json.load(lista_oggetti_zaino)
         rifai = False
         tipo_oggetto = cura_scelta["type"]
 
@@ -159,8 +166,14 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                 nome_persona = persona["name"]
                 if chi_curare == nome_persona:
                     vita_max = persona["max_health"]
-                    vita_finale = vita_max / 2
-                    vita_finale = int(vita_finale)
+                    
+                    if vita_recuperata == "met\u00e0":
+                        vita_finale = vita_max / 2
+                        vita_finale = int(vita_finale)
+
+                    elif vita_recuperata == "max":
+                        vita_finale = vita_max
+
                     persona.update({"health":vita_finale})
                     nome_persona = colored(nome_persona,"cyan")
                     vita_recuperata = colored(vita_finale,"green")
@@ -180,6 +193,8 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
         elif tipo_oggetto == "revive" and lista_giocatori_m == []:
             print(colored("tutti i giocatori sono vivi, cura non usata...","grey"))
             rifai_input = True
+        if rifai_input == False:
+            pass
     return rifai_input
 def name_item(lista_oggetti_zaino):
     return lista_oggetti_zaino["name"]
@@ -259,12 +274,7 @@ def menù_oggetti():
                     cura_scelta = lista_oggetti_cure[scelta - 1]
 
                 if finito == True:
-                    for oggetto_ in lista_oggetti_vari:
-                        lista_oggetti_tutti.append(oggetto_)
-                    for cura_ in lista_oggetti_cure:
-                        lista_oggetti_tutti.append(cura_)
-                    with open("json_data/zaino.json","w") as zaino:
-                        json.dump(lista_oggetti_tutti,zaino,indent=4)
+                    pass
                 
         elif len(lista_oggetti_cure) <= 9 and finito == False: #selezione basica di max len di 9
             fai_if = True
@@ -285,14 +295,6 @@ def menù_oggetti():
             if fai_if == True and scelta <= lunghezza_lista:
                 finito = True
                 cura_scelta = lista_oggetti_cure[scelta - 1]
-
-                
-                for oggetto_ in lista_oggetti_vari:
-                    lista_oggetti_tutti.append(oggetto_)
-                for cura_ in lista_oggetti_cure:
-                    lista_oggetti_tutti.append(cura_)
-                with open("json_data/zaino.json","w") as zaino:
-                    json.dump(lista_oggetti_tutti,zaino,indent=4)
             elif scelta == "stop":
                 pass
     return cura_scelta

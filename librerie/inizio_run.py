@@ -63,6 +63,10 @@ def inizio_run(): #tutte le stat sono portare a 0
     },
     
     ]
+    i = 1
+    for oggetto in zaino:
+        oggetto.update({"numero_nella_lista":i})
+        i = i + 1
     with open("json_data\zaino.json","w") as zaino_json:
         json.dump(zaino,zaino_json,indent=4)
 
@@ -150,11 +154,11 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             match choice:
                 case 1: #attaccare HA bisogno di un "rifai input"
                     giocatore_vivo_,lista_nemici = attaccare(giocatore_vivo_,lista_nemici)
-    
+
                 case 2: #difendersi NON ha bisogno un "rifai input"
                     difendersi(giocatore_vivo_)
-    
-    
+
+
                 case 3: #TODO magie
                     pass
                 case 4: #TODO tag out (solo se protagonista)
@@ -288,6 +292,8 @@ elif iniziare_run == "no":
 
 
 for numero_piano in range(6):
+    with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
+        lista_giocatori = json.load(lista_giocatori)
     os.system("cls")
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
@@ -301,7 +307,7 @@ for numero_piano in range(6):
     if battaglia_vinta == True:
         #TODO vuoi salvare?
         #TODO vuoi chiudere il programa?
-        print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
+        print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n") #BUG persone duplicate
         aspetta_input()
     elif battaglia_persa == True:
         #TODO vuoi riprovare?
