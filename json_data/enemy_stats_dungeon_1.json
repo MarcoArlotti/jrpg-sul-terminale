@@ -6,7 +6,7 @@
         "type": "ice",
         "dungeon": 1,
         "exp_drop": 3,
-        "damage":35
+        "damage":80
     },
     {
         "name": "FLYING SHADOW",
@@ -15,6 +15,6 @@
         "type": "air",
         "dungeon": 1,
         "exp_drop": 2.3,
-        "damage":38
+        "damage":88
     }
 ]

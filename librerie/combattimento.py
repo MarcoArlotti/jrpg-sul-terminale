@@ -76,8 +76,15 @@ def difendersi(giocatore_vivo):
     aspetta_input()
     os.system("cls")
 
+def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
+    lista_oggetti_zaino.remove(cura_scelta)
+    with open("json_data/zaino.json","w") as zaino:
+        json.dump(lista_oggetti_zaino,zaino,indent=4)
 
-def curarsi(lista_giocatori_v):
+def curarsi(lista_giocatori_v,lista_giocatori_m):
+    rifai_input = False
+    with open("json_data/zaino.json","r") as lista_oggetti_zaino:
+        lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     os.system("cls")
     rifai = True
     cura_scelta = None
@@ -85,31 +92,95 @@ def curarsi(lista_giocatori_v):
         cura_scelta = menù_oggetti()
     while rifai == True:
         rifai = False
-        chi_curare = str(input(f"chi si vuole curare?\n"))
-        vita_recuperata = cura_scelta["effetto"] 
-        nome_trovato = False
-        for persona in lista_giocatori_v:
-            nome_persona = persona["name"]
-            if chi_curare == nome_persona:
-            
-                vita_persona = persona["health"]
-                vita_max = persona["max_health"]
-                vita_finale = vita_persona + vita_recuperata
-                if vita_finale > vita_max:
-                    vita_finale = vita_max
-                    vita_info = vita_finale
-                elif vita_finale < vita_max:
-                    vita_info = vita_finale
-                persona.update({"health":vita_finale})
-                nome_persona = colored(nome_persona,"cyan")
-                vita_recuperata = colored(vita_info,"green")
-                print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
-                print(colored(f"{vita_max} hp","light_green")) #TODO rimuovere le cure usate dall'inventario dopo l'uso
-                nome_trovato = True
-                break
-        if nome_trovato == False:
-            print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
-            rifai = True
+        tipo_oggetto = cura_scelta["type"]
+
+        if tipo_oggetto == "hp":
+            chi_curare = str(input(f"a chi si vuole curare gli HP?\n"))
+            vita_recuperata = cura_scelta["effetto"] 
+            nome_trovato = False
+            for persona in lista_giocatori_v:
+                nome_persona = persona["name"]
+                if chi_curare == nome_persona:
+                
+                    vita_persona = persona["health"]
+                    vita_max = persona["max_health"]
+                    vita_finale = vita_persona + vita_recuperata
+                    if vita_finale > vita_max:
+                        vita_finale = vita_max
+                        vita_info = vita_finale
+                    elif vita_finale < vita_max:
+                        vita_info = vita_finale
+                    persona.update({"health":vita_finale})
+                    nome_persona = colored(nome_persona,"cyan")
+                    vita_recuperata = colored(vita_info,"green")
+                    print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
+                    print(colored(f"{vita_max} hp","light_green"))
+                    nome_trovato = True
+                    rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                    break
+            if nome_trovato == False:
+                print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                rifai = True          
+
+        elif tipo_oggetto == "sp":
+            chi_curare = str(input(f"a chi si vuole curare gli SP?\n"))
+            sp_recuperato = cura_scelta["effetto"] 
+            nome_trovato = False
+            for persona in lista_giocatori_v:
+                nome_persona = persona["name"]
+                if chi_curare == nome_persona:
+                
+                    sp_persona = persona["sp"]
+                    sp_max = persona["max_sp"]
+                    sp_finale = sp_persona + sp_recuperato
+                    if sp_finale > sp_max:
+                        sp_finale = sp_max
+                        sp_info = sp_finale
+                    elif sp_finale < sp_max:
+                        sp_info = sp_finale
+                    persona.update({"sp":sp_finale})
+                    nome_persona = colored(nome_persona,"cyan")
+                    sp_recuperata = colored(sp_info,"blue")
+                    print(f"{nome_persona} si è curato... {sp_recuperata}/",end="")
+                    print(colored(f"{sp_max} sp","light_blue"))
+                    nome_trovato = True
+                    rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                    break
+            if nome_trovato == False:
+                print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                rifai = True
+
+        elif tipo_oggetto == "revive" and not lista_giocatori_m == []:
+
+            chi_curare = str(input(f"chi si vuole far resuscitare?\n"))
+            vita_recuperata = cura_scelta["effetto"] 
+            nome_trovato = False
+            for persona in lista_giocatori_m:
+                nome_persona = persona["name"]
+                if chi_curare == nome_persona:
+                    vita_max = persona["max_health"]
+                    vita_finale = vita_max / 2
+                    vita_finale = int(vita_finale)
+                    persona.update({"health":vita_finale})
+                    nome_persona = colored(nome_persona,"cyan")
+                    vita_recuperata = colored(vita_finale,"green")
+                    print(f"{nome_persona} è ora vivo... {vita_recuperata}/",end="")
+                    print(colored(f"{vita_max} hp","light_green"))
+                    nome_trovato = True
+                    lista_giocatori_v.append(persona)
+                    lista_giocatori_m.remove(persona)
+                    print(colored(lista_giocatori_m,"red"),end="\n\n") #MOMENTANEO
+                    print(colored(lista_giocatori_v,"blue"))
+                    rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                    break
+            if nome_trovato == False:
+                print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                rifai = True
+
+        elif tipo_oggetto == "revive" and lista_giocatori_m == []:
+            print(colored("tutti i giocatori sono vivi, cura non usata...","grey"))
+            rifai_input = True
+    return rifai_input
 def name_item(lista_oggetti_zaino):
     return lista_oggetti_zaino["name"]
 def menù_oggetti():
@@ -136,10 +207,13 @@ def menù_oggetti():
 
     finito = False
     numero_min = 0
+
     while finito == False:
-        non_fare_for = False 
+        os.system("cls")
         finito = False
-        if len(lista_oggetti_cure) > 9: # menù
+
+        if len(lista_oggetti_cure) > 9 and finito == False: # menù
+            fare_if = True
             try:
                 for i in range(9): #TODO come capire se è più lungo di 9 (se no crash programma)
                     n_attuale = i + numero_min
@@ -151,46 +225,39 @@ def menù_oggetti():
                     scelta = int(scelta)
                 except:
                     scelta = str(scelta)
+                    fare_if = False
             except:
-                lunghezza_lista_meno_min =len(lista_oggetti_cure) - numero_min - 1
+                lunghezza_lista_meno_min = len(lista_oggetti_cure) - numero_min - 1
                 for j in range(lunghezza_lista_meno_min):
                     n_attuale = j + numero_min 
 
-                    cura_attuale = lista_oggetti_cure[n_attuale] #BUG lui va i out of index
+                    cura_attuale = lista_oggetti_cure[n_attuale]
                     print(colored(cura_attuale["name"],"green"),end=" ")
                     print(colored(cura_attuale["numero_nella_lista"],"grey"))
                 scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
                 try:
-                    scelta = int(scelta)
+                    scelta = int(scelta) 
                 except:
                     scelta = str(scelta)
-
+                    fare_if = False
             if scelta == ">":
                 numero_min = numero_min + 9
                 if numero_min > len(lista_oggetti_cure):
                     numero_min = numero_min - 9
-                non_fare_for = True
-            elif scelta == "<" and numero_min >= 9:
-                if numero_min != 0:
-                    numero_min = numero_min -9
-                non_fare_for = True
-                
+                    
+            elif scelta == "<":
+                if numero_min >= 9:
+                    numero_min = numero_min - 9
 
             elif scelta == "stop":
                 #TODO torna indietro (cancella scelta cura)
-                non_fare_for = True
-                pass
-            else:
-                #TODO VALORE MESSO NON VALIDO rifai = True
-                non_fare_for = True
-                pass
-            if non_fare_for == False:
 
-                if scelta >= 1:
+                pass
+            if fare_if == True:
+                if scelta <= len(lista_oggetti_cure):
                     finito = True
                     cura_scelta = lista_oggetti_cure[scelta - 1]
-                    lista_oggetti_cure.remove(cura_scelta)
-                    finito = True
+
                 if finito == True:
                     for oggetto_ in lista_oggetti_vari:
                         lista_oggetti_tutti.append(oggetto_)
@@ -200,6 +267,7 @@ def menù_oggetti():
                         json.dump(lista_oggetti_tutti,zaino,indent=4)
                 
         elif len(lista_oggetti_cure) <= 9 and finito == False: #selezione basica di max len di 9
+            fai_if = True
             for a in range(len(lista_oggetti_cure)):
                 cura_attuale = lista_oggetti_cure[a]
                 print(colored(cura_attuale["name"],"green"),end=" ")
@@ -207,15 +275,17 @@ def menù_oggetti():
             scelta = input(colored("mettere cosa scegliere \"stop\" o  un numero tra 1 e 9...\n","grey"))
             try:
                 scelta = int(scelta)
+                
             except:
                 scelta = str(scelta)
+                fai_if = False
 
 
             lunghezza_lista = len(lista_oggetti_cure)
-            if scelta <= lunghezza_lista and scelta == type(int):
+            if fai_if == True and scelta <= lunghezza_lista:
                 finito = True
                 cura_scelta = lista_oggetti_cure[scelta - 1]
-                lista_oggetti_cure.remove(cura_scelta)
+
                 
                 for oggetto_ in lista_oggetti_vari:
                     lista_oggetti_tutti.append(oggetto_)
@@ -226,16 +296,6 @@ def menù_oggetti():
             elif scelta == "stop":
                 pass
     return cura_scelta
-
-
-
-
-
-
-
-
-        
-    
 
 
 def posizione(lista_giocatori):

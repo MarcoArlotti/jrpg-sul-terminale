@@ -121,7 +121,7 @@ def random_che_nemico_pescare(lista_nemici,id):
     return lista_nemici
 
 
-def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v):
+def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
     battaglia_vinta = False
     if lista_nemici == []:
         battaglia_vinta = True
@@ -147,20 +147,20 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v):
                 print(colored("rifare inserendo un valore numerico...","grey"))
                 rifai_input = True
 
-        match choice:
-            case 1: #attaccare HA bisogno di un "rifai input"
-                giocatore_vivo_,lista_nemici = attaccare(giocatore_vivo_,lista_nemici)
-
-            case 2: #difendersi NON ha bisogno un "rifai input"
-                difendersi(giocatore_vivo_)
-
-
-            case 3: #TODO magie
-                pass
-            case 4: #TODO tag out (solo se protagonista)
-                pass
-            case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
-                curarsi(lista_giocatori_v)
+            match choice:
+                case 1: #attaccare HA bisogno di un "rifai input"
+                    giocatore_vivo_,lista_nemici = attaccare(giocatore_vivo_,lista_nemici)
+    
+                case 2: #difendersi NON ha bisogno un "rifai input"
+                    difendersi(giocatore_vivo_)
+    
+    
+                case 3: #TODO magie
+                    pass
+                case 4: #TODO tag out (solo se protagonista)
+                    pass
+                case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
+                    rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
     return lista_nemici
 
     
@@ -238,9 +238,9 @@ def sistema_turni(lista_nemici,numero_piano):
                 lista_nomi_nemico.append(nomi_nemici)
 
             for giocatore_vivo_ in lista_giocatori_v:
-                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v) #giocatore_vivo_ in return?
+                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
             
-            lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
+            #lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
 
             for nemico in lista_nemici:
                 lista_giocatori_v = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
@@ -249,7 +249,7 @@ def sistema_turni(lista_nemici,numero_piano):
                     vita_rimasta = colored(persona["health"],"green")
                     vita_max = colored(persona["max_health"],"light_green")
                     nome_persona = colored(persona["name"],"cyan")
-                    print(f"il {nome_persona} {vita_rimasta}/{vita_max}hp",end="    ")
+                    print(f"il {nome_persona} {vita_rimasta}/{vita_max}sp",end="    ")
 
             with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v_:
                 json.dump(lista_giocatori_v,lista_giocatori_v_,indent=4)
@@ -285,8 +285,6 @@ elif iniziare_run == "no":
     print("continuando dall'ultimo salvataggio...")
 
     pass
-
-
 
 
 for numero_piano in range(6):
