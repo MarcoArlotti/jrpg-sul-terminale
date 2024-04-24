@@ -7,6 +7,7 @@
         "exp": 0.0,
         "max_sp":26,
         "sp": 26,
+        "magie":[],
         "damage_base": 10.0,
         "current_equip_melee": {
             "damage": 32,

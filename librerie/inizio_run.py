@@ -2,7 +2,7 @@ import json
 import os
 import random
 from termcolor import colored
-from combattimento import attaccare,difendersi,fuoco,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia
+from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
 
 #python -> json = .dump
 #json -> python = .load
@@ -69,6 +69,10 @@ def inizio_run(): #tutte le stat sono portare a 0
         i = i + 1
     with open("json_data\zaino.json","w") as zaino_json:
         json.dump(zaino,zaino_json,indent=4)
+        
+    with open("json_data/magie.json","r") as lista_magie:
+        lista_magie = json.load(lista_magie)
+
 
 
 
@@ -160,7 +164,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
 
                 case 3: #TODO magie
-                    pass
+                    giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
                 case 4: #TODO tag out (solo se protagonista)
                     pass
                 case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"

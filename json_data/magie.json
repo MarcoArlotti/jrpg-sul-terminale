@@ -1,0 +1,187 @@
+[
+    {
+        "nome":"fuoco SINGOLO",
+        "potenza":"scarsa",
+        "type":"fire",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"ghiaccio SINGOLO",
+        "potenza":"scarsa",
+        "type":"ice",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"vento SINGOLO",
+        "potenza":"scarsa",
+        "type":"wind",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"scarica SINGOLO",
+        "potenza":"scarsa",
+        "type":"elettric",
+        "raggio":"singolo"
+    },
+
+    {
+        "nome":"fuoco pesante SINGOLO",
+        "potenza":"normale",
+        "type":"fire",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"ghiaccio pesante SINGOLO",
+        "potenza":"normale",
+        "type":"ice",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"vento pesante SINGOLO",
+        "potenza":"normale",
+        "type":"wind",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"scarica pesante SINGOLO",
+        "potenza":"normale",
+        "type":"elettric",
+        "raggio":"singolo"
+    },
+    
+    {
+        "nome":"fuoco devastante SINGOLO",
+        "potenza":"devastante",
+        "type":"fire",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"ghiaccio devastante SINGOLO",
+        "potenza":"devastante",
+        "type":"ice",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"vento devastante SINGOLO",
+        "potenza":"devastante",
+        "type":"wind",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"scarica devastante SINGOLO",
+        "potenza":"devastante",
+        "type":"elettric",
+        "raggio":"singolo"
+    },
+
+    {
+        "nome":"fuoco TUTTI",
+        "potenza":"scarsa",
+        "type":"fire",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"ghiaccio TUTTI",
+        "potenza":"scarsa",
+        "type":"ice",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"vento TUTTI",
+        "potenza":"scarsa",
+        "type":"wind",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"scarica TUTTI",
+        "potenza":"scarsa",
+        "type":"elettric",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"fuoco pesante TUTTI",
+        "potenza":"normale",
+        "type":"fire",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"ghiaccio pesante TUTTI",
+        "potenza":"normale",
+        "type":"ice",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"vento pesante TUTTI",
+        "potenza":"normale",
+        "type":"wind",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"scarica pesante TUTTI",
+        "potenza":"normale",
+        "type":"elettric",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"fuoco devastante TUTTI",
+        "potenza":"devastante",
+        "type":"fire",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"ghiaccio devastante TUTTI",
+        "potenza":"devastante",
+        "type":"ice",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"vento devastante TUTTI",
+        "potenza":"devastante",
+        "type":"wind",
+        "raggio":"gruppo"
+    },
+    {
+        "nome":"scarica devastante TUTTI",
+        "potenza":"devastante",
+        "type":"elettric",
+        "raggio":"gruppo"
+    },
+
+    {
+        "nome":"cura debole",
+        "potenza":"scarsa",
+        "type":"cura",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"cura del gruppo debole",
+        "potenza":"scarsa",
+        "type":"cura",
+        "raggio":"tutti"
+    },
+    {
+        "nome":"cura normale",
+        "potenza":"normale",
+        "type":"cura",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"cura del gruppo debole",
+        "potenza":"normale",
+        "type":"cura",
+        "raggio":"tutti"
+    },
+    {
+        "nome":"cura pesante",
+        "potenza":"pesante",
+        "type":"cura",
+        "raggio":"singolo"
+    },
+    {
+        "nome":"cura del gruppo pesante",
+        "potenza":"pesante",
+        "type":"cura",
+        "raggio":"tutti"
+    }
+
+]

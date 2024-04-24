@@ -5,8 +5,69 @@ from termcolor import colored
 def aspetta_input():
     a = input(colored("press return to continue...","grey"))
 
-def fuoco(potenza,persona_v): #fuoco ad attacco debole,medio,pesante,area
-    pass
+def magie(giocatore_vivo_,lista_nemici):
+    
+    battaglia_vinta = False
+    if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
+        battaglia_vinta = True
+    if battaglia_vinta == True:
+        pass
+    elif battaglia_vinta == False:
+        giocatore_vivo_lista_magie = giocatore_vivo_["magie"]
+
+        rifai_input = True
+        while rifai_input == True:
+            rifai_input = False
+            chi_attaccare = input("che nemico attaccare?") #id/nome da prendere
+            try:
+                chi_attaccare = int(chi_attaccare)
+            except:
+                print(colored("rifare inserendo un valore numerico...","grey"))
+                rifai_input = True
+
+
+        os.system("cls")
+        rifai = True
+        
+        while rifai == True:
+            rifai = False
+            for nemico_ in lista_nemici:
+                id_nemico = nemico_["id"]
+                nome_nemico = nemico_["name"]
+                if chi_attaccare == id_nemico: #serve nome_,damage_tot
+
+                    nemico_preso = preso_o_mancato_nemici(nemico_) ################################
+                    nome_nemico = colored(nome_nemico,"yellow")
+                    if nemico_preso == [True]:
+
+                        hp_nemico = nemico_["health"]
+                        danno_aggiorato = hp_nemico - damage_tot
+                        damage_tot_c = colored(damage_tot,"red")
+
+                        nemico_.update({"health":danno_aggiorato})
+                        print(f"il nemico {nome_nemico} ha subito -{damage_tot_c} hp")
+                    elif nemico_preso == [False]:
+
+                        print(f"il nemico {nome_nemico} ha mancato l'attacco")
+
+                    break
+                
+            if chi_attaccare != id_nemico:
+                print(colored("il nemico selezionato non esite/valore non valido","grey"))
+                chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
+                rifai = True
+            for nemico in lista_nemici:
+                vita_rimasta_nemico = nemico["health"]
+                if vita_rimasta_nemico <= 0:
+                    exp_drop = nemico["exp_drop"]
+                    exp_player = giocatore_vivo_["exp"]
+                    exp_ottenuta = exp_player + exp_drop
+                    giocatore_vivo_.update({"exp":exp_ottenuta})
+                    print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
+                    lista_nemici.remove(nemico)
+                    break
+
+    return giocatore_vivo_,lista_nemici
 
 
 def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
@@ -43,10 +104,23 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
             rifai = False
             for nemico_ in lista_nemici:
                 id_nemico = nemico_["id"]
+                nome_nemico = nemico_["name"]
                 if chi_attaccare == id_nemico: #serve nome_,damage_tot
-                    hp_nemico = nemico_["health"]
-                    danno_aggiorato = hp_nemico - damage_tot
-                    nemico_.update({"health":danno_aggiorato})                   
+
+                    nemico_preso = preso_o_mancato_nemici(nemico_) ################################
+                    nome_nemico = colored(nome_nemico,"yellow")
+                    if nemico_preso == [True]:
+
+                        hp_nemico = nemico_["health"]
+                        danno_aggiorato = hp_nemico - damage_tot
+                        damage_tot_c = colored(damage_tot,"red")
+
+                        nemico_.update({"health":danno_aggiorato})
+                        print(f"il nemico {nome_nemico} ha subito -{damage_tot_c} hp")
+                    elif nemico_preso == [False]:
+
+                        print(f"il nemico {nome_nemico} ha mancato l'attacco")
+
                     break
                 
             if chi_attaccare != id_nemico:
@@ -66,7 +140,14 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
 
     return giocatore_vivo_,lista_nemici
 
+def preso_o_mancato_nemici(nemico_):
+    nemico_velocità = nemico_["speed"]
+    nemico_velocità_opposto = 100 - nemico_velocità
+    flip = True,False
+    
+    nemico_preso = random.choices(flip,weights=[nemico_velocità_opposto,nemico_velocità],k=1)
 
+    return nemico_preso
 def difendersi(giocatore_vivo):
     os.system("cls")
     giocatore_vivo.update({"guard":True})
