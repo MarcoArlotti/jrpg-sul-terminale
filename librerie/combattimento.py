@@ -193,8 +193,14 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
         elif tipo_oggetto == "revive" and lista_giocatori_m == []:
             print(colored("tutti i giocatori sono vivi, cura non usata...","grey"))
             rifai_input = True
+            
         if rifai_input == False:
-            pass
+            i = 1
+            for oggetto in lista_oggetti_zaino:
+                oggetto.update({"numero_nella_lista":i})
+                i = i + 1
+            with open("json_data\zaino.json","w") as zaino_json:
+                json.dump(lista_oggetti_zaino,zaino_json,indent=4)
     return rifai_input
 def name_item(lista_oggetti_zaino):
     return lista_oggetti_zaino["name"]
