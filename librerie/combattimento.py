@@ -5,26 +5,87 @@ from termcolor import colored
 def aspetta_input():
     a = input(colored("press return to continue...","grey"))
 
-def magie(giocatore_vivo_,lista_nemici):
+def debolezze(tipo_magia_player,lista_magia_debole_nemico,lista_magia_resiste_nemico):
+    resiste = False
+    debole = False
+    for resistenza in lista_magia_resiste_nemico:
+        if resistenza == tipo_magia_player:
+            resiste = True
+            break
+    for debolezza in lista_magia_debole_nemico:
+        if debolezza == tipo_magia_player:
+            debole = True
+            break
     
+    return debole,resiste
+
+def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
+    nome = magia["nome"]
+    potenza = magia["potenza"]
+    tipo_magia_player = magia["type"]
+
+
+    lista_magia_debole_nemico = nemico_["debole"] 
+    lista_magia_resiste_nemico = nemico_["resiste"]
+    debole,resiste = debolezze(tipo_magia_player,lista_magia_debole_nemico,lista_magia_resiste_nemico)
+
+    if debole == True:
+        one_more = True
+        if potenza == "scarsa":
+            danno_inflitto = 70 * percentuale_boost_potenza_magie
+        elif potenza == "normale":
+            danno_inflitto = 90 * percentuale_boost_potenza_magie
+        elif potenza == "devastante":
+            danno_inflitto = 110 * percentuale_boost_potenza_magie
+
+    elif resiste == True:
+        one_more = False
+        if potenza == "scarsa":
+            danno_inflitto = 8 * percentuale_boost_potenza_magie
+        elif potenza == "normale":
+            danno_inflitto = 25 * percentuale_boost_potenza_magie
+        elif potenza == "devastante":
+            danno_inflitto = 30 * percentuale_boost_potenza_magie
+
+    if debole == False and resiste == False:
+        one_more = False
+        if potenza == "scarsa":# 90
+            danno_inflitto = 40 * percentuale_boost_potenza_magie
+        elif potenza == "normale":# 110
+            danno_inflitto = 70 * percentuale_boost_potenza_magie
+        elif potenza == "devastante": #160
+            danno_inflitto = 90 * percentuale_boost_potenza_magie
+
+    return danno_inflitto,one_more
+def magie(giocatore_vivo_,lista_nemici):
+    i = 1
+    for magia in giocatore_vivo_magie:
+        i = i+1
+        magia.update({"posizione":i})
     battaglia_vinta = False
     if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
         battaglia_vinta = True
     if battaglia_vinta == True:
         pass
     elif battaglia_vinta == False:
-        giocatore_vivo_lista_magie = giocatore_vivo_["magie"]
 
-        rifai_input = True
-        while rifai_input == True:
-            rifai_input = False
-            chi_attaccare = input("che nemico attaccare?") #id/nome da prendere
-            try:
-                chi_attaccare = int(chi_attaccare)
-            except:
-                print(colored("rifare inserendo un valore numerico...","grey"))
+        giocatore_vivo_magie = giocatore_vivo_["magie"]
+        posizione_scelta = int(input("inserire il numero di quale magia scegliere..."))
+        for magia in giocatore_vivo_magie:
+            nome_magia = magia["name"]
+            print(colored(nome_magia,"light_cyan"))
+            numero_magia = magia["posizione"]
+
+            if posizione_scelta == numero_magia:
                 rifai_input = True
-
+                while rifai_input == True:
+                    rifai_input = False
+                    chi_attaccare = input("che nemico attaccare?") #id/nome da prendere
+                    try:
+                        chi_attaccare = int(chi_attaccare)
+                    except:
+                        print(colored("rifare inserendo un valore numerico...","grey"))
+                        rifai_input = True
 
         os.system("cls")
         rifai = True
@@ -32,22 +93,38 @@ def magie(giocatore_vivo_,lista_nemici):
         while rifai == True:
             rifai = False
             for nemico_ in lista_nemici:
+                lista_one_more = []
+                nemico = nemico_
                 id_nemico = nemico_["id"]
                 nome_nemico = nemico_["name"]
                 if chi_attaccare == id_nemico: #serve nome_,damage_tot
 
-                    nemico_preso = preso_o_mancato_nemici(nemico_) ################################
+                    nemico_preso = preso_o_mancato_nemici(nemico_)
                     nome_nemico = colored(nome_nemico,"yellow")
+
                     if nemico_preso == [True]:
+                        percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
+                        raggio = magia["raggio"]
+                        danno_inflitto,one_more = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
+                        
+                        if raggio == "singolo":
+                            lista_one_more.append(one_more)
+                            vita_nemico = nemico_["health"]
+                            vita_rimasta_nemico = vita_nemico - danno_inflitto
+                            nemico_.update({"health":vita_rimasta_nemico})
 
-                        hp_nemico = nemico_["health"]
-                        danno_aggiorato = hp_nemico - damage_tot
-                        damage_tot_c = colored(damage_tot,"red")
+                        elif raggio == "gruppo":
 
-                        nemico_.update({"health":danno_aggiorato})
-                        print(f"il nemico {nome_nemico} ha subito -{damage_tot_c} hp")
+                            for nemico in lista_nemici:
+
+                                danno_inflitto,one_more = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
+                                lista_one_more.append(one_more)
+                                vita_nemico = nemico_["health"]
+                                vita_rimasta_nemico = vita_nemico - danno_inflitto
+                                nemico_.update({"health":vita_rimasta_nemico})
+
                     elif nemico_preso == [False]:
-
+                        one_more = False
                         print(f"il nemico {nome_nemico} ha mancato l'attacco")
 
                     break
@@ -56,19 +133,8 @@ def magie(giocatore_vivo_,lista_nemici):
                 print(colored("il nemico selezionato non esite/valore non valido","grey"))
                 chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
                 rifai = True
-            for nemico in lista_nemici:
-                vita_rimasta_nemico = nemico["health"]
-                if vita_rimasta_nemico <= 0:
-                    exp_drop = nemico["exp_drop"]
-                    exp_player = giocatore_vivo_["exp"]
-                    exp_ottenuta = exp_player + exp_drop
-                    giocatore_vivo_.update({"exp":exp_ottenuta})
-                    print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
-                    lista_nemici.remove(nemico)
-                    break
-
+                
     return giocatore_vivo_,lista_nemici
-
 
 def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
 
@@ -107,7 +173,7 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
                 nome_nemico = nemico_["name"]
                 if chi_attaccare == id_nemico: #serve nome_,damage_tot
 
-                    nemico_preso = preso_o_mancato_nemici(nemico_) ################################
+                    nemico_preso = preso_o_mancato_nemici(nemico_)
                     nome_nemico = colored(nome_nemico,"yellow")
                     if nemico_preso == [True]:
 
