@@ -129,17 +129,28 @@ def random_che_nemico_pescare(lista_nemici,id):
     return lista_nemici
 
 
-def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
+def scelta_nel_turno(lista_one_more,giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
     battaglia_vinta = False
     if lista_nemici == []:
         battaglia_vinta = True
 
+    if lista_one_more == []: #inizio battaglia, BUG non si aggiorna la lista
+        quante_volte = len(lista_nemici)
+        for i in range(quante_volte):
+            lista_one_more.append(False)
+            
+    print(colored(lista_one_more,"blue"))
     player_vivo_nome = colored(giocatore_vivo_["name"],"cyan")
     print(f"è il turno del {player_vivo_nome}\n")
 
     for nemico in lista_nemici:
         nomi_nemico = nemico["name"]
         print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
+        vita_max_c = nemico["max_health"]
+        vita_max = colored(vita_max_c,"light_green")
+        vita = nemico["health"]
+        vita_c = colored(vita,"green")
+        print(f"{vita_c}/{vita_max_c}")
     print(colored("\nattaccare   difendersi                         curarsi","blue"))
     if battaglia_vinta == False:
         
@@ -164,7 +175,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
 
                 case 3: #TODO magie
-                    giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
+                    lista_one_more,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
                 case 4: #TODO tag out (solo se protagonista)
                     pass
                 case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
@@ -172,9 +183,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
     return lista_nemici
 
     
-def sistema_turni(lista_nemici,numero_piano):
-    #with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori_:
-    #    lista_giocatori_ = json.load(lista_giocatori_)
+def sistema_turni(lista_one_more,lista_nemici,numero_piano):
 
     with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori: #da non cambiare
         lista_giocatori = json.load(lista_giocatori)
@@ -246,7 +255,7 @@ def sistema_turni(lista_nemici,numero_piano):
                 lista_nomi_nemico.append(nomi_nemici)
 
             for giocatore_vivo_ in lista_giocatori_v:
-                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
+                lista_nemici = scelta_nel_turno(lista_one_more,giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
             
             #lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
 
@@ -301,8 +310,8 @@ for numero_piano in range(6):
     os.system("cls")
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
-    
-    battaglia_persa,battaglia_vinta,numero_piano = sistema_turni(lista_nemici,numero_piano)
+    lista_one_more = []
+    battaglia_persa,battaglia_vinta,numero_piano = sistema_turni(lista_one_more,lista_nemici,numero_piano)
 
     with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)

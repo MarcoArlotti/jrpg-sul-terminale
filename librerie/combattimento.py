@@ -58,29 +58,38 @@ def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
 
     return danno_inflitto,one_more
 def magie(giocatore_vivo_,lista_nemici):
-    i = 1
-    for magia in giocatore_vivo_magie:
+
+    i = 0
+    lista_magie_giocatore = giocatore_vivo_["magie"]
+    for magia in lista_magie_giocatore:
         i = i+1
         magia.update({"posizione":i})
+
     battaglia_vinta = False
     if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
         battaglia_vinta = True
     if battaglia_vinta == True:
         pass
     elif battaglia_vinta == False:
+        for magia in lista_magie_giocatore:
 
-        giocatore_vivo_magie = giocatore_vivo_["magie"]
-        posizione_scelta = int(input("inserire il numero di quale magia scegliere..."))
-        for magia in giocatore_vivo_magie:
-            nome_magia = magia["name"]
-            print(colored(nome_magia,"light_cyan"))
+            nome_magia = magia["nome"]
+            print(colored(nome_magia,"light_cyan"),end=" ")
             numero_magia = magia["posizione"]
+            print(colored(numero_magia,"grey"))
 
-            if posizione_scelta == numero_magia:
+        magia_scelta = int(input("inserire il numero di quale magia scegliere..."))
+        for magia_ in lista_magie_giocatore:
+
+            numero_magia = magia_["posizione"]
+
+            if magia_scelta == numero_magia:
+
                 rifai_input = True
                 while rifai_input == True:
+
                     rifai_input = False
-                    chi_attaccare = input("che nemico attaccare?") #id/nome da prendere
+                    chi_attaccare = input("che nemico attaccare?") #che nemico attaccare
                     try:
                         chi_attaccare = int(chi_attaccare)
                     except:
@@ -134,7 +143,7 @@ def magie(giocatore_vivo_,lista_nemici):
                 chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
                 rifai = True
                 
-    return giocatore_vivo_,lista_nemici
+    return lista_one_more,giocatore_vivo_,lista_nemici
 
 def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
 
