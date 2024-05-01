@@ -132,7 +132,7 @@ def random_che_nemico_pescare(lista_nemici,id):
 def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
     one_more = True
     while one_more == True:
-        one_more == False
+        one_more = False
         battaglia_vinta = False
 
         if lista_nemici == []:
@@ -150,14 +150,14 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             vita = nemico["health"]
             vita_c = colored(vita,"green")
             print(f"{vita_c}/{vita_max_c}")
-        print(colored("\nattaccare   difendersi                         curarsi","blue"))
+        print(colored("\nattaccare difendersi   magie           curarsi","blue"))
         if battaglia_vinta == False:
 
             rifai_input = True
 
             while rifai_input == True:
                 rifai_input = False
-                choice = input(colored("\n1             2           3           4           5\n","red"))
+                choice = input(colored("\n  1             2           3           4           5\n","red"))
 
                 try:
                     choice = int(choice)
@@ -175,19 +175,37 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
                     case 3: #TODO magie
                         giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
-                    case 4: #TODO tag out (solo se protagonista)
+                    case 4: 
                         pass
                     case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
                         rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
 
-        for nemico in lista_nemici:
-            one_more = nemico["one_more"]
-            atterrato = nemico["atterrato"]
-            if one_more == True:
-                break
+
         for nemico_ in lista_nemici:
-            nemico_.update({"one_more":False})
-        
+
+            one_more_ = nemico_["one_more"]
+            if one_more_ == True:
+                nemico_.update({"one_more":False})
+                one_more = True
+                print(colored("ONE MORE","cyan"))
+
+        #for nemico in lista_nemici: #funziona solo se si deve cancellare un solo nemico
+        for i in range(len(lista_nemici)):
+            for nemico in lista_nemici:
+                vita_rimasta_nemico = nemico["health"]
+
+                if vita_rimasta_nemico <= 0:
+
+                    exp_drop = nemico["exp_drop"]
+                    exp_player = giocatore_vivo_["exp"]
+                    exp_ottenuta = exp_player + exp_drop
+                    exp_ottenuta_c = colored(exp_ottenuta,"light_blue")
+                    giocatore_vivo_.update({"exp":exp_ottenuta})
+                    print(colored(f"exp ottenuta: {exp_ottenuta_c}EXP","light_cyan"))
+                    lista_nemici.remove(nemico)
+                    break
+
+
     return lista_nemici
 
     
@@ -264,6 +282,7 @@ def sistema_turni(lista_nemici,numero_piano):
 
             for giocatore_vivo_ in lista_giocatori_v:
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
+                #ddeeweeaew
             
             #lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
 
@@ -296,8 +315,9 @@ def sistema_turni(lista_nemici,numero_piano):
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
 
 os.system("cls")
-iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
-os.system("cls")
+#iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
+#os.system("cls")
+iniziare_run = "yes" #DEBUG
 if iniziare_run == "yes":
 
     inizio_run() 
@@ -323,7 +343,6 @@ for numero_piano in range(6):
     with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
 
-    print(lista_giocatori)
     if battaglia_vinta == True:
         #TODO vuoi salvare?
         #TODO vuoi chiudere il programa?

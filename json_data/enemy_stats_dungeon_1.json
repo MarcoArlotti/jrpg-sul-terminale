@@ -1,8 +1,8 @@
 [
     {
         "name": "SHADOW",
-        "max_health": 110,
-        "health": 110,        
+        "max_health": 220,
+        "health": 220,        
         "speed": 10.0,
         "one_more":false,
         "atterrato":false,
@@ -14,8 +14,8 @@
     },
     {
         "name": "FLYING SHADOW",
-        "max_health": 76,
-        "health": 76,
+        "max_health": 176,
+        "health": 176,
         "speed": 12.0,
         "one_more":false,
         "atterrato":false,
