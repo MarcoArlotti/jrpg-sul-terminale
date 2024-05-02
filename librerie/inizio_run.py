@@ -314,10 +314,16 @@ def sistema_turni(lista_nemici,numero_piano):
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
 
+<<<<<<< HEAD
 os.system("cls")
 #iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
 #os.system("cls")
 iniziare_run = "yes" #DEBUG
+=======
+os.system("clear")
+iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
+os.system("clear")
+>>>>>>> 03eb03ba121251a2c184a07d36f06b49079492ec
 if iniziare_run == "yes":
 
     inizio_run() 
@@ -335,7 +341,7 @@ elif iniziare_run == "no":
 for numero_piano in range(6):
     with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
-    os.system("cls")
+    os.system("clear")
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
     battaglia_persa,battaglia_vinta,numero_piano = sistema_turni(lista_nemici,numero_piano)

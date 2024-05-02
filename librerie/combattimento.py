@@ -126,7 +126,7 @@ def magie(giocatore_vivo_,lista_nemici):
                             rifai_input = True                        
                 break
 
-        os.system("cls")
+        os.system("clear")
         rifai = True
         
         while rifai == True:
@@ -231,7 +231,7 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
                 rifai_input = True
 
 
-        os.system("cls")
+        os.system("clear")
         rifai = True
         
         while rifai == True:
@@ -273,13 +273,13 @@ def preso_o_mancato_nemici(nemico_):
 
     return nemico_preso
 def difendersi(giocatore_vivo):
-    os.system("cls")
+    os.system("clear")
     giocatore_vivo.update({"guard":True})
     giocatore = giocatore_vivo["name"]
     giocatore = colored(giocatore,"light_cyan")
     print(f"il {giocatore} si sta difendendo")
     aspetta_input()
-    os.system("cls")
+    os.system("clear")
 
 def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
     posizione_oggetto_scelto = cura_scelta["numero_nella_lista"]
@@ -294,7 +294,7 @@ def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
 def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
 
     rifai_input = False
-    os.system("cls")
+    os.system("clear")
     rifai = True
     cura_scelta = None
     while cura_scelta == None:
@@ -435,7 +435,7 @@ def menù_oggetti():
     numero_min = 0
 
     while finito == False:
-        os.system("cls")
+        os.system("clear")
         finito = False
 
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
@@ -555,7 +555,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
                     giocatore.update({"health":vita_player})
                     aspetta_input()
-                    os.system("cls")
+                    os.system("clear")
                     break
         #elif numero_piano > 2:
             #i nemici posso attaccare con magie

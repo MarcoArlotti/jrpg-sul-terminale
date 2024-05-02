@@ -4,12 +4,17 @@
         "max_health": 240,
         "health": 240,
         "speed": 19.0,
+<<<<<<< HEAD
         "exp": 6.0,
+=======
+        "exp": 0.0,
+>>>>>>> 03eb03ba121251a2c184a07d36f06b49079492ec
         "max_sp": 26,
         "sp": 26,
         "danno_magie": 2.0,
         "magie": [
             {
+<<<<<<< HEAD
                 "nome": "fuoco pesante SINGOLO",
                 "potenza": "normale",
                 "type": "fire",
@@ -24,6 +29,30 @@
                 "raggio": "gruppo",
                 "costo": 8,
                 "posizione": 2
+=======
+                "nome": "fuoco SINGOLO",
+                "potenza": "scarsa",
+                "type": "fire",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "vento SINGOLO",
+                "potenza": "scarsa",
+                "type": "wind",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "scarica SINGOLO",
+                "potenza": "scarsa",
+                "type": "elettric",
+                "raggio": "singolo"
+>>>>>>> 03eb03ba121251a2c184a07d36f06b49079492ec
             }
         ],
         "damage_base": 10.0,
@@ -46,6 +75,7 @@
         "danno_magie": 3.0,
         "magie": [
             {
+<<<<<<< HEAD
                 "nome": "scarica pesante SINGOLO",
                 "potenza": "normale",
                 "type": "elettric",
@@ -58,6 +88,30 @@
                 "type": "elettric",
                 "raggio": "gruppo",
                 "costo": 8
+=======
+                "nome": "fuoco SINGOLO",
+                "potenza": "scarsa",
+                "type": "fire",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "vento SINGOLO",
+                "potenza": "scarsa",
+                "type": "wind",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "scarica SINGOLO",
+                "potenza": "scarsa",
+                "type": "elettric",
+                "raggio": "singolo"
+>>>>>>> 03eb03ba121251a2c184a07d36f06b49079492ec
             }
         ],
         "damage_base": 9.0,
@@ -80,6 +134,7 @@
         "danno_magie": 7.0,
         "magie": [
             {
+<<<<<<< HEAD
                 "nome": "vento pesante SINGOLO",
                 "potenza": "normale",
                 "type": "wind",
@@ -92,6 +147,30 @@
                 "type": "wind",
                 "raggio": "gruppo",
                 "costo": 8
+=======
+                "nome": "fuoco SINGOLO",
+                "potenza": "scarsa",
+                "type": "fire",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "vento SINGOLO",
+                "potenza": "scarsa",
+                "type": "wind",
+                "raggio": "singolo"
+            },
+            {
+                "nome": "scarica SINGOLO",
+                "potenza": "scarsa",
+                "type": "elettric",
+                "raggio": "singolo"
+>>>>>>> 03eb03ba121251a2c184a07d36f06b49079492ec
             }
         ],
         "damage_base": 17.0,
