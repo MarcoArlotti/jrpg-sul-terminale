@@ -83,6 +83,15 @@ def magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,ne
     return danno_inflitto
 
 def magie(giocatore_vivo_,lista_nemici):
+    sp_giocatore = giocatore_vivo_["sp"]
+    sp_max_giocatore = giocatore_vivo_["max_sp"]
+    nome_giocatore = giocatore_vivo_["name"]
+
+    nome_giocatore_c = colored(nome_giocatore,"cyan")
+    sp_giocatore_c = colored(sp_giocatore,"light_blue")
+    sp_max_giocatore_c = colored(sp_max_giocatore,"blue")
+    
+    print(f"{nome_giocatore} {sp_giocatore_c}/{sp_max_giocatore_c}sp")
 
     i = 0
     lista_magie_giocatore = giocatore_vivo_["magie"]
@@ -96,24 +105,45 @@ def magie(giocatore_vivo_,lista_nemici):
     if battaglia_vinta == True:
         pass
     elif battaglia_vinta == False:
-        for magia_ in lista_magie_giocatore:
 
-            nome_magia = magia_["nome"]
-            print(colored(nome_magia,"light_cyan"),end=" ")
-            numero_magia = magia_["posizione"]
-            print(colored(numero_magia,"grey"))
+        sp_insufficente = True
+        while sp_insufficente == True:
+            sp_insufficente = False
+            for magia_ in lista_magie_giocatore:
 
-        magia_scelta = int(input("inserire il numero di quale magia scegliere..."))
-        os.system("cls")
+                nome_magia = magia_["nome"]
+                print(colored(nome_magia,"light_cyan"),end=" ")
+                numero_magia = magia_["posizione"]
+                print(colored(numero_magia,"grey"))
+
+            magia_scelta = int(input("inserire il numero di quale magia scegliere..."))
+            os.system("cls")
+            for magia in lista_magie_giocatore:
+
+                numero_magia = magia["posizione"]
+
+                if magia_scelta == numero_magia:
+                    costo_sp_magia = magia["costo"]
+                    
+
+                    sp_rimasta = sp_giocatore - costo_sp_magia
+                    if sp_rimasta < 0:
+                        print(colored("sp insufficente...","grey"))
+                        aspetta_input()
+                        os.system("cls")
+                        sp_insufficente == True
+                    elif sp_rimasta >= 0:
+                        giocatore_vivo_.update({"sp":sp_rimasta})
+
+                    break
         for magia in lista_magie_giocatore:
-
             numero_magia = magia["posizione"]
 
             if magia_scelta == numero_magia:
-                
+
                 rifai_input = True
                 while rifai_input == True:
-
+                
                     rifai_input = False
                     raggio = magia["raggio"]
                     if raggio == "singolo":
@@ -126,7 +156,7 @@ def magie(giocatore_vivo_,lista_nemici):
                             rifai_input = True                        
                 break
 
-        os.system("clear")
+        os.system("cls")
         rifai = True
         
         while rifai == True:
@@ -231,7 +261,7 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
                 rifai_input = True
 
 
-        os.system("clear")
+        os.system("cls")
         rifai = True
         
         while rifai == True:
@@ -273,13 +303,13 @@ def preso_o_mancato_nemici(nemico_):
 
     return nemico_preso
 def difendersi(giocatore_vivo):
-    os.system("clear")
+    os.system("cls")
     giocatore_vivo.update({"guard":True})
     giocatore = giocatore_vivo["name"]
     giocatore = colored(giocatore,"light_cyan")
     print(f"il {giocatore} si sta difendendo")
     aspetta_input()
-    os.system("clear")
+    os.system("cls")
 
 def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
     posizione_oggetto_scelto = cura_scelta["numero_nella_lista"]
@@ -294,7 +324,7 @@ def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
 def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
 
     rifai_input = False
-    os.system("clear")
+    os.system("cls")
     rifai = True
     cura_scelta = None
     while cura_scelta == None:
@@ -435,7 +465,7 @@ def menù_oggetti():
     numero_min = 0
 
     while finito == False:
-        os.system("clear")
+        os.system("cls")
         finito = False
 
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
@@ -555,7 +585,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
                     giocatore.update({"health":vita_player})
                     aspetta_input()
-                    os.system("clear")
+                    os.system("cls")
                     break
         #elif numero_piano > 2:
             #i nemici posso attaccare con magie
