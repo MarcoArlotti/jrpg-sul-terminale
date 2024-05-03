@@ -10,7 +10,8 @@
         "resiste":["ice"],
         "dungeon": 1,
         "exp_drop": 3,
-        "damage":80
+        "damage":80,
+        "quanti_tab":2
     },
     {
         "name": "FLYING SHADOW",
@@ -23,6 +24,7 @@
         "resiste":["elettric"],
         "dungeon": 1,
         "exp_drop": 2.3,
-        "damage":88
+        "damage":88,
+        "quanti_tab":1
     }
 ]

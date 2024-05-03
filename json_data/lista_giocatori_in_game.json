@@ -4,7 +4,7 @@
         "max_health": 240,
         "health": 240,
         "speed": 19.0,
-        "exp": 3.0,
+        "exp": 0.0,
         "max_sp": 26,
         "sp": 26,
         "danno_magie": 2.0,
@@ -14,16 +14,42 @@
                 "potenza": "normale",
                 "type": "fire",
                 "raggio": "singolo",
-                "costo": 4,
-                "posizione": 1
+                "costo": 4
             },
             {
                 "nome": "fuoco TUTTI",
                 "potenza": "scarsa",
                 "type": "fire",
                 "raggio": "gruppo",
-                "costo": 8,
-                "posizione": 2
+                "costo": 8
+            },
+            {
+                "nome": "scarica SINGOLO",
+                "potenza": "scarsa",
+                "type": "elettric",
+                "raggio": "singolo",
+                "costo": 2
+            },
+            {
+                "nome": "fuoco pesante SINGOLO",
+                "potenza": "normale",
+                "type": "fire",
+                "raggio": "singolo",
+                "costo": 4
+            },
+            {
+                "nome": "vento devastante SINGOLO",
+                "potenza": "devastante",
+                "type": "wind",
+                "raggio": "singolo",
+                "costo": 8
+            },
+            {
+                "nome": "scarica devastante SINGOLO",
+                "potenza": "devastante",
+                "type": "elettric",
+                "raggio": "singolo",
+                "costo": 8
             }
         ],
         "damage_base": 10.0,
@@ -50,16 +76,14 @@
                 "potenza": "normale",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 4,
-                "posizione": 1
+                "costo": 4
             },
             {
                 "nome": "scarica TUTTI",
                 "potenza": "scarsa",
                 "type": "elettric",
                 "raggio": "gruppo",
-                "costo": 8,
-                "posizione": 2
+                "costo": 8
             }
         ],
         "damage_base": 9.0,
@@ -74,9 +98,9 @@
     {
         "name": "Osuba",
         "max_health": 294,
-        "health": 206,
+        "health": 294,
         "speed": 40.0,
-        "exp": 4.6,
+        "exp": 0.0,
         "max_sp": 30,
         "sp": 30,
         "danno_magie": 7.0,
@@ -86,16 +110,14 @@
                 "potenza": "normale",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 4,
-                "posizione": 1
+                "costo": 4
             },
             {
                 "nome": "vento TUTTI",
                 "potenza": "scarsa",
                 "type": "wind",
                 "raggio": "gruppo",
-                "costo": 8,
-                "posizione": 2
+                "costo": 8
             }
         ],
         "damage_base": 17.0,

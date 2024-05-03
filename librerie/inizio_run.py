@@ -131,7 +131,10 @@ def random_che_nemico_pescare(lista_nemici,id):
 
 def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
     one_more = True
-    while one_more == True:
+    sp_insufficente = False
+    while one_more == True or sp_insufficente == True:
+
+        sp_insufficente = False
         one_more = False
         battaglia_vinta = False
 
@@ -140,17 +143,36 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             break
 
         player_vivo_nome = colored(giocatore_vivo_["name"],"cyan")
-        print(f"è il turno del {player_vivo_nome}\n")
+        print(f"è il turno del {player_vivo_nome}",end="\n\n")
 
+        i = -1
         for nemico in lista_nemici:
-            nomi_nemico = nemico["name"]
-            print(colored(f"{nomi_nemico}   ","yellow"),end="   ")
+            i = i+1
+            if i > 0:
+                print("",end = "  " * i) #crea una scaletta di spazi
+            quanti_tab = nemico["quanti_tab"]
+            nome_nemico = nemico["name"]
             vita_max = nemico["max_health"]
+            
             vita_max_c = colored(vita_max,"light_green")
             vita = nemico["health"]
             vita_c = colored(vita,"green")
+
+            nemico_atterrato = nemico["atterrato"]
+            if nemico_atterrato == True:
+                nome_nemico_c = colored(nome_nemico,"grey")
+                print(colored("ATTERRATO","grey"),end="     ")
+
+            elif nemico_atterrato == False:
+                nome_nemico_c = colored(nome_nemico,"yellow")
+
+            quanti_tab = "\t" * quanti_tab
+            print(nome_nemico_c + quanti_tab,end="")
+            if i > 0:
+                print("",end = "  " * i)
             print(f"{vita_c}/{vita_max_c}")
-        print(colored("\nattaccare difendersi   magie           curarsi","blue"))
+
+        print(colored("\nattaccare\tdifendersi\tmagie\tcurarsi","blue"))
         if battaglia_vinta == False:
 
             rifai_input = True
@@ -174,7 +196,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
 
                     case 3: #TODO magie
-                        giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
+                        sp_insufficente,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
                     case 4: 
                         pass
                     case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"

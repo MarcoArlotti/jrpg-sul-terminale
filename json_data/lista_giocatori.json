@@ -22,6 +22,35 @@
                 "type":"fire",
                 "raggio":"gruppo",
                 "costo":8
+            },
+            {
+                "nome":"scarica SINGOLO",
+                "potenza":"scarsa",
+                "type":"elettric",
+                "raggio":"singolo",
+                "costo":2
+            },
+        
+            {
+                "nome":"fuoco pesante SINGOLO",
+                "potenza":"normale",
+                "type":"fire",
+                "raggio":"singolo",
+                "costo":4
+            },
+            {
+                "nome":"vento devastante SINGOLO",
+                "potenza":"devastante",
+                "type":"wind",
+                "raggio":"singolo",
+                "costo":8
+            },
+            {
+                "nome":"scarica devastante SINGOLO",
+                "potenza":"devastante",
+                "type":"elettric",
+                "raggio":"singolo",
+                "costo":8
             }
         ],
         "damage_base": 10.0,

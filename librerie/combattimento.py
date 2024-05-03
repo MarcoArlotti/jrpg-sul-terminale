@@ -106,133 +106,127 @@ def magie(giocatore_vivo_,lista_nemici):
         pass
     elif battaglia_vinta == False:
 
-        sp_insufficente = True
-        while sp_insufficente == True:
-            sp_insufficente = False
-            for magia_ in lista_magie_giocatore:
+        sp_insufficente = False
+        i = -1
+        for magia_ in lista_magie_giocatore:
+            i = i+1
+            if i > 0:
+                print("",end = " " * i) #crea una scaletta di spazi
+            
+            numero_magia = magia_["posizione"]
+            print(colored(numero_magia,"grey"),end="  ")
 
-                nome_magia = magia_["nome"]
-                print(colored(nome_magia,"light_cyan"),end=" ")
-                numero_magia = magia_["posizione"]
-                print(colored(numero_magia,"grey"))
+            nome_magia = magia_["nome"]
+            print(colored(nome_magia,"light_cyan"),end=" ")
 
-            magia_scelta = int(input("inserire il numero di quale magia scegliere..."))
-            os.system("cls")
-            for magia in lista_magie_giocatore:
+            costo_sp_magia = magia_["costo"]
+            print(colored(costo_sp_magia,"blue"))
 
-                numero_magia = magia["posizione"]
-
-                if magia_scelta == numero_magia:
-                    costo_sp_magia = magia["costo"]
-                    
-
-                    sp_rimasta = sp_giocatore - costo_sp_magia
-                    if sp_rimasta < 0:
-                        print(colored("sp insufficente...","grey"))
-                        aspetta_input()
-                        os.system("cls")
-                        sp_insufficente == True
-                    elif sp_rimasta >= 0:
-                        giocatore_vivo_.update({"sp":sp_rimasta})
-
-                    break
+        
+        magia_scelta = int(input(colored("inserire il numero di quale magia scegliere...","grey")))
+        
+        os.system("cls")
         for magia in lista_magie_giocatore:
             numero_magia = magia["posizione"]
 
             if magia_scelta == numero_magia:
-
-                rifai_input = True
-                while rifai_input == True:
+                costo_sp_magia = magia["costo"]
                 
-                    rifai_input = False
-                    raggio = magia["raggio"]
-                    if raggio == "singolo":
-                        chi_attaccare = input("che nemico attaccare?") #che nemico attaccare(solo se la magia non colpisce tutti)
-
-                        try:
-                            chi_attaccare = int(chi_attaccare)
-                        except:
-                            print(colored("rifare inserendo un valore numerico...","grey"))
-                            rifai_input = True                        
+                sp_rimasta = sp_giocatore - costo_sp_magia
+                if sp_rimasta < 0:
+                    print(colored("sp insufficente...","grey"))
+                    aspetta_input()
+                    os.system("cls")
+                    sp_insufficente = True
+                elif sp_rimasta >= 0:
+                    giocatore_vivo_.update({"sp":sp_rimasta})
                 break
 
-        os.system("cls")
-        rifai = True
-        
-        while rifai == True:
-            rifai = False
+        if sp_insufficente == False:
+            for magia in lista_magie_giocatore:
+                numero_magia = magia["posizione"]
 
-            if raggio == "singolo":
-                
-                for nemico_ in lista_nemici:
-                    nemico = nemico_
-                    id_nemico = nemico_["id"]
-                    nome_nemico = nemico_["name"]
+                if magia_scelta == numero_magia:
 
-                    if chi_attaccare == id_nemico: #serve nome_,damage_tot
-
-                        nemico_preso = preso_o_mancato_nemici(nemico_)
-                        nome_nemico = colored(nome_nemico,"yellow")
-
-                        if nemico_preso == [True]:
-                            percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
-                            danno_inflitto = magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,nemico)
-                            vita_nemico = nemico_["health"]
-                            vita_rimasta_nemico = vita_nemico - danno_inflitto
-                            nemico_.update({"health":vita_rimasta_nemico})
-
-                        elif nemico_preso == [False]:
-                            print(f"il nemico {nome_nemico} ha mancato l'attacco")
-                        break
-                if chi_attaccare != id_nemico:
-                    print(colored("il nemico selezionato non esite/valore non valido","grey"))
-                    chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
-                    rifai = True
-
-
-            elif raggio == "gruppo":
-
-                for nemico in lista_nemici:
-
-                    battaglia_vinta = False
+                    rifai_input = True
+                    while rifai_input == True:
                     
-                    if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
+                        rifai_input = False
+                        raggio = magia["raggio"]
+                        if raggio == "singolo":
+                            chi_attaccare = input("che nemico attaccare?") #che nemico attaccare(solo se la magia non colpisce tutti)
 
-                        battaglia_vinta = True
-                        break
-                    if battaglia_vinta == False:
-                        id_nemico = nemico["id"]
-                        nome_nemico = nemico["name"]
+                            try:
+                                chi_attaccare = int(chi_attaccare)
+                            except:
+                                print(colored("rifare inserendo un valore numerico...","grey"))
+                                rifai_input = True                        
+                    break
+        if sp_insufficente == False:
+            os.system("cls")
+            rifai = True
 
-                        nemico_preso = preso_o_mancato_nemici(nemico)
-                        nome_nemico = colored(nome_nemico,"yellow")
+            while rifai == True:
+                rifai = False
 
-                        if nemico_preso == [True]:
+                if raggio == "singolo":
 
-                            percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
-                            danno_inflitto = magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,nemico)
-                            print(colored(danno_inflitto,"magenta"))
-                            vita_nemico = nemico["health"]
-                            vita_rimasta_nemico = vita_nemico - danno_inflitto
-                            nemico.update({"health":vita_rimasta_nemico})
+                    for nemico_ in lista_nemici:
+                        nemico = nemico_
+                        id_nemico = nemico_["id"]
+                        nome_nemico = nemico_["name"]
 
-                        elif nemico_preso == [False]:
-                            print(f"il nemico {nome_nemico} ha mancato l'attacco")
+                        if chi_attaccare == id_nemico: #serve nome_,damage_tot
 
-#            for nemico in lista_nemici:
-#
-#                vita_rimasta_nemico = nemico["health"]
-#                
-#                if vita_rimasta_nemico <= 0:
-#
-#                    exp_drop = nemico["exp_drop"]
-#                    exp_player = giocatore_vivo_["exp"]
-#                    exp_ottenuta = exp_player + exp_drop
-#                    giocatore_vivo_.update({"exp":exp_ottenuta})
-#                    print(colored(f"exp ottenuta: {exp_ottenuta}EXP","light_cyan"))
-#                    lista_nemici.remove(nemico)
-#                    break
-    return giocatore_vivo_,lista_nemici
+                            nemico_preso = preso_o_mancato_nemici(nemico_)
+                            nome_nemico = colored(nome_nemico,"yellow")
+
+                            if nemico_preso == [True]:
+                                percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
+                                danno_inflitto = magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,nemico)
+                                vita_nemico = nemico_["health"]
+                                vita_rimasta_nemico = vita_nemico - danno_inflitto
+                                nemico_.update({"health":vita_rimasta_nemico})
+
+                            elif nemico_preso == [False]:
+                                print(f"il nemico {nome_nemico} ha mancato l'attacco")
+                            break
+                    if chi_attaccare != id_nemico:
+                        print(colored("il nemico selezionato non esite/valore non valido","grey"))
+                        chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
+                        rifai = True
+
+
+                elif raggio == "gruppo":
+
+                    for nemico in lista_nemici:
+
+                        battaglia_vinta = False
+
+                        if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
+
+                            battaglia_vinta = True
+                            break
+                        if battaglia_vinta == False:
+                            id_nemico = nemico["id"]
+                            nome_nemico = nemico["name"]
+
+                            nemico_preso = preso_o_mancato_nemici(nemico)
+                            nome_nemico = colored(nome_nemico,"yellow")
+
+                            if nemico_preso == [True]:
+
+                                percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
+                                danno_inflitto = magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,nemico)
+                                print(colored(danno_inflitto,"magenta"))
+                                vita_nemico = nemico["health"]
+                                vita_rimasta_nemico = vita_nemico - danno_inflitto
+                                nemico.update({"health":vita_rimasta_nemico})
+
+                            elif nemico_preso == [False]:
+                                print(f"il nemico {nome_nemico} ha mancato l'attacco")
+    
+    return sp_insufficente,giocatore_vivo_,lista_nemici
 
 def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
 
