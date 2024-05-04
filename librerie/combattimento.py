@@ -25,11 +25,26 @@ def magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,ne
     
     potenza = magia["potenza"]
     tipo_magia_player = magia["type"]
-    
-    status = debolezze(tipo_magia_player,nemico_)
-    nome_nemico_c = colored(nemico_["name"],"yellow")
-    
-    if status == "debole":
+    status = None
+    if not tipo_magia_player == "cura":
+        status = debolezze(tipo_magia_player,nemico_)
+
+        nome_nemico_c = colored(nemico_["name"],"yellow")
+
+    if tipo_magia_player == "cura": #la variabile "danno inflitto" verrà convertita in quanta vita curare
+            
+        if potenza == "scarsa":
+
+            danno_inflitto = 60 * percentuale_boost_potenza_magie
+        elif potenza == "normale":
+
+            danno_inflitto = 110 * percentuale_boost_potenza_magie
+        elif potenza == "devastante":
+
+            danno_inflitto = 160 * percentuale_boost_potenza_magie
+
+
+    if status == "debole" and not tipo_magia_player == "cura":
         print(f"{nome_nemico_c} è",end = " ")
         print(colored("DEBOLE","blue"))
         
@@ -52,7 +67,7 @@ def magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,ne
 
             danno_inflitto = 110 * percentuale_boost_potenza_magie
 
-    elif status == "resiste":
+    elif status == "resiste" and not tipo_magia_player == "cura":
         print(f"{nome_nemico_c} è",end = " ")
         print(colored("RESISTENTE","grey"))
         
@@ -67,7 +82,7 @@ def magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,ne
 
             danno_inflitto = 30 * percentuale_boost_potenza_magie
 
-    if status == "normale":
+    if status == "normale" and not tipo_magia_player == "cura":
         
 
         if potenza == "scarsa":
@@ -82,7 +97,8 @@ def magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,ne
 
     return danno_inflitto
 
-def magie(giocatore_vivo_,lista_nemici):
+
+def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
     sp_giocatore = giocatore_vivo_["sp"]
     sp_max_giocatore = giocatore_vivo_["max_sp"]
     nome_giocatore = giocatore_vivo_["name"]
@@ -91,7 +107,7 @@ def magie(giocatore_vivo_,lista_nemici):
     sp_giocatore_c = colored(sp_giocatore,"light_blue")
     sp_max_giocatore_c = colored(sp_max_giocatore,"blue")
     
-    print(f"{nome_giocatore} {sp_giocatore_c}/{sp_max_giocatore_c}sp")
+    print(f"{nome_giocatore_c} {sp_giocatore_c}/{sp_max_giocatore_c}sp\n")
 
     i = 0
     lista_magie_giocatore = giocatore_vivo_["magie"]
@@ -107,7 +123,7 @@ def magie(giocatore_vivo_,lista_nemici):
     elif battaglia_vinta == False:
 
         sp_insufficente = False
-        i = -1
+        i = 0
         for magia_ in lista_magie_giocatore:
             i = i+1
             if i > 0:
@@ -153,14 +169,16 @@ def magie(giocatore_vivo_,lista_nemici):
                     
                         rifai_input = False
                         raggio = magia["raggio"]
-                        if raggio == "singolo":
+                        tipo_magia = magia["type"]
+
+                        if raggio == "singolo" and not tipo_magia == "cura":
                             chi_attaccare = input("che nemico attaccare?") #che nemico attaccare(solo se la magia non colpisce tutti)
 
                             try:
                                 chi_attaccare = int(chi_attaccare)
                             except:
                                 print(colored("rifare inserendo un valore numerico...","grey"))
-                                rifai_input = True                        
+                                rifai_input = True
                     break
         if sp_insufficente == False:
             os.system("cls")
@@ -169,7 +187,7 @@ def magie(giocatore_vivo_,lista_nemici):
             while rifai == True:
                 rifai = False
 
-                if raggio == "singolo":
+                if raggio == "singolo" and not tipo_magia == "cura":
 
                     for nemico_ in lista_nemici:
                         nemico = nemico_
@@ -196,8 +214,58 @@ def magie(giocatore_vivo_,lista_nemici):
                         chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
                         rifai = True
 
+                elif raggio == "singolo" and tipo_magia == "cura":
+                    i = 0
+                    for giocatore in lista_giocatori_v:
+                        i = i+1
+                        if i > 1:
+                            print("",end = " " * i) #crea una scaletta di spazi
 
-                elif raggio == "gruppo":
+                        posizione_giocatore = giocatore["posizione"]
+                        print(colored(posizione_giocatore,"grey"),end="  ")
+
+                        nome_giocatore = giocatore["name"]
+                        nome_giocatore_c = colored(nome_giocatore,"cyan")
+                        print(nome_giocatore_c,end=" ")
+
+                        vita_giocatore = giocatore["health"]
+                        print(colored(vita_giocatore,"light_green"),end="/")
+
+                        vita_max_giocatore = giocatore["max_health"]
+                        print(colored(vita_max_giocatore,"green"))
+
+                    rifai_input = True
+                    while rifai_input == True:
+                        rifai_input = False
+                        if raggio == "singolo" and tipo_magia == "cura":
+                                chi_curare = input("chi si vuole curare?")
+                                #stampare lista di alleati
+                                try:
+                                    chi_curare = int(chi_curare)
+                                except:
+                                    print(colored("rifare inserendo un valore numerico...","grey"))
+                                    rifai_input = True
+
+                    for giocatore_vivo_ in lista_giocatori_v:
+                        posizione_giocatore = giocatore_vivo_["posizione"]
+
+                        if chi_curare == posizione_giocatore:
+                
+                            percentuale_boost_potenza_magie = 1
+                            nemico = None
+                            danno_inflitto = magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,nemico)
+
+                            vita_giocatore = giocatore["health"]
+                            vita_max_giocatore = giocatore["max_health"]
+
+                            vita_curata = danno_inflitto
+                            vita_curata = vita_curata + vita_giocatore
+                            if vita_curata > vita_max_giocatore:
+                                vita_curata = vita_max_giocatore
+
+                            giocatore.update({"health":vita_curata})
+                            break
+                elif raggio == "gruppo" and not tipo_magia == "cura":
 
                     for nemico in lista_nemici:
 
@@ -226,7 +294,39 @@ def magie(giocatore_vivo_,lista_nemici):
                             elif nemico_preso == [False]:
                                 print(f"il nemico {nome_nemico} ha mancato l'attacco")
     
-    return sp_insufficente,giocatore_vivo_,lista_nemici
+                elif raggio == "gruppo" and tipo_magia == "cura":
+                    i = 0
+                    for giocatore in lista_giocatori_v:
+                        i = i+1
+                        if i > 1:
+                            print("",end = " " * i) #crea una scaletta di spazi
+
+                        nome_giocatore = giocatore["nome"]
+                        nome_giocatore_c = colored(nome_giocatore,"cyan")
+                        print(nome_giocatore_c,end=" ")
+
+                        vita_giocatore = giocatore["health"]
+                        print(colored(vita_giocatore,"light_green"),end="/")
+
+                        vita_max_giocatore = giocatore["max_health"]
+                        print(colored(vita_max_giocatore,"green"))
+
+                    for giocatore_vivo_ in lista_giocatori_v:
+
+                        percentuale_boost_potenza_magie = 1
+                        danno_inflitto = magie_funzionamento(giocatore_vivo_,percentuale_boost_potenza_magie,magia,nemico)
+
+                        vita_giocatore = giocatore["health"]
+                        vita_max_giocatore = giocatore["max_health"]
+
+                        vita_curata = danno_inflitto
+                        vita_curata = vita_curata + vita_giocatore
+                        if vita_curata > vita_max_giocatore:
+                            vita_curata = vita_max_giocatore
+
+                        giocatore.update({"health":vita_curata})
+                        break
+    return lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici
 
 def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè il def non si interrompe quando muoiono tutti i nemici
 
@@ -329,14 +429,27 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
             lista_oggetti_zaino = json.load(lista_oggetti_zaino)
         rifai = False
         tipo_oggetto = cura_scelta["type"]
+        i = 0
+        for giocatore in lista_giocatori_v:
+            i = i+1
+            if i > 1:
+                print("",end = " " * i) #crea una scaletta di spazi
+  
+            
+            print(colored(giocatore["posizione"],"grey"),end=" ")
+            print(colored(oggetto["name"],"green"),end=" ")
+            print(colored(oggetto["type"],"grey"))
+
+        chi_curare = str(input(colored("a chi si vuole curare...\n","grey")))#
 
         if tipo_oggetto == "hp":
-            chi_curare = str(input(f"a chi si vuole curare gli HP?\n"))
+            
+
             vita_recuperata = cura_scelta["effetto"] 
             nome_trovato = False
             for persona in lista_giocatori_v:
-                nome_persona = persona["name"]
-                if chi_curare == nome_persona:
+                posizione_alleato = lista_giocatori_v["posizione"]
+                if chi_curare == posizione_alleato:
                 
                     vita_persona = persona["health"]
                     vita_max = persona["max_health"]
@@ -361,10 +474,11 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
         elif tipo_oggetto == "sp":
             chi_curare = str(input(f"a chi si vuole curare gli SP?\n"))
             sp_recuperato = cura_scelta["effetto"] 
+            
             nome_trovato = False
             for persona in lista_giocatori_v:
-                nome_persona = persona["name"]
-                if chi_curare == nome_persona:
+                posizione_alleato = lista_giocatori_v["posizione"]
+                if chi_curare == posizione_alleato:
                 
                     sp_persona = persona["sp"]
                     sp_max = persona["max_sp"]
@@ -581,8 +695,9 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     aspetta_input()
                     os.system("cls")
                     break
-        #elif numero_piano > 2:
+        elif numero_piano > 2:
             #i nemici posso attaccare con magie
+            lista_magie_nemico = nemico["magie"]
              
     
     for giocatore in lista_giocatori_v:

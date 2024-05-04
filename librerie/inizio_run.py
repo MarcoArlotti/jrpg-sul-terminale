@@ -172,14 +172,26 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 print("",end = "  " * i)
             print(f"{vita_c}/{vita_max_c}")
 
-        print(colored("\nattaccare\tdifendersi\tmagie\tcurarsi","blue"))
+        
         if battaglia_vinta == False:
 
             rifai_input = True
 
             while rifai_input == True:
                 rifai_input = False
-                choice = input(colored("\n  1             2           3           4           5\n","red"))
+                print(colored("\n1","grey"),end=" ")
+                print(colored("ATTACCARE","light_blue"),end="")
+                
+                print(colored("\n\t2","grey"),end=" ")
+                print(colored("PARARE","cyan"),end="")
+
+                print(colored("\n\t\t3","grey"),end=" ")
+                print(colored("MAGIE","light_blue"),end="")
+
+                print(colored("\n\t\t\t4","grey"),end=" ")
+                print(colored("CURE","cyan"),end="\n")
+        
+                choice = input(colored("...","grey"))
 
                 try:
                     choice = int(choice)
@@ -195,11 +207,9 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                         difendersi(giocatore_vivo_)
 
 
-                    case 3: #TODO magie
-                        sp_insufficente,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_nemici)
-                    case 4: 
-                        pass
-                    case 5: #oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
+                    case 3: #magie
+                        lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
+                    case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
                         rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
 
 

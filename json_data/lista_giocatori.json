@@ -10,6 +10,13 @@
         "danno_magie": 2.0,
         "magie": [
             {
+                "nome":"cura debole",
+                "potenza":"scarsa",
+                "type":"cura",
+                "raggio":"singolo",
+                "costo":6
+            },
+            {
                 "nome":"fuoco pesante SINGOLO",
                 "potenza":"normale",
                 "type":"fire",
@@ -60,7 +67,7 @@
             "type": null
         },
         "guard": false,
-        "posizione": 0
+        "posizione": 1
     },
     {
         "name": "Caso",
@@ -94,7 +101,7 @@
             "type": null
         },
         "guard": false,
-        "posizione": 1
+        "posizione": 2
     },
     {
         "name": "Osuba",
@@ -128,6 +135,6 @@
             "type": null
         },
         "guard": false,
-        "posizione": 2
+        "posizione": 3
     }
 ]

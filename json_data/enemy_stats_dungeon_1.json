@@ -8,6 +8,22 @@
         "atterrato":false,
         "debole":["fire","elettric"],
         "resiste":["ice"],
+        "magie": [
+            {
+                "nome":"cura debole",
+                "potenza":"scarsa",
+                "type":"cura",
+                "raggio":"singolo",
+                "costo":6
+            },
+            {
+                "nome":"ghiaccio SINGOLO",
+                "potenza":"scarsa",
+                "type":"ice",
+                "raggio":"singolo",
+                "costo":2
+            }
+        ],
         "dungeon": 1,
         "exp_drop": 3,
         "damage":80,
