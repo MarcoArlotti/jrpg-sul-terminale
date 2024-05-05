@@ -115,24 +115,32 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
     return lista_nemici
 
 
-def print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome):
+def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_):
     os.system("cls")
-    print(f"è il turno del {player_vivo_nome}",end="\n\n")
+
+    nome = giocatore_vivo_["name"]
+    colore_nome = giocatore_vivo_["colore_nome"]
+
+    player_vivo_nome_c = colored(nome,colore_nome)
+    print(f"è il turno del {player_vivo_nome_c}")
+
+
     #nemici
     i = -1
-    print()
     for nemico in lista_nemici:
 
         i = i+1
+        print("  " * i,end="") #crea una scaletta di spazi
+        print(colored("                        HP","green"),end="\n")
         if i > 0:
             print("",end = "  " * i) #crea una scaletta di spazi
         quanti_tab = nemico["quanti_tab"]
         nome_nemico = nemico["name"]
         vita_max = nemico["max_health"]
         
-        vita_max_c = colored(vita_max,"light_green")
+        vita_max_c = colored(f"{vita_max}|","light_green")
         vita = nemico["health"]
-        vita_c = colored(vita,"green")
+        vita_c = colored(f"|{vita}","green")
 
         nemico_atterrato = nemico["atterrato"]
         if nemico_atterrato == True:
@@ -140,33 +148,47 @@ def print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome):
             print(colored("ATTERRATO","grey"),end="     ")
 
         elif nemico_atterrato == False:
-            nome_nemico_c = colored(nome_nemico,"yellow")
+            nome_nemico_c = colored(nome_nemico,"light_yellow")
 
         quanti_tab = "\t" * quanti_tab
         print(nome_nemico_c + quanti_tab,end="")
         if i > 0:
             print("",end = "  " * i)
         print(f"{vita_c}/{vita_max_c}")
+        
     print("\n\n",end="")
 
     #giocatori
     i = 0
+    print(colored("-"*69,"grey"))
     for giocatore in lista_giocatori_v:
-
+        
         i = i+1
+        print("\t" * i,end="") #crea una scaletta di spazi
+        print(colored("HP","green"),end="\t  ")
+        print(colored("SP","magenta"),end="\n")
         if i > 1:
-            print("",end = " " * i) #crea una scaletta di spazi
-
+            print("",end = "  " * i)
+        
         nome_giocatore = giocatore["name"]
-        nome_giocatore_c = colored(nome_giocatore,"cyan")
-        print(nome_giocatore_c,end=" ")
+        colore_nome = giocatore["colore_nome"]
+        nome_giocatore_c = colored(f"|{nome_giocatore}|",colore_nome)
+        print(nome_giocatore_c,end="\t")
 
         vita_giocatore = giocatore["health"]
-        print(colored(vita_giocatore,"light_green"),end="/")
+        
+        print(colored(f"|{vita_giocatore}","light_green"),end="/")
 
         vita_max_giocatore = giocatore["max_health"]
-        print(colored(vita_max_giocatore,"green"))
+        print(colored(f"{vita_max_giocatore}|","green"),end="")
 
+        sp_giocatore = giocatore["sp"]
+        print(colored(f"|{sp_giocatore}","light_magenta"),end="/")
+
+        sp_max_giocatore = giocatore["max_sp"]
+        print(colored(f"{sp_max_giocatore}|","magenta"),end="\n")
+
+    print(colored("-"*69,"grey"))
 
 def random_che_nemico_pescare(lista_nemici,id):
     with open("json_data/enemy_stats_dungeon_1.json","r") as file_nemici:
@@ -195,9 +217,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             battaglia_vinta = True
             break
 
-        player_vivo_nome = colored(giocatore_vivo_["name"],"cyan")
-
-        print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome)
+        print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_)
 
         
         if battaglia_vinta == False:
@@ -208,7 +228,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 rifai_input = False
                 os.system("cls")
 
-                print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome)
+                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_)
 
                 print(colored("\n1","grey"),end=" ")
                 print(colored("ATTACCARE","light_blue"),end="")
@@ -346,18 +366,13 @@ def sistema_turni(lista_nemici,numero_piano):
 
             for giocatore_vivo_ in lista_giocatori_v:
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
-                #ddeeweeaew
+                
             
             #lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
 
             for nemico in lista_nemici:
                 lista_giocatori_v = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
-                for persona in lista_giocatori_v:
 
-                    vita_rimasta = colored(persona["health"],"green")
-                    vita_max = colored(persona["max_health"],"light_green")
-                    nome_persona = colored(persona["name"],"cyan")
-                    print(f"il {nome_persona} {vita_rimasta}/{vita_max}sp",end="    ")
 
             with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v_:
                 json.dump(lista_giocatori_v,lista_giocatori_v_,indent=4)

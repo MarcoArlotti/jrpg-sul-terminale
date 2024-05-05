@@ -141,10 +141,10 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                 print(colored(nome_magia,"light_cyan"),end=" ")
 
                 costo_sp_magia = magia_["costo"]
-                print(colored(costo_sp_magia,"blue"))
+                print(colored(f"|{costo_sp_magia}|","magenta"))
 
         
-            magia_scelta = input(colored("inserire il numero di quale magia scegliere...","grey"))
+            magia_scelta = input(colored("inserire il numero (grigio) di quale magia scegliere...","grey"))
             try:
                 magia_scelta = int(magia_scelta)
                 
@@ -160,8 +160,8 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                     lunghezza_lista_magie_c = colored(lunghezza_lista_magie,"light_red")
                     O_c = colored("0","light_red")
 
-                    print(colored(f"\nrifare inserendo un valore minore di {lunghezza_lista_magie_c},","grey"),end="")
-                    print(colored(f" o piu grande di {O_c}","grey"))
+                    print(colored(f"\nrifare inserendo un valore minore di {lunghezza_lista_magie_c},","grey"),end=" ")
+                    print(colored(f"o piu grande di {O_c}","grey"))
                     aspetta_input()
                     rifai_input = True
 
@@ -240,14 +240,16 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                             print(colored(posizione_giocatore,"grey"),end="  ")
     
                             nome_giocatore = giocatore["name"]
-                            nome_giocatore_c = colored(nome_giocatore,"cyan")
+                            colore_nome = giocatore["colore_nome"]
+
+                            nome_giocatore_c = colored(nome_giocatore,colore_nome)
                             print(nome_giocatore_c,end=" ")
     
                             vita_giocatore = giocatore["health"]
-                            print(colored(vita_giocatore,"light_green"),end="/")
+                            print(colored(f"|{vita_giocatore}","light_green"),end="/")
     
                             vita_max_giocatore = giocatore["max_health"]
-                            print(colored(vita_max_giocatore,"green"))
+                            print(colored(f"{vita_max_giocatore}|","green"))
     
                         rifai_input = True
                         while rifai_input == True:
@@ -396,9 +398,11 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
 
                         nemico_.update({"health":danno_aggiorato})
                         print(f"il nemico {nome_nemico} ha subito -{damage_tot_c} hp")
+                        aspetta_input()
                     elif nemico_preso == [False]:
-
-                        print(f"il nemico {nome_nemico} ha mancato l'attacco")
+                        os.system("cls")
+                        print(f"il nemico {nome_nemico} ha mancato l'attacco\n")
+                        aspetta_input()
 
                     break
                 
@@ -418,11 +422,16 @@ def preso_o_mancato_nemici(nemico_):
 
     return nemico_preso
 def difendersi(giocatore_vivo):
+
     os.system("cls")
     giocatore_vivo.update({"guard":True})
-    giocatore = giocatore_vivo["name"]
-    giocatore = colored(giocatore,"light_cyan")
-    print(f"il {giocatore} si sta difendendo")
+
+    nome = giocatore_vivo["name"]
+    colore = giocatore_vivo["colore_nome"]
+
+    giocatore_c = colored(nome,colore)
+
+    print(f"il {giocatore_c} si sta difendendo")
     aspetta_input()
     os.system("cls")
 
@@ -462,14 +471,15 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                 print(colored(posizione_giocatore,"grey"),end="  ")
 
                 nome_giocatore = giocatore["name"]
-                nome_giocatore_c = colored(nome_giocatore,"cyan")
+                colore_nome = giocatore["colore_nome"]
+                nome_giocatore_c = colored(nome_giocatore,colore_nome)
                 print(nome_giocatore_c,end=" ")
 
                 vita_giocatore = giocatore["health"]
-                print(colored(vita_giocatore,"light_green"),end="/")
+                print(colored(f"|{vita_giocatore}","light_green"),end="/")
 
                 vita_max_giocatore = giocatore["max_health"]
-                print(colored(vita_max_giocatore,"green"))
+                print(colored(f"{vita_max_giocatore}|","green"))
 
             rifai_input = True
             while rifai_input == True:
@@ -525,14 +535,15 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                     print(colored(posizione_giocatore,"grey"),end="  ")
 
                     nome_giocatore = giocatore["name"]
-                    nome_giocatore_c = colored(nome_giocatore,"cyan")
+                    colore_nome = giocatore["colore_nome"]
+                    nome_giocatore_c = colored(nome_giocatore,colore_nome)
                     print(nome_giocatore_c,end=" ")
 
                     sp_giocatore = giocatore["sp"]
-                    print(colored(sp_giocatore,"blue"),end="/")
+                    print(colored(f"|{sp_giocatore}","light_magenta"),end="/")
 
                     sp_max_giocatore = giocatore["max_sp"]
-                    print(colored(sp_max_giocatore,"light_blue"))
+                    print(colored(f"{sp_max_giocatore}|","magenta"))
 
                 rifai_input = True
                 while rifai_input == True:
@@ -733,11 +744,10 @@ def riordina_lista_giocatori_fuori_battaglia(lista_giocatori):
 
 def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m):
     giocatori_morti = False
-    
+
     nemico.update({"atterrato":False})
     nemico.update({"one_more":False})
 
-    print(nemico["atterrato"])
     if lista_giocatori_v == []:
         giocatori_morti = True
         
@@ -754,24 +764,29 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                 nome_giocatore = giocatore["name"]
 
                 if nome_giocatore == chi_attaccare_player_nome:
+
                     vita_player = giocatore["health"]
                     parata_attiva = giocatore["guard"]
 
                     if parata_attiva == True:
-                        danno_nemico = int(danno_nemico / 2)
+                        danno_nemico = int(danno_nemico / 2.2)
 
                     vita_player = vita_player - danno_nemico
-                    giocatore_nome = colored(nome_giocatore,"cyan")
+
+                    nome = giocatore["name"]
+                    colore_nome = giocatore["colore_nome"]
+
+                    player_vivo_nome_c = colored(nome,colore_nome)
                     danno_nemico = colored(danno_nemico,"red")
 
-                    print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {giocatore_nome}")
+                    print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {player_vivo_nome_c}")
                     giocatore.update({"health":vita_player})
                     aspetta_input()
                     os.system("cls")
                     break
-        elif numero_piano > 2:
-            #i nemici posso attaccare con magie
-            lista_magie_nemico = nemico["magie"]
+        #elif numero_piano > 2:
+        #    #i nemici posso attaccare con magie
+        #    lista_magie_nemico = nemico["magie"]
              
     
     for giocatore in lista_giocatori_v:

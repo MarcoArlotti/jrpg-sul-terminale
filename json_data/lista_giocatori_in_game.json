@@ -1,6 +1,7 @@
 [
     {
-        "name": "Galo",
+        "name": "GALO",
+        "colore_nome": "light_blue",
         "max_health": 240,
         "health": 240,
         "speed": 19.0,
@@ -76,7 +77,8 @@
         "posizione": 1
     },
     {
-        "name": "Caso",
+        "name": "CASO",
+        "colore_nome": "red",
         "max_health": 220,
         "health": 220,
         "speed": 23.0,
@@ -110,7 +112,8 @@
         "posizione": 2
     },
     {
-        "name": "Osuba",
+        "name": "O.S.U.B.A.",
+        "colore_nome": "yellow",
         "max_health": 294,
         "health": 294,
         "speed": 40.0,
