@@ -58,6 +58,13 @@
                 "type":"elettric",
                 "raggio":"singolo",
                 "costo":8
+            },
+            {
+                "nome":"cura del gruppo debole",
+                "potenza":"scarsa",
+                "type":"cura",
+                "raggio":"gruppo",
+                "costo":9
             }
         ],
         "damage_base": 10.0,

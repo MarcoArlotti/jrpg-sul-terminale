@@ -182,7 +182,7 @@
         "nome":"cura del gruppo debole",
         "potenza":"scarsa",
         "type":"cura",
-        "raggio":"tutti",
+        "raggio":"gruppo",
         "costo":9
     },
     {
@@ -196,7 +196,7 @@
         "nome":"cura del gruppo normale",
         "potenza":"normale",
         "type":"cura",
-        "raggio":"tutti",
+        "raggio":"gruppo",
         "costo":10
     },
     {
@@ -210,7 +210,7 @@
         "nome":"cura del gruppo pesante",
         "potenza":"pesante",
         "type":"cura",
-        "raggio":"tutti",
+        "raggio":"gruppo",
         "costo":12
     }
 
