@@ -2,11 +2,11 @@
     {
         "name": "Galo",
         "max_health": 240,
-        "health": 112,
+        "health": 160,
         "speed": 19.0,
-        "exp": 0.0,
+        "exp": 3.0,
         "max_sp": 26,
-        "sp": 4,
+        "sp": 6,
         "danno_magie": 2.0,
         "magie": [
             {
@@ -78,11 +78,11 @@
     {
         "name": "Caso",
         "max_health": 220,
-        "health": 100,
+        "health": 220,
         "speed": 23.0,
-        "exp": 8.3,
+        "exp": 3.0,
         "max_sp": 22,
-        "sp": 6,
+        "sp": 10,
         "danno_magie": 3.0,
         "magie": [
             {
@@ -116,9 +116,9 @@
         "max_health": 294,
         "health": 294,
         "speed": 40.0,
-        "exp": 0.0,
+        "exp": 6.8999999999999995,
         "max_sp": 30,
-        "sp": 30,
+        "sp": 18,
         "danno_magie": 7.0,
         "magie": [
             {
@@ -126,14 +126,16 @@
                 "potenza": "normale",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 1
             },
             {
                 "nome": "vento TUTTI",
                 "potenza": "scarsa",
                 "type": "wind",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 2
             }
         ],
         "damage_base": 17.0,

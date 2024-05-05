@@ -6,7 +6,6 @@ def aspetta_input():
     a = input(colored("press return to continue...","grey"))
 
 def debolezze(tipo_magia_player,nemico_):
-    print(colored(tipo_magia_player,"red"))
     lista_magia_debole_nemico = nemico_["debole"] 
     lista_magia_resiste_nemico = nemico_["resiste"]
     status = "normale"
@@ -238,8 +237,8 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                     while rifai_input == True:
                         rifai_input = False
                         if raggio == "singolo" and tipo_magia == "cura":
+                                
                                 chi_curare = input("chi si vuole curare?")
-                                #stampare lista di alleati
                                 try:
                                     chi_curare = int(chi_curare)
                                 except:
@@ -416,7 +415,8 @@ def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
         json.dump(lista_oggetti_zaino,zaino,indent=4)
 
 def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
-
+    with open("json_data/zaino.json","r") as lista_oggetti_zaino:
+        lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     rifai_input = False
     os.system("cls")
     rifai = True
@@ -425,80 +425,130 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
         cura_scelta = menù_oggetti()
     
     while rifai == True:
-        with open("json_data/zaino.json","r") as lista_oggetti_zaino:
-            lista_oggetti_zaino = json.load(lista_oggetti_zaino)
         rifai = False
         tipo_oggetto = cura_scelta["type"]
-        i = 0
-        for giocatore in lista_giocatori_v:
-            i = i+1
-            if i > 1:
-                print("",end = " " * i) #crea una scaletta di spazi
-  
-            
-            print(colored(giocatore["posizione"],"grey"),end=" ")
-            print(colored(oggetto["name"],"green"),end=" ")
-            print(colored(oggetto["type"],"grey"))
-
-        chi_curare = str(input(colored("a chi si vuole curare...\n","grey")))#
+        
 
         if tipo_oggetto == "hp":
-            
+            i = 0
+            for giocatore in lista_giocatori_v:
+                i = i+1
+                if i > 1:
+                    print("",end = " " * i) #crea una scaletta di spazi
 
-            vita_recuperata = cura_scelta["effetto"] 
-            nome_trovato = False
-            for persona in lista_giocatori_v:
-                posizione_alleato = lista_giocatori_v["posizione"]
-                if chi_curare == posizione_alleato:
-                
-                    vita_persona = persona["health"]
-                    vita_max = persona["max_health"]
-                    vita_finale = vita_persona + vita_recuperata
-                    if vita_finale > vita_max:
-                        vita_finale = vita_max
-                        vita_info = vita_finale
-                    elif vita_finale < vita_max:
-                        vita_info = vita_finale
-                    persona.update({"health":vita_finale})
-                    nome_persona = colored(nome_persona,"cyan")
-                    vita_recuperata = colored(vita_info,"green")
-                    print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
-                    print(colored(f"{vita_max} hp","light_green"))
-                    nome_trovato = True
-                    rimuovi_cura(lista_oggetti_zaino,cura_scelta)
-                    break
-            if nome_trovato == False:
-                print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
-                rifai = True          
+                posizione_giocatore = giocatore["posizione"]
+                print(colored(posizione_giocatore,"grey"),end="  ")
+
+                nome_giocatore = giocatore["name"]
+                nome_giocatore_c = colored(nome_giocatore,"cyan")
+                print(nome_giocatore_c,end=" ")
+
+                vita_giocatore = giocatore["health"]
+                print(colored(vita_giocatore,"light_green"),end="/")
+
+                vita_max_giocatore = giocatore["max_health"]
+                print(colored(vita_max_giocatore,"green"))
+
+            rifai_input = True
+            while rifai_input == True:
+                rifai_input = False
+                chi_curare = input("chi si vuole curare?")
+                try:
+                    chi_curare = int(chi_curare)
+                except:
+                    print(colored("rifare inserendo un valore numerico...","grey"))
+                    rifai_input = True
+
+                vita_recuperata = cura_scelta["effetto"] 
+                nome_trovato = False
+
+                for persona in lista_giocatori_v:
+                    posizione_alleato = persona["posizione"]
+                    if chi_curare == posizione_alleato:
+                    
+                        vita_persona = persona["health"]
+                        vita_max = persona["max_health"]
+                        vita_finale = vita_persona + vita_recuperata
+                        if vita_finale > vita_max:
+                            vita_finale = vita_max
+                            vita_info = vita_finale
+                        elif vita_finale < vita_max:
+                            vita_info = vita_finale
+                        persona.update({"health":vita_finale})
+
+                        nome_giocatore = persona["name"]
+                        nome_persona = colored(nome_giocatore,"cyan")
+                        vita_recuperata = colored(vita_info,"green")
+                        print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
+                        print(colored(f"{vita_max} hp","light_green"))
+                        nome_trovato = True
+                        rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                        break
+                if nome_trovato == False:
+                    print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                    rifai = True          
 
         elif tipo_oggetto == "sp":
-            chi_curare = str(input(f"a chi si vuole curare gli SP?\n"))
-            sp_recuperato = cura_scelta["effetto"] 
-            
-            nome_trovato = False
-            for persona in lista_giocatori_v:
-                posizione_alleato = lista_giocatori_v["posizione"]
-                if chi_curare == posizione_alleato:
-                
-                    sp_persona = persona["sp"]
-                    sp_max = persona["max_sp"]
-                    sp_finale = sp_persona + sp_recuperato
-                    if sp_finale > sp_max:
-                        sp_finale = sp_max
-                        sp_info = sp_finale
-                    elif sp_finale < sp_max:
-                        sp_info = sp_finale
-                    persona.update({"sp":sp_finale})
-                    nome_persona = colored(nome_persona,"cyan")
-                    sp_recuperata = colored(sp_info,"blue")
-                    print(f"{nome_persona} si è curato... {sp_recuperata}/",end="")
-                    print(colored(f"{sp_max} sp","light_blue"))
-                    nome_trovato = True
-                    rimuovi_cura(lista_oggetti_zaino,cura_scelta)
-                    break
-            if nome_trovato == False:
-                print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
-                rifai = True
+            rifai = True
+            while rifai == True:
+                rifai = False
+                tipo_oggetto = cura_scelta["type"]
+                i = 0
+                for giocatore in lista_giocatori_v:
+                    i = i+1
+                    if i > 1:
+                        print("",end = " " * i) #crea una scaletta di spazi
+
+                    posizione_giocatore = giocatore["posizione"]
+                    print(colored(posizione_giocatore,"grey"),end="  ")
+
+                    nome_giocatore = giocatore["name"]
+                    nome_giocatore_c = colored(nome_giocatore,"cyan")
+                    print(nome_giocatore_c,end=" ")
+
+                    sp_giocatore = giocatore["sp"]
+                    print(colored(sp_giocatore,"blue"),end="/")
+
+                    sp_max_giocatore = giocatore["max_sp"]
+                    print(colored(sp_max_giocatore,"light_blue"))
+
+                rifai_input = True
+                while rifai_input == True:
+                    rifai_input = False
+                    chi_curare = input("chi si vuole curare?")
+                    try:
+                        chi_curare = int(chi_curare)
+                    except:
+                        print(colored("rifare inserendo un valore numerico...","grey"))
+                        rifai_input = True
+
+                    sp_recuperata = cura_scelta["effetto"] 
+                    nome_trovato = False
+
+                    for persona in lista_giocatori_v:
+                        posizione_alleato = persona["posizione"]
+                        if chi_curare == posizione_alleato:
+                        
+                            sp_persona = persona["sp"]
+                            sp_max = persona["max_sp"]
+                            sp_finale = sp_persona + sp_recuperata
+                            if sp_finale > sp_max:
+                                sp_finale = sp_max
+                                sp_info = sp_finale
+                            elif sp_finale < sp_max:
+                                sp_info = sp_finale
+                            persona.update({"sp":sp_finale})
+                            nome_giocatore = persona["name"]
+                            nome_persona = colored(nome_giocatore,"cyan")
+                            sp_recuperata = colored(sp_info,"blue")
+                            print(f"{nome_persona} si è curato... {sp_recuperata}/",end="")
+                            print(colored(f"{sp_max} sp","light_blue"))
+                            nome_trovato = True
+                            rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                            break
+                    if nome_trovato == False:
+                        print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                        rifai = True          
 
         elif tipo_oggetto == "revive" and not lista_giocatori_m == []:
 
@@ -509,7 +559,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                 nome_persona = persona["name"]
                 if chi_curare == nome_persona:
                     vita_max = persona["max_health"]
-                    
+
                     if vita_recuperata == "met\u00e0":
                         vita_finale = vita_max / 2
                         vita_finale = int(vita_finale)
