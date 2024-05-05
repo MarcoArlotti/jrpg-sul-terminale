@@ -2,7 +2,7 @@
     {
         "name": "Galo",
         "max_health": 240,
-        "health": 24,
+        "health": 240,
         "speed": 19.0,
         "exp": 0.0,
         "max_sp": 26,
@@ -72,13 +72,13 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 1
     },
     {
         "name": "Caso",
         "max_health": 220,
-        "health": 56,
+        "health": 220,
         "speed": 23.0,
         "exp": 0.0,
         "max_sp": 22,
@@ -106,13 +106,13 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 2
     },
     {
         "name": "Osuba",
         "max_health": 294,
-        "health": 170,
+        "health": 294,
         "speed": 40.0,
         "exp": 0.0,
         "max_sp": 30,
@@ -140,7 +140,7 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 3
     }
 ]

@@ -115,6 +115,59 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
     return lista_nemici
 
 
+def print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome):
+    os.system("cls")
+    print(f"è il turno del {player_vivo_nome}",end="\n\n")
+    #nemici
+    i = -1
+    print()
+    for nemico in lista_nemici:
+
+        i = i+1
+        if i > 0:
+            print("",end = "  " * i) #crea una scaletta di spazi
+        quanti_tab = nemico["quanti_tab"]
+        nome_nemico = nemico["name"]
+        vita_max = nemico["max_health"]
+        
+        vita_max_c = colored(vita_max,"light_green")
+        vita = nemico["health"]
+        vita_c = colored(vita,"green")
+
+        nemico_atterrato = nemico["atterrato"]
+        if nemico_atterrato == True:
+            nome_nemico_c = colored(nome_nemico,"grey")
+            print(colored("ATTERRATO","grey"),end="     ")
+
+        elif nemico_atterrato == False:
+            nome_nemico_c = colored(nome_nemico,"yellow")
+
+        quanti_tab = "\t" * quanti_tab
+        print(nome_nemico_c + quanti_tab,end="")
+        if i > 0:
+            print("",end = "  " * i)
+        print(f"{vita_c}/{vita_max_c}")
+    print("\n\n",end="")
+
+    #giocatori
+    i = 0
+    for giocatore in lista_giocatori_v:
+
+        i = i+1
+        if i > 1:
+            print("",end = " " * i) #crea una scaletta di spazi
+
+        nome_giocatore = giocatore["name"]
+        nome_giocatore_c = colored(nome_giocatore,"cyan")
+        print(nome_giocatore_c,end=" ")
+
+        vita_giocatore = giocatore["health"]
+        print(colored(vita_giocatore,"light_green"),end="/")
+
+        vita_max_giocatore = giocatore["max_health"]
+        print(colored(vita_max_giocatore,"green"))
+
+
 def random_che_nemico_pescare(lista_nemici,id):
     with open("json_data/enemy_stats_dungeon_1.json","r") as file_nemici:
         lista_nemici_json = json.load(file_nemici)
@@ -143,34 +196,8 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             break
 
         player_vivo_nome = colored(giocatore_vivo_["name"],"cyan")
-        print(f"è il turno del {player_vivo_nome}",end="\n\n")
 
-        i = -1
-        for nemico in lista_nemici:
-            i = i+1
-            if i > 0:
-                print("",end = "  " * i) #crea una scaletta di spazi
-            quanti_tab = nemico["quanti_tab"]
-            nome_nemico = nemico["name"]
-            vita_max = nemico["max_health"]
-            
-            vita_max_c = colored(vita_max,"light_green")
-            vita = nemico["health"]
-            vita_c = colored(vita,"green")
-
-            nemico_atterrato = nemico["atterrato"]
-            if nemico_atterrato == True:
-                nome_nemico_c = colored(nome_nemico,"grey")
-                print(colored("ATTERRATO","grey"),end="     ")
-
-            elif nemico_atterrato == False:
-                nome_nemico_c = colored(nome_nemico,"yellow")
-
-            quanti_tab = "\t" * quanti_tab
-            print(nome_nemico_c + quanti_tab,end="")
-            if i > 0:
-                print("",end = "  " * i)
-            print(f"{vita_c}/{vita_max_c}")
+        print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome)
 
         
         if battaglia_vinta == False:
@@ -179,6 +206,10 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
             while rifai_input == True:
                 rifai_input = False
+                os.system("cls")
+
+                print_nemici(lista_nemici,lista_giocatori_v,player_vivo_nome)
+
                 print(colored("\n1","grey"),end=" ")
                 print(colored("ATTACCARE","light_blue"),end="")
                 
@@ -197,6 +228,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                     choice = int(choice)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
+                    aspetta_input()
                     rifai_input = True
 
                 match choice:
