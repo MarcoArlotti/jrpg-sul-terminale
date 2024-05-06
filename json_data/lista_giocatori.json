@@ -79,7 +79,7 @@
     },
     {
         "name": "CASO",
-        "colore_nome":"red",
+        "colore_nome":"green",
         "max_health": 220,
         "health": 220,
         "speed": 23.0,

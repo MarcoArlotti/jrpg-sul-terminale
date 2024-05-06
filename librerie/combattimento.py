@@ -151,6 +151,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
             except:
                 print(colored("\nrifare inserendo un valore numerico corretto...","grey"))
                 aspetta_input()
+                os.system("cls")
                 rifai_input = True
 
             if rifai_input == False:
@@ -199,6 +200,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                 chi_attaccare = int(chi_attaccare)
                             except:
                                 print(colored("rifare inserendo un valore numerico...","grey"))
+                                os.system("cls")
                                 rifai_input = True
                         
                         for nemico_ in lista_nemici:
@@ -223,7 +225,6 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                     break
                         if chi_attaccare != id_nemico:
                                 print(colored("il nemico selezionato non esite/valore non valido","grey"))
-                                chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
                                 rifai = True
 
 
@@ -262,6 +263,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                         chi_curare = int(chi_curare)
                                     except:
                                         print(colored("rifare inserendo un valore numerico...","grey"))
+                                        os.system("cls")
                                         rifai_input = True
     
                         for giocatore_vivo_ in lista_giocatori_v:
@@ -375,6 +377,7 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
                 chi_attaccare = int(chi_attaccare)
             except:
                 print(colored("rifare inserendo un valore numerico...","grey"))
+                os.system("cls")
                 rifai_input = True
 
 
@@ -489,6 +492,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                     chi_curare = int(chi_curare)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
+                    os.system("cls")
                     rifai_input = True
 
                 vita_recuperata = cura_scelta["effetto"] 
@@ -553,6 +557,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                         chi_curare = int(chi_curare)
                     except:
                         print(colored("rifare inserendo un valore numerico...","grey"))
+                        os.system("cls")
                         rifai_input = True
 
                     sp_recuperata = cura_scelta["effetto"] 
@@ -584,8 +589,18 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                         rifai = True          
 
         elif tipo_oggetto == "revive" and not lista_giocatori_m == []:
+            rifai_input = True
+            while rifai_input == True:
+                rifai_input = False
 
-            chi_curare = str(input(f"chi si vuole far resuscitare?\n"))
+                chi_curare = input("chi si vuole resuscitare?")
+                try:
+                    chi_curare = int(chi_curare)
+                except:
+                    print(colored("rifare inserendo un valore numerico...","grey"))
+                    os.system("cls")
+                    rifai_input = True
+
             vita_recuperata = cura_scelta["effetto"] 
             nome_trovato = False
             for persona in lista_giocatori_m:

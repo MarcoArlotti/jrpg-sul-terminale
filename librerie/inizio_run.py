@@ -1,6 +1,7 @@
 import json
 import os
 import random
+from art import art,text2art
 from termcolor import colored
 from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
 
@@ -115,15 +116,21 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
     return lista_nemici
 
 
-def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_):
-    os.system("cls")
-
+def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
+    
     nome = giocatore_vivo_["name"]
     colore_nome = giocatore_vivo_["colore_nome"]
 
     player_vivo_nome_c = colored(nome,colore_nome)
     print(f"è il turno del {player_vivo_nome_c}")
 
+    
+    if one_more == True:
+        os.system("cls")
+        Art = text2art("one more",font="sub-zero")
+        print(colored(Art,"blue"))
+        aspetta_input()
+        os.system("cls")
 
     #nemici
     i = -1
@@ -145,7 +152,6 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_):
         nemico_atterrato = nemico["atterrato"]
         if nemico_atterrato == True:
             nome_nemico_c = colored(nome_nemico,"grey")
-            print(colored("ATTERRATO","grey"),end="     ")
 
         elif nemico_atterrato == False:
             nome_nemico_c = colored(nome_nemico,"light_yellow")
@@ -165,6 +171,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_):
         
         i = i+1
         print("\t" * i,end="") #crea una scaletta di spazi
+        
         print(colored("HP","green"),end="\t  ")
         print(colored("SP","magenta"),end="\n")
         if i > 1:
@@ -217,18 +224,22 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             battaglia_vinta = True
             break
 
-        print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_)
-
-        
         if battaglia_vinta == False:
 
             rifai_input = True
+            for nemico_ in lista_nemici:
+
+                one_more_ = nemico_["one_more"]
+                if one_more_ == True:
+                    nemico_.update({"one_more":False})
+                    one_more = True
 
             while rifai_input == True:
+                
                 rifai_input = False
                 os.system("cls")
 
-                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_)
+                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more)
 
                 print(colored("\n1","grey"),end=" ")
                 print(colored("ATTACCARE","light_blue"),end="")
@@ -258,20 +269,13 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                     case 2: #difendersi NON ha bisogno un "rifai input"
                         difendersi(giocatore_vivo_)
 
-
                     case 3: #magie
                         lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
                     case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
                         rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
 
 
-        for nemico_ in lista_nemici:
-
-            one_more_ = nemico_["one_more"]
-            if one_more_ == True:
-                nemico_.update({"one_more":False})
-                one_more = True
-                print(colored("ONE MORE","cyan"))
+        
 
         #for nemico in lista_nemici: #funziona solo se si deve cancellare un solo nemico
         for i in range(len(lista_nemici)):
@@ -311,7 +315,6 @@ def sistema_turni(lista_nemici,numero_piano):
 
 #inizio sistema a turni
     while battaglia_vinta == False and battaglia_persa == False: #ciclo di turni fino alla morte di tutti i nemici o alleati
-        #TODO ad ogni loop i player vengono resettati e il json dei nemici in game non viene aggiornato
         with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori_v:
             lista_giocatori_v = json.load(lista_giocatori_v)
         
@@ -366,9 +369,6 @@ def sistema_turni(lista_nemici,numero_piano):
 
             for giocatore_vivo_ in lista_giocatori_v:
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
-                
-            
-            #lista_nomi_nemico = imposta_hud_nemici(lista_hp_nemico,lista_hp_player,lista_nomi_nemico,lista_nomi_player,lista_sp)
 
             for nemico in lista_nemici:
                 lista_giocatori_v = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
@@ -380,14 +380,6 @@ def sistema_turni(lista_nemici,numero_piano):
             turno = turno + 1
             turno_c = colored(turno,"light_cyan")
             print(f"Turno {turno_c}") #conteggio turni
-
-            
-
-    
-
-    #with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori:
-    #    json.dump(lista_giocatori_,lista_giocatori,indent=4)
-
     return battaglia_persa,battaglia_vinta,numero_piano
 
 

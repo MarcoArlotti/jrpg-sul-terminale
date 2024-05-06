@@ -7,7 +7,7 @@
         "speed": 19.0,
         "exp": 0.0,
         "max_sp": 26,
-        "sp": 26,
+        "sp": 22,
         "danno_magie": 2.0,
         "magie": [
             {
@@ -15,56 +15,64 @@
                 "potenza": "scarsa",
                 "type": "cura",
                 "raggio": "singolo",
-                "costo": 6
+                "costo": 6,
+                "posizione": 1
             },
             {
                 "nome": "fuoco pesante SINGOLO",
                 "potenza": "normale",
                 "type": "fire",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 2
             },
             {
                 "nome": "fuoco TUTTI",
                 "potenza": "scarsa",
                 "type": "fire",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 3
             },
             {
                 "nome": "scarica SINGOLO",
                 "potenza": "scarsa",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 2
+                "costo": 2,
+                "posizione": 4
             },
             {
                 "nome": "fuoco pesante SINGOLO",
                 "potenza": "normale",
                 "type": "fire",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 5
             },
             {
                 "nome": "vento devastante SINGOLO",
                 "potenza": "devastante",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 6
             },
             {
                 "nome": "scarica devastante SINGOLO",
                 "potenza": "devastante",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 7
             },
             {
                 "nome": "cura del gruppo debole",
                 "potenza": "scarsa",
                 "type": "cura",
                 "raggio": "gruppo",
-                "costo": 9
+                "costo": 9,
+                "posizione": 8
             }
         ],
         "damage_base": 10.0,
@@ -78,13 +86,13 @@
     },
     {
         "name": "CASO",
-        "colore_nome": "red",
+        "colore_nome": "green",
         "max_health": 220,
         "health": 220,
         "speed": 23.0,
         "exp": 0.0,
         "max_sp": 22,
-        "sp": 22,
+        "sp": 14,
         "danno_magie": 3.0,
         "magie": [
             {
@@ -92,14 +100,16 @@
                 "potenza": "normale",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 1
             },
             {
                 "nome": "scarica TUTTI",
                 "potenza": "scarsa",
                 "type": "elettric",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 2
             }
         ],
         "damage_base": 9.0,
@@ -117,9 +127,9 @@
         "max_health": 294,
         "health": 294,
         "speed": 40.0,
-        "exp": 0.0,
+        "exp": 2.3,
         "max_sp": 30,
-        "sp": 30,
+        "sp": 26,
         "danno_magie": 7.0,
         "magie": [
             {
@@ -127,14 +137,16 @@
                 "potenza": "normale",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 1
             },
             {
                 "nome": "vento TUTTI",
                 "potenza": "scarsa",
                 "type": "wind",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 2
             }
         ],
         "damage_base": 17.0,
