@@ -2,6 +2,13 @@ import json
 import os
 import random
 from termcolor import colored
+from sys import platform
+print(platform)
+if platform == "linux":
+    clear = "clear"
+elif platform == "windows":
+    clear = "cls"
+
 def aspetta_input():
     a = input(colored("press return to continue...","grey"))
 
@@ -124,7 +131,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
 
         rifai = True
         while rifai == True or rifai_input == True:
-            os.system("cls")
+            os.system(clear)
             rifai = False
             rifai_input = False
             sp_insufficente = False
@@ -151,7 +158,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
             except:
                 print(colored("\nrifare inserendo un valore numerico corretto...","grey"))
                 aspetta_input()
-                os.system("cls")
+                os.system(clear)
                 rifai_input = True
 
             if rifai_input == False:
@@ -200,7 +207,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                 chi_attaccare = int(chi_attaccare)
                             except:
                                 print(colored("rifare inserendo un valore numerico...","grey"))
-                                os.system("cls")
+                                os.system(clear)
                                 rifai_input = True
                         
                         for nemico_ in lista_nemici:
@@ -263,7 +270,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                         chi_curare = int(chi_curare)
                                     except:
                                         print(colored("rifare inserendo un valore numerico...","grey"))
-                                        os.system("cls")
+                                        os.system(clear)
                                         rifai_input = True
     
                         for giocatore_vivo_ in lista_giocatori_v:
@@ -377,7 +384,7 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
                 chi_attaccare = int(chi_attaccare)
             except:
                 print(colored("rifare inserendo un valore numerico...","grey"))
-                os.system("cls")
+                os.system(clear)
                 rifai_input = True
 
 
@@ -403,7 +410,7 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
                         print(f"il nemico {nome_nemico} ha subito -{damage_tot_c} hp")
                         aspetta_input()
                     elif nemico_preso == [False]:
-                        os.system("cls")
+                        os.system(clear)
                         print(f"il nemico {nome_nemico} ha mancato l'attacco\n")
                         aspetta_input()
 
@@ -426,7 +433,7 @@ def preso_o_mancato_nemici(nemico_):
     return nemico_preso
 def difendersi(giocatore_vivo):
 
-    os.system("cls")
+    os.system(clear)
     giocatore_vivo.update({"guard":True})
 
     nome = giocatore_vivo["name"]
@@ -436,7 +443,7 @@ def difendersi(giocatore_vivo):
 
     print(f"il {giocatore_c} si sta difendendo")
     aspetta_input()
-    os.system("cls")
+    os.system(clear)
 
 def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
     posizione_oggetto_scelto = cura_scelta["numero_nella_lista"]
@@ -452,7 +459,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
     with open("json_data/zaino.json","r") as lista_oggetti_zaino:
         lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     rifai_input = False
-    os.system("cls")
+    os.system(clear)
     rifai = True
     cura_scelta = None
     while cura_scelta == None:
@@ -492,7 +499,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                     chi_curare = int(chi_curare)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
-                    os.system("cls")
+                    os.system(clear)
                     rifai_input = True
 
                 vita_recuperata = cura_scelta["effetto"] 
@@ -557,7 +564,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                         chi_curare = int(chi_curare)
                     except:
                         print(colored("rifare inserendo un valore numerico...","grey"))
-                        os.system("cls")
+                        os.system(clear)
                         rifai_input = True
 
                     sp_recuperata = cura_scelta["effetto"] 
@@ -598,7 +605,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                     chi_curare = int(chi_curare)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
-                    os.system("cls")
+                    os.system(clear)
                     rifai_input = True
 
             vita_recuperata = cura_scelta["effetto"] 
@@ -671,7 +678,7 @@ def menù_oggetti():
     numero_min = 0
 
     while finito == False:
-        os.system("cls")
+        os.system(clear)
         finito = False
 
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
@@ -797,7 +804,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {player_vivo_nome_c}")
                     giocatore.update({"health":vita_player})
                     aspetta_input()
-                    os.system("cls")
+                    os.system(clear)
                     break
         #elif numero_piano > 2:
         #    #i nemici posso attaccare con magie
