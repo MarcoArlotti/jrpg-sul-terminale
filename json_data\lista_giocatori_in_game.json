@@ -73,7 +73,7 @@
             "price": 0,
             "type": null
         },
-        "guard": false,
+        "guard": true,
         "posizione": 1
     },
     {
@@ -108,7 +108,7 @@
             "price": 0,
             "type": null
         },
-        "guard": false,
+        "guard": true,
         "posizione": 2
     },
     {
@@ -117,9 +117,9 @@
         "max_health": 294,
         "health": 294,
         "speed": 40.0,
-        "exp": 0.0,
+        "exp": 6.0,
         "max_sp": 30,
-        "sp": 30,
+        "sp": 22,
         "danno_magie": 9999,
         "magie": [
             {
@@ -127,14 +127,16 @@
                 "potenza": "normale",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 1
             },
             {
                 "nome": "vento TUTTI",
                 "potenza": "scarsa",
                 "type": "wind",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 2
             }
         ],
         "damage_base": 17.0,
