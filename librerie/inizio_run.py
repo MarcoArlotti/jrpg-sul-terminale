@@ -4,7 +4,12 @@ import random
 from art import art,text2art
 from termcolor import colored
 from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
-
+from sys import platform
+print(platform)
+if platform == "linux":
+    clear = "clear"
+elif platform == "windows":
+    clear = "cls"
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
@@ -126,11 +131,11 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
 
     
     if one_more == True:
-        os.system("cls")
+        os.system(clear)
         Art = text2art("one more",font="sub-zero")
         print(colored(Art,"blue"))
         aspetta_input()
-        os.system("cls")
+        os.system(clear)
 
     #nemici
     i = -1
@@ -237,7 +242,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             while rifai_input == True:
                 
                 rifai_input = False
-                os.system("cls")
+                os.system(clear)
 
                 print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more)
 
@@ -385,14 +390,14 @@ def sistema_turni(lista_nemici,numero_piano):
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
 
-os.system("cls")
+os.system(clear)
 #iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
-#os.system("cls")
+#os.system(clear)
 
 
 
 #iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
-#os.system("cls")
+#os.system(clear)
 iniziare_run = "yes" #DEBUG
 if iniziare_run == "yes":
 
@@ -411,7 +416,7 @@ elif iniziare_run == "no":
 for numero_piano in range(6):
     with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
         lista_giocatori = json.load(lista_giocatori)
-    os.system("cls")
+    os.system(clear)
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
     battaglia_persa,battaglia_vinta,numero_piano = sistema_turni(lista_nemici,numero_piano)
