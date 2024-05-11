@@ -423,7 +423,7 @@ def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
 
 with open("json_data/lista_giocatori.json","r") as lista_giocatori:
     lista_giocatori = json.load(lista_giocatori)
-    
+
 for numero_piano in range(6):
     os.system(clear)
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
@@ -436,21 +436,44 @@ for numero_piano in range(6):
         lista_giocatori_m,lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori)
 
         riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
-        for giocatore in lista_giocatori:
-            nome = giocatore["name"]
-            vita = giocatore["health"]
-            print(colored(f"{nome}:{vita}","blue"))
-        for giocatore in lista_giocatori_m:
-            nome = giocatore["name"]
-            vita = giocatore["health"]
-            print(colored(f"{nome}:{vita}","red"))
+        
         print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
         aspetta_input()
     elif battaglia_persa == True:
-        #TODO vuoi riprovare?
-        #TODO vuoi salvare?
-        #TODO vuoi chiudere il programa?
-        #TODO vuoi
-        break
 
+        riprovare = {
+            "funzione":"riprovare",
+            "posizione":1
+        }
+        salvare = {
+            "funzione":"salva ed esci",
+            "posizione":2
+        }
+        esci = {
+            "funzione":"esci senza salvare",
+            "posizione":3
+        }
+        opzioni = [riprovare,salvare,esci]
+        i = 0
+        for opzione in opzioni:
+            funzione = opzione["funzione"]
+            posizione = opzione["posizione"]
+            i = i+1
+            if i > 1:
+                print("",end = " " * i) #crea una scaletta di spazi
+            print(colored(posizione,"grey"),end=" ")
+            print(funzione)
+        scelta = str(input("scegliere tra:"))
+        if scelta == 1:
+            #riprova battaglia
+            pass
+        elif scelta == 2:
+            #salva ed esci
+            pass
+        elif scelta == 3:
+            os.system(clear)
+            print(colored("uscendo dal programma...","grey"))
+            aspetta_input()
+            os.system("^C")
+            os.system(clear)
     
