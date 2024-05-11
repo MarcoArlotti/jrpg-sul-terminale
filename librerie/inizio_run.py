@@ -5,8 +5,6 @@ from art import art,text2art
 from termcolor import colored
 from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
 from sys import platform
-print(platform)
-
 if platform == "linux":
     clear = "clear"
 elif platform == "win32":
@@ -378,7 +376,7 @@ def sistema_turni(lista_nemici,numero_piano):
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
 
             for nemico in lista_nemici:
-                lista_giocatori_v = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
+                lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
 
 
             with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v_:
@@ -387,7 +385,7 @@ def sistema_turni(lista_nemici,numero_piano):
             turno = turno + 1
             turno_c = colored(turno,"light_cyan")
             print(f"Turno {turno_c}") #conteggio turni
-    return battaglia_persa,battaglia_vinta,numero_piano
+    return battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m
 
 
 #il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
@@ -414,22 +412,39 @@ elif iniziare_run == "no":
 
     pass
 
+def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
 
+    for giocatore_morto in lista_giocatori_m:
+        giocatore_morto.update({"health":1})
+        lista_giocatori.append(giocatore_morto)
+
+    lista_giocatori_m = []
+    return lista_giocatori_m,lista_giocatori
+
+with open("json_data/lista_giocatori.json","r") as lista_giocatori:
+    lista_giocatori = json.load(lista_giocatori)
+    
 for numero_piano in range(6):
-    with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
-        lista_giocatori = json.load(lista_giocatori)
     os.system(clear)
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
-    battaglia_persa,battaglia_vinta,numero_piano = sistema_turni(lista_nemici,numero_piano)
-
-    with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori:
-        lista_giocatori = json.load(lista_giocatori)
+    battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m = sistema_turni(lista_nemici,numero_piano)
 
     if battaglia_vinta == True:
         #TODO vuoi salvare?
         #TODO vuoi chiudere il programa?
-        print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n") #BUG persone duplicate/le persone non resuscitate dopo una vittoria non ritornano in vita con 1 hp
+        lista_giocatori_m,lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori)
+
+        riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
+        for giocatore in lista_giocatori:
+            nome = giocatore["name"]
+            vita = giocatore["health"]
+            print(colored(f"{nome}:{vita}","blue"))
+        for giocatore in lista_giocatori_m:
+            nome = giocatore["name"]
+            vita = giocatore["health"]
+            print(colored(f"{nome}:{vita}","red"))
+        print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
         aspetta_input()
     elif battaglia_persa == True:
         #TODO vuoi riprovare?

@@ -1,86 +1,9 @@
 [
     {
-        "name": "GALO",
-        "colore_nome": "light_blue",
-        "max_health": 240,
-        "health": 240,
-        "speed": 19.0,
-        "exp": 0.0,
-        "max_sp": 26,
-        "sp": 26,
-        "danno_magie": 2.0,
-        "magie": [
-            {
-                "nome": "cura debole",
-                "potenza": "scarsa",
-                "type": "cura",
-                "raggio": "singolo",
-                "costo": 6
-            },
-            {
-                "nome": "fuoco pesante SINGOLO",
-                "potenza": "normale",
-                "type": "fire",
-                "raggio": "singolo",
-                "costo": 4
-            },
-            {
-                "nome": "fuoco TUTTI",
-                "potenza": "scarsa",
-                "type": "fire",
-                "raggio": "gruppo",
-                "costo": 8
-            },
-            {
-                "nome": "scarica SINGOLO",
-                "potenza": "scarsa",
-                "type": "elettric",
-                "raggio": "singolo",
-                "costo": 2
-            },
-            {
-                "nome": "fuoco pesante SINGOLO",
-                "potenza": "normale",
-                "type": "fire",
-                "raggio": "singolo",
-                "costo": 4
-            },
-            {
-                "nome": "vento devastante SINGOLO",
-                "potenza": "devastante",
-                "type": "wind",
-                "raggio": "singolo",
-                "costo": 8
-            },
-            {
-                "nome": "scarica devastante SINGOLO",
-                "potenza": "devastante",
-                "type": "elettric",
-                "raggio": "singolo",
-                "costo": 8
-            },
-            {
-                "nome": "cura del gruppo debole",
-                "potenza": "scarsa",
-                "type": "cura",
-                "raggio": "gruppo",
-                "costo": 9
-            }
-        ],
-        "damage_base": 10.0,
-        "current_equip_melee": {
-            "damage": 32,
-            "price": 0,
-            "type": null
-        },
-        "guard": false,
-        "posizione": 1
-    },
-    {
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 220,
+        "health": 44,
         "speed": 23.0,
         "exp": 0.0,
         "max_sp": 22,
@@ -115,11 +38,11 @@
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 294,
+        "health": 147,
         "speed": 40.0,
-        "exp": 0.0,
+        "exp": 6.8999999999999995,
         "max_sp": 30,
-        "sp": 30,
+        "sp": 22,
         "danno_magie": 5,
         "magie": [
             {
@@ -127,14 +50,16 @@
                 "potenza": "normale",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "posizione": 1
             },
             {
                 "nome": "vento TUTTI",
                 "potenza": "scarsa",
                 "type": "wind",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "posizione": 2
             }
         ],
         "damage_base": 17.0,

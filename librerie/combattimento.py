@@ -3,10 +3,9 @@ import os
 import random
 from termcolor import colored
 from sys import platform
-print(platform)
 if platform == "linux":
     clear = "clear"
-elif platform == "windows":
+elif platform == "win32":
     clear = "cls"
 
 def aspetta_input():
@@ -596,8 +595,24 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                         rifai = True          
 
         elif tipo_oggetto == "revive" and not lista_giocatori_m == []:
+            
+            i = 0
+            for giocatore in lista_giocatori_m:
+                i = i+1
+                if i > 1:
+                    print("",end = " " * i) #crea una scaletta di spazi
+
+                posizione_giocatore = giocatore["posizione"]
+                print(colored(posizione_giocatore,"grey"),end="  ")
+
+                nome_giocatore = giocatore["name"]
+                colore_nome = "red"
+                nome_giocatore_c = colored(nome_giocatore,colore_nome)
+                print(nome_giocatore_c,end=" ")
+
             rifai_input = True
             while rifai_input == True:
+                
                 rifai_input = False
 
                 chi_curare = input("chi si vuole resuscitare?")
@@ -611,8 +626,8 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
             vita_recuperata = cura_scelta["effetto"] 
             nome_trovato = False
             for persona in lista_giocatori_m:
-                nome_persona = persona["name"]
-                if chi_curare == nome_persona:
+                posizione_persona = persona["posizione"]
+                if chi_curare == posizione_persona:
                     vita_max = persona["max_health"]
 
                     if vita_recuperata == "met\u00e0":
@@ -623,19 +638,27 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
                         vita_finale = vita_max
 
                     persona.update({"health":vita_finale})
-                    nome_persona = colored(nome_persona,"cyan")
+
+                    colore_nome = persona["colore_nome"]
+                    nome_persona = persona["name"]
+
+                    nome_giocatore_c = colored(nome_persona,colore_nome)
                     vita_recuperata = colored(vita_finale,"green")
-                    print(f"{nome_persona} è ora vivo... {vita_recuperata}/",end="")
+
+                    print(f"{nome_giocatore_c} è ora vivo... {vita_recuperata}/",end="")
                     print(colored(f"{vita_max} hp","light_green"))
+
                     nome_trovato = True
                     lista_giocatori_v.append(persona)
                     lista_giocatori_m.remove(persona)
                     print(colored(lista_giocatori_m,"red"),end="\n\n") #MOMENTANEO
                     print(colored(lista_giocatori_v,"blue"))
                     rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+
+                    riordina_lista_giocatori_in_battaglia(lista_giocatori_v)
                     break
             if nome_trovato == False:
-                print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                print(colored("numero inserito non valido...\n","grey"))
                 rifai = True
 
         elif tipo_oggetto == "revive" and lista_giocatori_m == []:
@@ -758,7 +781,9 @@ def posizione(lista_giocatori):
     return lista_giocatori["posizione"]
 #da fare per quella in battaglia
 def riordina_lista_giocatori_in_battaglia(lista_giocatori_v):
-    pass
+    lista_giocatori_v.sort(key=posizione)
+    return lista_giocatori_v
+
 def riordina_lista_giocatori_fuori_battaglia(lista_giocatori):
 
     lista_giocatori.sort(key=posizione)
@@ -822,4 +847,4 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
             print(colored(giocatore["name"],"cyan"),end=" ")
             print(colored("è morto","red"),end="\n")
 
-    return lista_giocatori_v
+    return lista_giocatori_v,lista_giocatori_m
