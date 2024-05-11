@@ -6,10 +6,12 @@ from termcolor import colored
 from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
 from sys import platform
 print(platform)
+
 if platform == "linux":
     clear = "clear"
-elif platform == "windows":
+elif platform == "win32":
     clear = "cls"
+
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0

@@ -120,7 +120,7 @@
         "exp": 0.0,
         "max_sp": 30,
         "sp": 30,
-        "danno_magie": 9999,
+        "danno_magie": 5,
         "magie": [
             {
                 "nome": "vento pesante SINGOLO",
