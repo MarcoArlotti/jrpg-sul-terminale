@@ -439,28 +439,36 @@ def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
 
 
 
-def scelta_carte(lista_giocatori,lista_giocatori_m):
-
+def scelta_carte(lista_giocatori,clear):
+    os.system(clear)
+    Art = text2art("card shouffle",font="sub-zero")
+    print(colored(Art,"yellow"))
+    aspetta_input()
+    os.system(clear)
     carte_uscite = []
     recupera_metà_vita = {
             "nome":"+50% hp",
             "funzione":"tutti i tuoi alleati e te stesso recuperano un +50% di |hp| in più in base agli |hp massimi| di ciascuno",
-            "posizione":1
+            "posizione":1,
+            "colore":"green"
         }
     ventipercento_sp_up = {
-            "nome":"+20% hp",
+            "nome":"+20% sp",
             "funzione":"tutti i tuoi alleati e te stesso recuperano un +20% di |sp| in più in base agli |sp massimi| di ciascuno",
-            "posizione":2
+            "posizione":2,
+            "colore":"magenta"
         }
     oggetto_curativo_random = {
             "nome":"cura casuale",
             "funzione":"otterrai una cura casuale",
-            "posizione":3
+            "posizione":3,
+            "colore":"light_green"
         }
     aumenta_attacco = {
             "nome":"+20% attacco magico",
             "funzione":"|EFFETTO PERMANENTE| tutti i tuoi alleati e te stesso otterranno un +20% di |attacco magico|",
-            "posizione":4
+            "posizione":4,
+            "colore":"red"
         }
     
     scelte_possibili = [recupera_metà_vita,ventipercento_sp_up,oggetto_curativo_random,aumenta_attacco]
@@ -471,35 +479,74 @@ def scelta_carte(lista_giocatori,lista_giocatori_m):
         scelte_possibili.remove(ris_)
         carte_uscite.append(ris_)
 
+    i = 0
     for carta in carte_uscite:
-        nome_carta = carta["nome"]
+        i=i+1
+        carta.update({"posizione":i})
 
-        if nome_carta == "+50% hp":
-            for giocatore in lista_giocatori:
-                hp_max = giocatore["max_hp"]
-                hp = giocatore["hp"]
-                quanto_somm = int(hp_max/2)
+        nome = carta["nome"]
+        colore_carta = carta["colore"]
+        print(colored(f"|{i}|","grey"),end=" ")
+        print(colored(nome,colore_carta))
 
-                tot = quanto_somm + hp
-                if tot > hp_max:
-                    tot = hp_max
-                giocatore.update({"hp":tot})
-            
-        elif nome_carta == "+20% hp":
-            for giocatore in lista_giocatori:
-                sp_max = giocatore["max_sp"]
-                sp = giocatore["sp"]
-                quanto_somm = int(sp_max)
+    rifai = True
+    while rifai == True:
+        rifai = False
+        scelta = input("inserire il numero della carta che si vuole scegliere")
+        try:
+            scelta = int(scelta)
+        except:
+            print(colored("inserire un numero valido","grey"))
+            rifai = True
+        if len(carte_uscite) < scelta <= 0:
+            rifai = True
+    
+    for carta in carte_uscite:
+        
+        posizione = carta["posizione"]
+        if posizione == scelta:
+            break
 
-                tot = quanto_somm + sp
-                if tot > sp_max:
-                    tot = sp_max
-                giocatore.update({"sp":tot})
 
-        elif nome_carta == "cura casuale":
-            pass
-        elif nome_carta == "+20% attacco magico":
-            pass
+    nome_carta = carta["nome"]
+
+    if nome_carta == "+50% hp":
+        for giocatore in lista_giocatori:
+            hp_max = giocatore["max_health"]
+            hp = giocatore["health"]
+            quanto_somm = int(hp_max/2)
+
+            tot = quanto_somm + hp
+            if tot > hp_max:
+                tot = hp_max
+            giocatore.update({"health":tot})
+        
+    elif nome_carta == "+20% hp":
+        for giocatore in lista_giocatori:
+            sp_max = giocatore["max_sp"]
+            sp = giocatore["sp"]
+            quanto_somm = int(sp_max)
+
+            tot = quanto_somm + sp
+            if tot > sp_max:
+                tot = sp_max
+            giocatore.update({"sp":tot})
+
+    elif nome_carta == "cura casuale":
+        with open(p_oggetti_curativi,"r") as oggetti_curativi:
+            lista_oggetti_curativi = json.load(oggetti_curativi)
+
+        oggetto_uscito = random.choice(lista_oggetti_curativi)
+        with open(p_zaino,"a") as zaino:
+            json.dump(zaino,oggetto_uscito)
+
+    elif nome_carta == "+20% attacco magico":
+        for giocatore in lista_giocatori:
+            danno_magie = giocatore["danno_magie"]
+            percentuale = (danno_magie * 20)/100
+            tot = danno_magie - percentuale
+            giocatore.update({"danno_magie":tot})
+    return lista_giocatori
 
 
 with open(p_lista_giocatori,"r") as lista_giocatori:
@@ -507,6 +554,8 @@ with open(p_lista_giocatori,"r") as lista_giocatori:
 
 for numero_piano in range(6):
     os.system(clear)
+    
+
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
     battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m = sistema_turni(lista_nemici,numero_piano)
@@ -517,9 +566,10 @@ for numero_piano in range(6):
         lista_giocatori_m,lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori)
 
         riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
-        lista_giocatori = scelta_carte(lista_giocatori,lista_giocatori_m)
+        lista_giocatori = scelta_carte(lista_giocatori,clear)
         print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
         aspetta_input()
+
     elif battaglia_persa == True:
 
         riprovare = {
