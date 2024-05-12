@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from art import art,text2art
+from art import text2art
 from termcolor import colored
 from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
 from sys import platform
@@ -136,7 +136,7 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
     return lista_nemici
 
 
-def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
+def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno):
 
     if one_more == True:
         os.system(clear)
@@ -150,7 +150,12 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
     colore_nome = giocatore_vivo_["colore_nome"]
 
     player_vivo_nome_c = colored(nome,colore_nome)
-    print(f"è il turno del {player_vivo_nome_c}")
+    turno_c = colored(turno,"red")
+
+    print(colored(f"TURNO |{turno_c}",colore_nome),end="")
+    print(colored("|",colore_nome))
+
+    print(colored(f" è il turno del {player_vivo_nome_c}\n","grey"))
 
     
     
@@ -170,6 +175,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
         
         vita_max_c = colored(f"{vita_max}|","light_green")
         vita = nemico["health"]
+        vita = int(vita)
         vita_c = colored(f"|{vita}","green")
 
         nemico_atterrato = nemico["atterrato"]
@@ -177,7 +183,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
             nome_nemico_c = colored(nome_nemico,"grey")
 
         elif nemico_atterrato == False:
-            nome_nemico_c = colored(nome_nemico,"light_yellow")
+            nome_nemico_c = colored(nome_nemico,"light_red")
 
         quanti_tab = "\t" * quanti_tab
         print(nome_nemico_c + quanti_tab,end="")
@@ -227,14 +233,15 @@ def random_che_nemico_pescare(lista_nemici,id):
     nemico_uscito = random.choice(lista_nemici_json)
     nome = nemico_uscito["name"]
     nemico_uscito["id"] = id
-    nemico_uscito.update({"name":(nome + f" ({id})")})
+    id = colored(id,"grey")
+    nemico_uscito.update({"name":(nome + f"  |{id}|")})
 
     lista_nemici.append(nemico_uscito)
 
     return lista_nemici
 
 
-def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
+def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno):
     rifai = True
     sp_insufficente = False
     one_more = False
@@ -258,7 +265,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 rifai_input = False
                 os.system(clear)
 
-                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more)
+                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno)
                 one_more = False
                 
                 print(colored("\n1","grey"),end=" ")
@@ -312,8 +319,9 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                     exp_player = giocatore_vivo_["exp"]
                     exp_ottenuta = exp_player + exp_drop
                     exp_ottenuta_c = colored(exp_ottenuta,"light_blue")
-                    giocatore_vivo_.update({"exp":exp_ottenuta})
-                    print(colored(f"exp ottenuta: {exp_ottenuta_c}EXP","light_cyan"))
+                    for giocatore in lista_giocatori_v:
+                        giocatore.update({"exp":exp_ottenuta})
+                    
                     lista_nemici.remove(nemico)
                     break
 
@@ -322,9 +330,10 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
     
 def sistema_turni(lista_nemici,numero_piano):
-
+    turno = 1
     with open(p_lista_giocatori_in_game,"r") as lista_giocatori: #da non cambiare
         lista_giocatori = json.load(lista_giocatori)
+
     lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
@@ -334,7 +343,6 @@ def sistema_turni(lista_nemici,numero_piano):
 
     battaglia_vinta = False
     battaglia_persa = False
-    turno = 0
     lista_giocatori_m = [] #lista dei giocatori morti
 
 #inizio sistema a turni
@@ -342,14 +350,8 @@ def sistema_turni(lista_nemici,numero_piano):
         with open(p_lista_giocatori_in_game,"r") as lista_giocatori_v:
             lista_giocatori_v = json.load(lista_giocatori_v)
         
-        lista_hp_nemico = []
-        lista_hp_nemico_max = []
-        lista_nomi_nemico = []
-        lista_nomi_player = []
-        lista_sp = []
-        lista_sp_max = []
-        lista_hp_player = []
-        lista_hp_player_max = []
+        
+
 
         if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
             
@@ -372,27 +374,8 @@ def sistema_turni(lista_nemici,numero_piano):
                   
         if battaglia_vinta == False and battaglia_persa == False: 
 
-            for giocatore_vivo in lista_giocatori_v:
-
-                nome_player = giocatore_vivo["name"]
-                lista_nomi_player.append(nome_player)
-
-                sp = giocatore_vivo["sp"]
-                lista_sp.append(sp)
-
-                hp_player = giocatore_vivo["health"]
-                lista_hp_player.append(hp_player)
-
-            for nemico_ in lista_nemici:
-
-                hp_nemico = nemico_["health"]
-                lista_hp_nemico.append(hp_nemico) 
-
-                nomi_nemici = nemico_["name"]
-                lista_nomi_nemico.append(nomi_nemici)
-
             for giocatore_vivo_ in lista_giocatori_v:
-                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m) #giocatore_vivo_ in return?
+                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno) #giocatore_vivo_ in return?
 
             for nemico in lista_nemici:
                 lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
@@ -403,20 +386,12 @@ def sistema_turni(lista_nemici,numero_piano):
 
             turno = turno + 1
             turno_c = colored(turno,"light_cyan")
-            print(f"Turno {turno_c}") #conteggio turni
-    return battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m
-
-
-#il global level potrebbe essere usato per il conteggio dei piani per una sorta di palazzo/dungeon a piani
+            
+    return battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v
 
 os.system(clear)
-#iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
-#os.system(clear)
 
 
-
-#iniziare_run = str(input("iniziare una nuova run?\n\nyes\nno\n\n"))
-#os.system(clear)
 iniziare_run = "yes" #DEBUG
 if iniziare_run == "yes":
 
@@ -437,15 +412,15 @@ def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
         giocatore_morto.update({"health":1})
         lista_giocatori.append(giocatore_morto)
 
-    lista_giocatori_m = []
-    return lista_giocatori_m,lista_giocatori
+    
+    return lista_giocatori
 
 
 
 
 def scelta_carte(lista_giocatori,clear):
     os.system(clear)
-    Art = text2art("card shouffle",font="sub-zero")
+    Art = text2art("c a r d   s h o u f f l e",font="sub-zero")
     print(colored(Art,"yellow"))
     aspetta_input()
     os.system(clear)
@@ -453,25 +428,21 @@ def scelta_carte(lista_giocatori,clear):
     recupera_metà_vita = {
             "nome":"+50% hp",
             "funzione":"tutti i tuoi alleati e te stesso recuperano un +50% di |hp| in più in base agli |hp massimi| di ciascuno",
-            "posizione":1,
             "colore":"green"
         }
     ventipercento_sp_up = {
             "nome":"+20% sp",
             "funzione":"tutti i tuoi alleati e te stesso recuperano un +20% di |sp| in più in base agli |sp massimi| di ciascuno",
-            "posizione":2,
             "colore":"magenta"
         }
     oggetto_curativo_random = {
             "nome":"cura casuale",
             "funzione":"otterrai una cura casuale",
-            "posizione":3,
             "colore":"light_green"
         }
     aumenta_attacco = {
             "nome":"+20% attacco magico",
             "funzione":"|EFFETTO PERMANENTE| tutti i tuoi alleati e te stesso otterranno un +20% di |attacco magico|",
-            "posizione":4,
             "colore":"red"
         }
     
@@ -490,10 +461,12 @@ def scelta_carte(lista_giocatori,clear):
 
         nome = carta["nome"]
         colore_carta = carta["colore"]
+
         if i > 1:
-            print("",end = " " * i)
+            print("\n")
+
         print(colored(f"|{i}|","grey"),end=" ")
-        print(colored(nome,colore_carta))
+        print(colored(nome,colore_carta),end="\t\t")
 
     rifai = True
     while rifai == True:
@@ -559,32 +532,31 @@ def scelta_carte(lista_giocatori,clear):
             tot = danno_magie + percentuale
 
             giocatore.update({"danno_magie":tot})
-    with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
-        json.dump(lista_giocatori,lista_giocatori_,indent=4)
+    return lista_giocatori
 
 
 
-with open(p_lista_giocatori,"r") as lista_giocatori:
-    lista_giocatori = json.load(lista_giocatori)
+
+
 for numero_piano in range(6):
-    with open(p_lista_giocatori_in_game,"r") as lista_giocatori:
-        lista_giocatori = json.load(lista_giocatori)
-        
-    os.system(clear)
-    
 
+    os.system(clear)
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
-    battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m = sistema_turni(lista_nemici,numero_piano)
+    battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
 
     if battaglia_vinta == True:
         #TODO vuoi salvare?
         #TODO vuoi chiudere il programa?
-        lista_giocatori_m,lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori)
+        lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori_v)
 
         riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
         lista_giocatori = scelta_carte(lista_giocatori,clear)
-        print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
+
+        with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
+            json.dump(lista_giocatori,lista_giocatori_,indent=4)
+
+        print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
         aspetta_input()
 
     elif battaglia_persa == True:
