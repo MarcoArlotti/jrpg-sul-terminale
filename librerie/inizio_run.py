@@ -441,14 +441,13 @@ def scelta_carte(lista_giocatori,clear):
             "colore":"light_green"
         }
     aumenta_attacco = {
-            "nome":"+20% attacco magico",
-            "funzione":"|EFFETTO PERMANENTE| tutti i tuoi alleati e te stesso otterranno un +20% di |attacco magico|",
+            "nome":"+10% attacco magico",
+            "funzione":"|EFFETTO PERMANENTE| tutti i tuoi alleati e te stesso otterranno un +10% di |attacco magico|",
             "colore":"red"
         }
     
     scelte_possibili = [recupera_metà_vita,ventipercento_sp_up,oggetto_curativo_random,aumenta_attacco]
     ris = random.randrange(2,4)
-    ris = 4
     for i in range(ris):
         ris_ = random.choice(scelte_possibili)
         scelte_possibili.remove(ris_)
@@ -461,17 +460,18 @@ def scelta_carte(lista_giocatori,clear):
 
         nome = carta["nome"]
         colore_carta = carta["colore"]
-
+        effetto_carta = carta["funzione"]
         if i > 1:
-            print("\n")
+            print("",end="  " * i)
 
         print(colored(f"|{i}|","grey"),end=" ")
-        print(colored(nome,colore_carta),end="\t\t")
+        print(colored(nome,colore_carta),end="   ")
+        print(colored(f"\t{effetto_carta}","grey"),end="\n\n")
 
     rifai = True
     while rifai == True:
         rifai = False
-        scelta = input("inserire il numero della carta che si vuole scegliere")
+        scelta = input(colored("\n...","grey"))
         try:
             scelta = int(scelta)
         except:
@@ -490,7 +490,6 @@ def scelta_carte(lista_giocatori,clear):
     nome_carta = carta["nome"]
 
     if nome_carta == "+50% hp":
-        print("50% hp |1|")
         for giocatore in lista_giocatori:
             hp_max = giocatore["max_health"]
             hp = giocatore["health"]
@@ -502,7 +501,6 @@ def scelta_carte(lista_giocatori,clear):
             giocatore.update({"health":tot})
         
     elif nome_carta == "+20% sp":
-        print("20% sp |2|")
         for giocatore in lista_giocatori:
             sp_max = giocatore["max_sp"]
 
@@ -514,21 +512,23 @@ def scelta_carte(lista_giocatori,clear):
             giocatore.update({"sp":tot})
 
     elif nome_carta == "cura casuale":
-        print("cura casuale |3|")
         with open(p_oggetti_curativi,"r") as oggetti_curativi:
             lista_oggetti_curativi = json.load(oggetti_curativi)
 
         oggetto_uscito = random.choice(lista_oggetti_curativi)
-        with open(p_zaino,"a") as zaino:
-            json.dump(zaino,oggetto_uscito)
+        with open(p_zaino,"r") as zaino_:
+            zaino = json.load(zaino_)
+
+        zaino.append(oggetto_uscito)
+        with open(p_zaino,"w") as zaino_json:
+            json.dump(zaino,zaino_json,indent=4)
         print(colored(oggetto_uscito,"yellow"))
 
-    elif nome_carta == "+20% attacco magico":
-        print("+20% attacco magico |4|")
+    elif nome_carta == "+10% attacco magico":
         for giocatore in lista_giocatori:
             danno_magie = giocatore["danno_magie"]
 
-            percentuale = (danno_magie * 20)/100
+            percentuale = (danno_magie * 10)/100
             tot = danno_magie + percentuale
 
             giocatore.update({"danno_magie":tot})
@@ -580,10 +580,10 @@ for numero_piano in range(6):
             posizione = opzione["posizione"]
             i = i+1
             if i > 1:
-                print("",end = " " * i) #crea una scaletta di spazi
+                print("",end = "  " * i) #crea una scaletta di spazi
             print(colored(posizione,"grey"),end=" ")
             print(funzione)
-        scelta = str(input("scegliere tra:"))
+        scelta = str(input(colored("...","grey")))
         if scelta == 1:
             #riprova battaglia
             pass

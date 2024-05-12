@@ -726,8 +726,21 @@ def menù_oggetti():
                 for i in range(9): #TODO come capire se è più lungo di 9 (se no crash programma)
                     n_attuale = i + numero_min
                     cura_attuale = lista_oggetti_cure[n_attuale]
-                    print(colored(cura_attuale["name"],"green"),end=" ")
-                    print(colored(cura_attuale["numero_nella_lista"],"grey"))
+                    if i > 1:
+                        print("",end = " " * i)
+
+                    print(colored(cura_attuale["numero_nella_lista"],"grey"),end=" ")
+                    print(cura_attuale["name"],end=" ")
+                    
+                    effetto = cura_attuale["effetto"] 
+                    type = cura_attuale["type"]
+                    if type == "hp":
+                        print(colored(f"+{effetto}HP","green"))
+                    elif type == "sp":
+                        print(colored(f"+{effetto}SP","magenta"))
+                    elif type == "revive":
+                        print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
+
                 scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
                 try:
                     scelta = int(scelta)
@@ -740,8 +753,21 @@ def menù_oggetti():
                     n_attuale = j + numero_min 
 
                     cura_attuale = lista_oggetti_cure[n_attuale]
-                    print(colored(cura_attuale["name"],"green"),end=" ")
-                    print(colored(cura_attuale["numero_nella_lista"],"grey"))
+                    if j > 0:
+                        print("",end = " " * j)
+
+                    print(colored(cura_attuale["numero_nella_lista"],"grey"),end=" ")
+                    print(cura_attuale["name"],end=" ")
+                    
+                    effetto = cura_attuale["effetto"] 
+                    type = cura_attuale["type"]
+                    if type == "hp":
+                        print(colored(f"+{effetto}HP","green"))
+                    elif type == "sp":
+                        print(colored(f"+{effetto}SP","magenta"))
+                    elif type == "revive":
+                        print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
+
                 scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
                 try:
                     scelta = int(scelta) 
@@ -773,8 +799,21 @@ def menù_oggetti():
             fai_if = True
             for a in range(len(lista_oggetti_cure)):
                 cura_attuale = lista_oggetti_cure[a]
-                print(colored(cura_attuale["name"],"green"),end=" ")
-                print(colored(cura_attuale["numero_nella_lista"],"grey"))
+
+                if a > 0:
+                    print("",end = " " * a)
+                print(colored(cura_attuale["numero_nella_lista"],"grey"),end=" ")
+                print(cura_attuale["name"],end=" ")
+                
+
+                effetto = cura_attuale["effetto"] 
+                type = cura_attuale["type"]
+                if type == "hp":
+                    print(colored(f"+{effetto}HP","green"))
+                elif type == "sp":
+                    print(colored(f"+{effetto}SP","magenta"))
+                elif type == "revive":
+                    print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
             scelta = input(colored("mettere cosa scegliere \"stop\" o  un numero tra 1 e 9...\n","grey"))
             try:
                 scelta = int(scelta)
