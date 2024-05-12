@@ -7,20 +7,35 @@ from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,r
 from sys import platform
 if platform == "linux":
     clear = "clear"
+
+    p_lista_giocatori = "json_data/lista_giocatori.json"
+    p_lista_giocatori_in_game  = "json_data/lista_giocatori_in_game.json"
+    p_oggetti_curativi = "json_data/oggetti_curativi.json"
+    p_zaino = "json_data/zaino.json"
+    p_magie = "json_data/magie.json"
+    p_enemy_stats_dungeon = "json_data/enemy_stats_dungeon_1.json"
+    
 elif platform == "win32":
     clear = "cls"
+
+    p_lista_giocatori = "json_data\lista_giocatori.json"
+    p_lista_giocatori_in_game  = "json_data\lista_giocatori_in_game.json"
+    p_oggetti_curativi = "json_data\oggetti_curativi.json"
+    p_zaino = "json_data\zaino.json"
+    p_magie = "json_data\magie.json"
+    p_enemy_stats_dungeon = "json_data\enemy_stats_dungeon_1.json"
 
 #python -> json = .dump
 #json -> python = .load
 def inizio_run(): #tutte le stat sono portare a 0
     #dichiarazione delle statistiche basi
 
-    with open("json_data/lista_giocatori.json","r") as file_json_lista_giocatori: #spostamento dei giocatori nella lista in gioco
+    with open(p_lista_giocatori,"r") as file_json_lista_giocatori: #spostamento dei giocatori nella lista in gioco
         lista_giocatori = json.load(file_json_lista_giocatori)
-    with open("json_data/lista_giocatori_in_game.json","w") as file_json_lista_giocatori_giocatori_in_game:
+    with open(p_lista_giocatori_in_game,"w") as file_json_lista_giocatori_giocatori_in_game:
         json.dump(lista_giocatori,file_json_lista_giocatori_giocatori_in_game,indent=4)
 
-    with open("json_data/oggetti_curativi.json","r") as lista_oggetti_curativi:
+    with open(p_oggetti_curativi,"r") as lista_oggetti_curativi:
         lista_oggetti_curativi = json.load(lista_oggetti_curativi)
 
     #3 cure parziali, 2 cure ps, un med metà
@@ -73,10 +88,10 @@ def inizio_run(): #tutte le stat sono portare a 0
     for oggetto in zaino:
         oggetto.update({"numero_nella_lista":i})
         i = i + 1
-    with open("json_data\zaino.json","w") as zaino_json:
+    with open(p_zaino,"w") as zaino_json:
         json.dump(zaino,zaino_json,indent=4)
         
-    with open("json_data/magie.json","r") as lista_magie:
+    with open(p_magie,"r") as lista_magie:
         lista_magie = json.load(lista_magie)
 
 
@@ -203,7 +218,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
     print(colored("-"*69,"grey"))
 
 def random_che_nemico_pescare(lista_nemici,id):
-    with open("json_data/enemy_stats_dungeon_1.json","r") as file_nemici:
+    with open(p_enemy_stats_dungeon,"r") as file_nemici:
         lista_nemici_json = json.load(file_nemici)
 
     nemico_uscito = random.choice(lista_nemici_json)
@@ -304,13 +319,13 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
     
 def sistema_turni(lista_nemici,numero_piano):
 
-    with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori: #da non cambiare
+    with open(p_lista_giocatori_in_game,"r") as lista_giocatori: #da non cambiare
         lista_giocatori = json.load(lista_giocatori)
     lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
 
-    with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v:
+    with open(p_lista_giocatori_in_game,"w") as lista_giocatori_v:
         json.dump(lista_giocatori,lista_giocatori_v,indent=4)
 
     battaglia_vinta = False
@@ -320,7 +335,7 @@ def sistema_turni(lista_nemici,numero_piano):
 
 #inizio sistema a turni
     while battaglia_vinta == False and battaglia_persa == False: #ciclo di turni fino alla morte di tutti i nemici o alleati
-        with open("json_data/lista_giocatori_in_game.json","r") as lista_giocatori_v:
+        with open(p_lista_giocatori_in_game,"r") as lista_giocatori_v:
             lista_giocatori_v = json.load(lista_giocatori_v)
         
         lista_hp_nemico = []
@@ -379,7 +394,7 @@ def sistema_turni(lista_nemici,numero_piano):
                 lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
 
 
-            with open("json_data\lista_giocatori_in_game.json","w") as lista_giocatori_v_:
+            with open(p_lista_giocatori_in_game,"w") as lista_giocatori_v_:
                 json.dump(lista_giocatori_v,lista_giocatori_v_,indent=4)
 
             turno = turno + 1
@@ -421,7 +436,73 @@ def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
     lista_giocatori_m = []
     return lista_giocatori_m,lista_giocatori
 
-with open("json_data/lista_giocatori.json","r") as lista_giocatori:
+
+
+
+def scelta_carte(lista_giocatori,lista_giocatori_m):
+
+    carte_uscite = []
+    recupera_metà_vita = {
+            "nome":"+50% hp",
+            "funzione":"tutti i tuoi alleati e te stesso recuperano un +50% di |hp| in più in base agli |hp massimi| di ciascuno",
+            "posizione":1
+        }
+    ventipercento_sp_up = {
+            "nome":"+20% hp",
+            "funzione":"tutti i tuoi alleati e te stesso recuperano un +20% di |sp| in più in base agli |sp massimi| di ciascuno",
+            "posizione":2
+        }
+    oggetto_curativo_random = {
+            "nome":"cura casuale",
+            "funzione":"otterrai una cura casuale",
+            "posizione":3
+        }
+    aumenta_attacco = {
+            "nome":"+20% attacco magico",
+            "funzione":"|EFFETTO PERMANENTE| tutti i tuoi alleati e te stesso otterranno un +20% di |attacco magico|",
+            "posizione":4
+        }
+    
+    scelte_possibili = [recupera_metà_vita,ventipercento_sp_up,oggetto_curativo_random,aumenta_attacco]
+    ris = random.randrange(2,4)
+
+    for i in range(ris):
+        ris_ = random.choice(scelte_possibili)
+        scelte_possibili.remove(ris_)
+        carte_uscite.append(ris_)
+
+    for carta in carte_uscite:
+        nome_carta = carta["nome"]
+
+        if nome_carta == "+50% hp":
+            for giocatore in lista_giocatori:
+                hp_max = giocatore["max_hp"]
+                hp = giocatore["hp"]
+                quanto_somm = int(hp_max/2)
+
+                tot = quanto_somm + hp
+                if tot > hp_max:
+                    tot = hp_max
+                giocatore.update({"hp":tot})
+            
+        elif nome_carta == "+20% hp":
+            for giocatore in lista_giocatori:
+                sp_max = giocatore["max_sp"]
+                sp = giocatore["sp"]
+                quanto_somm = int(sp_max)
+
+                tot = quanto_somm + sp
+                if tot > sp_max:
+                    tot = sp_max
+                giocatore.update({"sp":tot})
+
+        elif nome_carta == "cura casuale":
+            pass
+        elif nome_carta == "+20% attacco magico":
+            pass
+
+
+with open(p_lista_giocatori,"r") as lista_giocatori:
     lista_giocatori = json.load(lista_giocatori)
 
 for numero_piano in range(6):
@@ -436,7 +517,7 @@ for numero_piano in range(6):
         lista_giocatori_m,lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori)
 
         riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
-        
+        lista_giocatori = scelta_carte(lista_giocatori,lista_giocatori_m)
         print(f"\n\nSALENDO IL PIANO [{numero_piano_c}]\n\n")
         aspetta_input()
     elif battaglia_persa == True:

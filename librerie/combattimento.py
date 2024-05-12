@@ -5,8 +5,13 @@ from termcolor import colored
 from sys import platform
 if platform == "linux":
     clear = "clear"
+
+    p_zaino = "json_data/zaino.json"
+
 elif platform == "win32":
     clear = "cls"
+
+    p_zaino = "json_data\zaino.json"
 
 def aspetta_input():
     a = input(colored("press return to continue...","grey"))
@@ -451,11 +456,11 @@ def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
         if posizione_oggetto == posizione_oggetto_scelto:
             lista_oggetti_zaino.remove(oggetto)
             break
-    with open("json_data/zaino.json","w") as zaino:
+    with open(p_zaino,"w") as zaino:
         json.dump(lista_oggetti_zaino,zaino,indent=4)
 
 def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
-    with open("json_data/zaino.json","r") as lista_oggetti_zaino:
+    with open(p_zaino,"r") as lista_oggetti_zaino:
         lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     rifai_input = False
     os.system(clear)
@@ -670,13 +675,13 @@ def curarsi(lista_giocatori_v,lista_giocatori_m): #BUG gli sp non si rimuovono
             for oggetto in lista_oggetti_zaino:
                 oggetto.update({"numero_nella_lista":i})
                 i = i + 1
-            with open("json_data\zaino.json","w") as zaino_json:
+            with open(p_zaino,"w") as zaino_json:
                 json.dump(lista_oggetti_zaino,zaino_json,indent=4)
     return rifai_input
 def name_item(lista_oggetti_zaino):
     return lista_oggetti_zaino["name"]
 def menù_oggetti():
-    with open("json_data/zaino.json","r") as lista_oggetti_zaino:
+    with open(p_zaino,"r") as lista_oggetti_zaino:
         lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     lista_oggetti_zaino.sort(key=name_item) #riordinamento oggetti per nome
 
