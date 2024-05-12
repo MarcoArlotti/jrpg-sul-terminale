@@ -137,7 +137,15 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
 
 
 def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
-    
+
+    if one_more == True:
+        os.system(clear)
+        Art = text2art("one more",font="sub-zero")
+        print(colored(Art,"blue"))
+        aspetta_input()
+        os.system(clear)
+        
+
     nome = giocatore_vivo_["name"]
     colore_nome = giocatore_vivo_["colore_nome"]
 
@@ -145,12 +153,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more):
     print(f"è il turno del {player_vivo_nome_c}")
 
     
-    if one_more == True:
-        os.system(clear)
-        Art = text2art("one more",font="sub-zero")
-        print(colored(Art,"blue"))
-        aspetta_input()
-        os.system(clear)
+    
 
     #nemici
     i = -1
@@ -232,12 +235,13 @@ def random_che_nemico_pescare(lista_nemici,id):
 
 
 def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m):
-    one_more = True
+    rifai = True
     sp_insufficente = False
-    while one_more == True or sp_insufficente == True:
+    one_more = False
+    while rifai == True or sp_insufficente == True:
 
         sp_insufficente = False
-        one_more = False
+        rifai = False
         battaglia_vinta = False
 
         if lista_nemici == []:
@@ -247,12 +251,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
         if battaglia_vinta == False:
 
             rifai_input = True
-            for nemico_ in lista_nemici:
-
-                one_more_ = nemico_["one_more"]
-                if one_more_ == True:
-                    nemico_.update({"one_more":False})
-                    one_more = True
+            
 
             while rifai_input == True:
                 
@@ -260,7 +259,8 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 os.system(clear)
 
                 print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more)
-
+                one_more = False
+                
                 print(colored("\n1","grey"),end=" ")
                 print(colored("ATTACCARE","light_blue"),end="")
                 
@@ -293,11 +293,15 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                         lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
                     case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
                         rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
+        for nemico_ in lista_nemici:
 
+            one_more_ = nemico_["one_more"]
+            if one_more_ == True:
+                nemico_.update({"one_more":False})
+                one_more = True
+                rifai = True
+                break
 
-        
-
-        #for nemico in lista_nemici: #funziona solo se si deve cancellare un solo nemico
         for i in range(len(lista_nemici)):
             for nemico in lista_nemici:
                 vita_rimasta_nemico = nemico["health"]
@@ -473,7 +477,7 @@ def scelta_carte(lista_giocatori,clear):
     
     scelte_possibili = [recupera_metà_vita,ventipercento_sp_up,oggetto_curativo_random,aumenta_attacco]
     ris = random.randrange(2,4)
-
+    ris = 4
     for i in range(ris):
         ris_ = random.choice(scelte_possibili)
         scelte_possibili.remove(ris_)
@@ -486,6 +490,8 @@ def scelta_carte(lista_giocatori,clear):
 
         nome = carta["nome"]
         colore_carta = carta["colore"]
+        if i > 1:
+            print("",end = " " * i)
         print(colored(f"|{i}|","grey"),end=" ")
         print(colored(nome,colore_carta))
 
@@ -511,6 +517,7 @@ def scelta_carte(lista_giocatori,clear):
     nome_carta = carta["nome"]
 
     if nome_carta == "+50% hp":
+        print("50% hp |1|")
         for giocatore in lista_giocatori:
             hp_max = giocatore["max_health"]
             hp = giocatore["health"]
@@ -521,38 +528,48 @@ def scelta_carte(lista_giocatori,clear):
                 tot = hp_max
             giocatore.update({"health":tot})
         
-    elif nome_carta == "+20% hp":
+    elif nome_carta == "+20% sp":
+        print("20% sp |2|")
         for giocatore in lista_giocatori:
             sp_max = giocatore["max_sp"]
-            sp = giocatore["sp"]
-            quanto_somm = int(sp_max)
 
-            tot = quanto_somm + sp
+            percentuale = (sp_max * 20)/100
+            tot = sp_max + percentuale
+
             if tot > sp_max:
                 tot = sp_max
             giocatore.update({"sp":tot})
 
     elif nome_carta == "cura casuale":
+        print("cura casuale |3|")
         with open(p_oggetti_curativi,"r") as oggetti_curativi:
             lista_oggetti_curativi = json.load(oggetti_curativi)
 
         oggetto_uscito = random.choice(lista_oggetti_curativi)
         with open(p_zaino,"a") as zaino:
             json.dump(zaino,oggetto_uscito)
+        print(colored(oggetto_uscito,"yellow"))
 
     elif nome_carta == "+20% attacco magico":
+        print("+20% attacco magico |4|")
         for giocatore in lista_giocatori:
             danno_magie = giocatore["danno_magie"]
+
             percentuale = (danno_magie * 20)/100
-            tot = danno_magie - percentuale
+            tot = danno_magie + percentuale
+
             giocatore.update({"danno_magie":tot})
-    return lista_giocatori
+    with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
+        json.dump(lista_giocatori,lista_giocatori_,indent=4)
+
 
 
 with open(p_lista_giocatori,"r") as lista_giocatori:
     lista_giocatori = json.load(lista_giocatori)
-
 for numero_piano in range(6):
+    with open(p_lista_giocatori_in_game,"r") as lista_giocatori:
+        lista_giocatori = json.load(lista_giocatori)
+        
     os.system(clear)
     
 
