@@ -17,7 +17,9 @@
                 "type": "cura",
                 "raggio": "singolo",
                 "costo": 6,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "fuoco pesante SINGOLO",
@@ -25,7 +27,9 @@
                 "type": "fire",
                 "raggio": "singolo",
                 "costo": 4,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "fuoco TUTTI",
@@ -33,7 +37,9 @@
                 "type": "fire",
                 "raggio": "gruppo",
                 "costo": 8,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "scarica SINGOLO",
@@ -41,7 +47,9 @@
                 "type": "elettric",
                 "raggio": "singolo",
                 "costo": 2,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "fuoco pesante SINGOLO",
@@ -49,7 +57,9 @@
                 "type": "fire",
                 "raggio": "singolo",
                 "costo": 4,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "vento devastante SINGOLO",
@@ -57,7 +67,9 @@
                 "type": "wind",
                 "raggio": "singolo",
                 "costo": 8,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "scarica devastante SINGOLO",
@@ -65,7 +77,9 @@
                 "type": "elettric",
                 "raggio": "singolo",
                 "costo": 8,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "cura del gruppo debole",
@@ -73,7 +87,9 @@
                 "type": "cura",
                 "raggio": "gruppo",
                 "costo": 9,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             }
         ],
         "damage_base": 10.0,
@@ -103,7 +119,9 @@
                 "type": "elettric",
                 "raggio": "singolo",
                 "costo": 4,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "scarica TUTTI",
@@ -111,7 +129,9 @@
                 "type": "elettric",
                 "raggio": "gruppo",
                 "costo": 8,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             }
         ],
         "damage_base": 9.0,
@@ -141,7 +161,9 @@
                 "type": "wind",
                 "raggio": "singolo",
                 "costo": 4,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             },
             {
                 "nome": "vento TUTTI",
@@ -149,7 +171,9 @@
                 "type": "wind",
                 "raggio": "gruppo",
                 "costo": 8,
-                "cosa_consuma": "sp"
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
             }
         ],
         "damage_base": 17.0,

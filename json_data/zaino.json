@@ -47,5 +47,11 @@
         "valore": 16.0,
         "type": "revive",
         "numero_nella_lista": 7
+    },
+    {
+        "name": "cura pesantissima",
+        "effetto": 150,
+        "valore": 28.5,
+        "type": "hp"
     }
 ]
