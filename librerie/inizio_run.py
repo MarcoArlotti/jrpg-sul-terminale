@@ -191,6 +191,35 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         elif nemico_atterrato == False:
             nome_nemico_c = colored(nome_nemico,"light_red")
 
+        atk_nemico = nemico["effetti"]["atk"]
+        def_nemico = nemico["effetti"]["def"]
+        agi_nemico = nemico["effetti"]["agi"]
+
+        print("|",end="")
+        if atk_nemico == 1:
+            print(colored("+ATK [up]","red"),end="")
+        elif def_nemico == 1:
+            print(colored("+DEF [up]","blue"),end="")
+        elif agi_nemico == 1:
+            print(colored("+AGI [up]","green"),end="")
+
+        elif atk_nemico == 0:
+            print(colored("ATK [base]","grey"),end="")
+        elif def_nemico == 0:
+            print(colored("DEF [base]","grey"),end="")
+        elif agi_nemico == 0:
+            print(colored("AGI [base]","grey"),end="")
+
+        elif atk_nemico == -1:
+            print(colored("-ATK [down]","light_red"),end="")
+        elif def_nemico == -1:
+            print(colored("-DEF [down]","light_blue"),end="")
+        elif agi_nemico == -1:
+            print(colored("-AGI [down]","light_green"),end="")
+
+
+
+        print("|",end="")
         quanti_tab = "\t" * quanti_tab
         print(nome_nemico_c + quanti_tab,end="")
         if i > 0:
@@ -343,7 +372,59 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
     return lista_nemici
 
+
+def conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici):
+    #player
     
+    
+
+    for giocatore in lista_giocatori_v:
+        lista_effetti = giocatore["effetti"]
+        lista_scadenze = giocatore["scadenze"]
+        for scadenza in lista_scadenze:
+
+            numero = lista_scadenze[scadenza]
+            if numero != 0:        
+                numero = numero -1
+        scadenza_def = lista_scadenze["s_DEF"]
+        scadenza_atk = lista_scadenze["s_ATK"]
+        scadenza_agi = lista_scadenze["s_AGI"]
+
+        if scadenza_atk == 0:
+            lista_effetti.update({"ATK":0})
+        elif scadenza_def == 0:
+            lista_effetti.update({"DEF":0})
+        elif scadenza_agi == 0:
+            lista_effetti.update({"AGI":0})
+
+    for giocatore_morto in lista_giocatori_m:
+        lista_effetti = giocatore_morto["effetti"]
+        lista_effetti.update({"ATK":0})
+        lista_effetti.update({"DEF":0})
+        lista_effetti.update({"AGI":0})
+
+    #nemici
+    lista_effetti = lista_nemici["effetti"]
+    lista_scadenze = lista_nemici["scadenze"]
+    for scadenza in lista_scadenze:
+
+        numero = lista_scadenze[scadenza]
+        if numero != 0:        
+            numero = numero -1
+    scadenza_def = lista_scadenze["s_DEF"]
+    scadenza_atk = lista_scadenze["s_ATK"]
+    scadenza_agi = lista_scadenze["s_AGI"]
+
+    if scadenza_atk == 0:
+        lista_effetti.update({"ATK":0})
+    elif scadenza_def == 0:
+        lista_effetti.update({"DEF":0})
+    elif scadenza_agi == 0:
+        lista_effetti.update({"AGI":0})
+
+    return lista_giocatori_v,lista_giocatori_m,lista_nemici
+
+
 def sistema_turni(lista_nemici,numero_piano):
     turno = 1
     with open(p_lista_giocatori_in_game,"r") as lista_giocatori: #da non cambiare
@@ -387,7 +468,8 @@ def sistema_turni(lista_nemici,numero_piano):
             battaglia_persa = True
             #os.system("shutdown/c\"/SKILL ISSUE\"")
                   
-        if battaglia_vinta == False and battaglia_persa == False: 
+        if battaglia_vinta == False and battaglia_persa == False:
+            conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici)
 
             for giocatore_vivo_ in lista_giocatori_v:
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno) #giocatore_vivo_ in return?
@@ -398,7 +480,7 @@ def sistema_turni(lista_nemici,numero_piano):
 
             with open(p_lista_giocatori_in_game,"w") as lista_giocatori_v_:
                 json.dump(lista_giocatori_v,lista_giocatori_v_,indent=4)
-
+            
             turno = turno + 1
             
     return battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v

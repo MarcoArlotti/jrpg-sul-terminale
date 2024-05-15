@@ -2,47 +2,101 @@
     {
         "name": "SHADOW",
         "max_health": 220,
-        "health": 220,        
+        "health": 220,
         "speed": 10.0,
-        "one_more":false,
-        "atterrato":false,
-        "crit":false,
-        "debole":["fire","elettric"],
-        "resiste":["ice"],
+        "one_more": false,
+        "atterrato": false,
+        "crit": false,
+        "debole": [
+            "fire",
+            "elettric"
+        ],
+        "resiste": [
+            "ice"
+        ],
         "magie": [
             {
-                "nome":"cura debole",
-                "potenza":"scarsa",
-                "type":"cura",
-                "raggio":"singolo",
-                "costo":6
+                "nome": "cura debole",
+                "potenza": "scarsa",
+                "type": "cura",
+                "raggio": "singolo",
+                "costo": 6
             },
             {
-                "nome":"ghiaccio SINGOLO",
-                "potenza":"scarsa",
-                "type":"ice",
-                "raggio":"singolo",
-                "costo":2
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo",
+                "costo": 2
             }
         ],
         "dungeon": 1,
         "exp_drop": 3,
-        "damage":80,
-        "quanti_tab":2
+        "damage": 80,
+        "quanti_tab": 2,
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     },
     {
         "name": "FLYING SHADOW",
         "max_health": 176,
         "health": 176,
         "speed": 12.0,
-        "one_more":false,
-        "atterrato":false,
-        "crit":false,
-        "debole":["wind","ice"],
-        "resiste":["elettric"],
+        "one_more": false,
+        "atterrato": false,
+        "crit": false,
+        "debole": [
+            "wind",
+            "ice"
+        ],
+        "resiste": [
+            "elettric"
+        ],
         "dungeon": 1,
         "exp_drop": 2.3,
-        "damage":88,
-        "quanti_tab":1
+        "damage": 88,
+        "quanti_tab": 1,
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     }
 ]

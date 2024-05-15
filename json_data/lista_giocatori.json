@@ -99,7 +99,29 @@
             "type": null
         },
         "guard": false,
-        "posizione": 1
+        "posizione": 1,
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     },
     {
         "name": "CASO",
@@ -141,7 +163,29 @@
             "type": null
         },
         "guard": false,
-        "posizione": 2
+        "posizione": 2,
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     },
     {
         "name": "O.S.U.B.A.",
@@ -183,6 +227,28 @@
             "type": null
         },
         "guard": false,
-        "posizione": 3
+        "posizione": 3,
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     }
 ]
