@@ -137,19 +137,19 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
 
 
 def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno,crit):
-
+    os.system(clear)
     if one_more == True:
-        os.system(clear)
+
         Art = text2art("o n e  m o r e",font="sub-zero")
         print(colored(Art,"blue"))
         aspetta_input()
-        os.system(clear)
+ 
     if crit == True:
-        os.system(clear)
+        
         Art = text2art("c r i t",font="sub-zero")
         print(Art)
         aspetta_input()
-        os.system(clear)
+    os.system(clear)
         
 
     nome = giocatore_vivo_["name"]
@@ -305,7 +305,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                         difendersi(giocatore_vivo_)
 
                     case 3: #magie
-                        lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
+                        lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
                     case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
                         rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
         for nemico_ in lista_nemici:
@@ -400,7 +400,6 @@ def sistema_turni(lista_nemici,numero_piano):
                 json.dump(lista_giocatori_v,lista_giocatori_v_,indent=4)
 
             turno = turno + 1
-            turno_c = colored(turno,"light_cyan")
             
     return battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v
 

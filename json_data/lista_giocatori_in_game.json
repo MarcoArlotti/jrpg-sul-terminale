@@ -3,11 +3,11 @@
         "name": "GALO",
         "colore_nome": "light_blue",
         "max_health": 240,
-        "health": 240,
+        "health": 160,
         "speed": 19.0,
         "exp": 0.0,
         "max_sp": 26,
-        "sp": 26,
+        "sp": 8,
         "danno_magie": 2.0,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -16,56 +16,72 @@
                 "potenza": "scarsa",
                 "type": "cura",
                 "raggio": "singolo",
-                "costo": 6
+                "costo": 6,
+                "cosa_consuma": "sp",
+                "posizione": 1
             },
             {
                 "nome": "fuoco pesante SINGOLO",
                 "potenza": "normale",
                 "type": "fire",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "cosa_consuma": "sp",
+                "posizione": 2
             },
             {
                 "nome": "fuoco TUTTI",
                 "potenza": "scarsa",
                 "type": "fire",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "posizione": 3
             },
             {
                 "nome": "scarica SINGOLO",
                 "potenza": "scarsa",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 2
+                "costo": 2,
+                "cosa_consuma": "sp",
+                "posizione": 4
             },
             {
                 "nome": "fuoco pesante SINGOLO",
                 "potenza": "normale",
                 "type": "fire",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "cosa_consuma": "sp",
+                "posizione": 5
             },
             {
                 "nome": "vento devastante SINGOLO",
                 "potenza": "devastante",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 8
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "posizione": 6
             },
             {
                 "nome": "scarica devastante SINGOLO",
                 "potenza": "devastante",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 8
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "posizione": 7
             },
             {
                 "nome": "cura del gruppo debole",
                 "potenza": "scarsa",
                 "type": "cura",
                 "raggio": "gruppo",
-                "costo": 9
+                "costo": 9,
+                "cosa_consuma": "sp",
+                "posizione": 8
             }
         ],
         "damage_base": 10.0,
@@ -81,7 +97,7 @@
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 220,
+        "health": 184,
         "speed": 23.0,
         "exp": 0.0,
         "max_sp": 22,
@@ -94,14 +110,16 @@
                 "potenza": "normale",
                 "type": "elettric",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "cosa_consuma": "sp"
             },
             {
                 "nome": "scarica TUTTI",
                 "potenza": "scarsa",
                 "type": "elettric",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "cosa_consuma": "sp"
             }
         ],
         "damage_base": 9.0,
@@ -110,14 +128,14 @@
             "price": 0,
             "type": null
         },
-        "guard": false,
+        "guard": true,
         "posizione": 2
     },
     {
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 294,
+        "health": 282,
         "speed": 40.0,
         "exp": 0.0,
         "max_sp": 12,
@@ -130,14 +148,16 @@
                 "potenza": "normale",
                 "type": "wind",
                 "raggio": "singolo",
-                "costo": 4
+                "costo": 4,
+                "cosa_consuma": "sp"
             },
             {
                 "nome": "vento TUTTI",
                 "potenza": "scarsa",
                 "type": "wind",
                 "raggio": "gruppo",
-                "costo": 8
+                "costo": 8,
+                "cosa_consuma": "sp"
             }
         ],
         "damage_base": 17.0,
@@ -146,7 +166,7 @@
             "price": 0,
             "type": null
         },
-        "guard": false,
+        "guard": true,
         "posizione": 3
     }
 ]
