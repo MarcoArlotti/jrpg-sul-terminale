@@ -14,7 +14,8 @@ elif platform == "win32":
     p_zaino = "json_data\zaino.json"
 
 def aspetta_input():
-    a = input(colored("press return to continue...","grey"))
+    return_c = colored("\"return\"","red")
+    a = input(colored(f"\npress {return_c}...","grey"))
 
 def debolezze(tipo_magia_player,nemico_):
     lista_magia_debole_nemico = nemico_["debole"] 
@@ -321,9 +322,10 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                 battaglia_vinta = True
                                 break
                             if battaglia_vinta == False:
+
                                 id_nemico = nemico["id"]
                                 nome_nemico = nemico["name"]
-    
+                                nemico_ = nemico
                                 nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
                                 nome_nemico = colored(nome_nemico,"yellow")
     
@@ -444,8 +446,8 @@ def preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_):
     nemico_velocità = nemico_["speed"]
     nemico_velocità_opposto = 100 - nemico_velocità
     flip = True,False
-    
     nemico_preso = random.choices(flip,weights=[nemico_velocità_opposto,nemico_velocità],k=1)
+
     nemico_crit = False
     nemico_atterrato = nemico_["atterrato"]
     if tipo_magia == "melee" and nemico_preso:
@@ -453,9 +455,13 @@ def preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_):
 
         possibilità_crit = giocatore_vivo_["possibilit\u00c3\u00a0_crit"]
         possibilità_crit_opposto = 100 - possibilità_crit
+        os.system(clear)
+        print(possibilità_crit_opposto)
+        print(possibilità_crit)
 
         
-        if nemico_atterrato == False and nemico_preso == True:
+        if nemico_atterrato == False and nemico_preso == [True]:
+            
             nemico_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
             if nemico_crit == [True]:
                 
