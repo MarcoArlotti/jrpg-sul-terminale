@@ -1,217 +1,242 @@
 [
     {
-        "nome":"fuoco SINGOLO",
-        "potenza":"scarsa",
-        "type":"fire",
-        "raggio":"singolo",
-        "costo":2
+        "nome": "fuoco SINGOLO",
+        "potenza": "scarsa",
+        "type": "fire",
+        "raggio": "singolo",
+        "costo": 2,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"ghiaccio SINGOLO",
-        "potenza":"scarsa",
-        "type":"ice",
-        "raggio":"singolo",
-        "costo":2
+        "nome": "ghiaccio SINGOLO",
+        "potenza": "scarsa",
+        "type": "ice",
+        "raggio": "singolo",
+        "costo": 2,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"vento SINGOLO",
-        "potenza":"scarsa",
-        "type":"wind",
-        "raggio":"singolo",
-        "costo":2
+        "nome": "vento SINGOLO",
+        "potenza": "scarsa",
+        "type": "wind",
+        "raggio": "singolo",
+        "costo": 2,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"scarica SINGOLO",
-        "potenza":"scarsa",
-        "type":"elettric",
-        "raggio":"singolo",
-        "costo":2
-    },
-
-    {
-        "nome":"fuoco pesante SINGOLO",
-        "potenza":"normale",
-        "type":"fire",
-        "raggio":"singolo",
-        "costo":4
+        "nome": "scarica SINGOLO",
+        "potenza": "scarsa",
+        "type": "elettric",
+        "raggio": "singolo",
+        "costo": 2,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"ghiaccio pesante SINGOLO",
-        "potenza":"normale",
-        "type":"ice",
-        "raggio":"singolo",
-        "costo":4
+        "nome": "fuoco pesante SINGOLO",
+        "potenza": "normale",
+        "type": "fire",
+        "raggio": "singolo",
+        "costo": 4,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"vento pesante SINGOLO",
-        "potenza":"normale",
-        "type":"wind",
-        "raggio":"singolo",
-        "costo":4
+        "nome": "ghiaccio pesante SINGOLO",
+        "potenza": "normale",
+        "type": "ice",
+        "raggio": "singolo",
+        "costo": 4,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"scarica pesante SINGOLO",
-        "potenza":"normale",
-        "type":"elettric",
-        "raggio":"singolo",
-        "costo":4
-    },
-    
-    {
-        "nome":"fuoco devastante SINGOLO",
-        "potenza":"devastante",
-        "type":"fire",
-        "raggio":"singolo",
-        "costo":8
+        "nome": "vento pesante SINGOLO",
+        "potenza": "normale",
+        "type": "wind",
+        "raggio": "singolo",
+        "costo": 4,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"ghiaccio devastante SINGOLO",
-        "potenza":"devastante",
-        "type":"ice",
-        "raggio":"singolo",
-        "costo":8
+        "nome": "scarica pesante SINGOLO",
+        "potenza": "normale",
+        "type": "elettric",
+        "raggio": "singolo",
+        "costo": 4,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"vento devastante SINGOLO",
-        "potenza":"devastante",
-        "type":"wind",
-        "raggio":"singolo",
-        "costo":8
+        "nome": "fuoco devastante SINGOLO",
+        "potenza": "devastante",
+        "type": "fire",
+        "raggio": "singolo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"scarica devastante SINGOLO",
-        "potenza":"devastante",
-        "type":"elettric",
-        "raggio":"singolo",
-        "costo":8
-    },
-
-    {
-        "nome":"fuoco TUTTI",
-        "potenza":"scarsa",
-        "type":"fire",
-        "raggio":"gruppo",
-        "costo":8
+        "nome": "ghiaccio devastante SINGOLO",
+        "potenza": "devastante",
+        "type": "ice",
+        "raggio": "singolo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"ghiaccio TUTTI",
-        "potenza":"scarsa",
-        "type":"ice",
-        "raggio":"gruppo",
-        "costo":8
+        "nome": "vento devastante SINGOLO",
+        "potenza": "devastante",
+        "type": "wind",
+        "raggio": "singolo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"vento TUTTI",
-        "potenza":"scarsa",
-        "type":"wind",
-        "raggio":"gruppo",
-        "costo":8
+        "nome": "scarica devastante SINGOLO",
+        "potenza": "devastante",
+        "type": "elettric",
+        "raggio": "singolo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"scarica TUTTI",
-        "potenza":"scarsa",
-        "type":"elettric",
-        "raggio":"gruppo",
-        "costo":8
+        "nome": "fuoco TUTTI",
+        "potenza": "scarsa",
+        "type": "fire",
+        "raggio": "gruppo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"fuoco pesante TUTTI",
-        "potenza":"normale",
-        "type":"fire",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "ghiaccio TUTTI",
+        "potenza": "scarsa",
+        "type": "ice",
+        "raggio": "gruppo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"ghiaccio pesante TUTTI",
-        "potenza":"normale",
-        "type":"ice",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "vento TUTTI",
+        "potenza": "scarsa",
+        "type": "wind",
+        "raggio": "gruppo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"vento pesante TUTTI",
-        "potenza":"normale",
-        "type":"wind",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "scarica TUTTI",
+        "potenza": "scarsa",
+        "type": "elettric",
+        "raggio": "gruppo",
+        "costo": 8,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"scarica pesante TUTTI",
-        "potenza":"normale",
-        "type":"elettric",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "fuoco pesante TUTTI",
+        "potenza": "normale",
+        "type": "fire",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"fuoco devastante TUTTI",
-        "potenza":"devastante",
-        "type":"fire",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "ghiaccio pesante TUTTI",
+        "potenza": "normale",
+        "type": "ice",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"ghiaccio devastante TUTTI",
-        "potenza":"devastante",
-        "type":"ice",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "vento pesante TUTTI",
+        "potenza": "normale",
+        "type": "wind",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"vento devastante TUTTI",
-        "potenza":"devastante",
-        "type":"wind",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "scarica pesante TUTTI",
+        "potenza": "normale",
+        "type": "elettric",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"scarica devastante TUTTI",
-        "potenza":"devastante",
-        "type":"elettric",
-        "raggio":"gruppo",
-        "costo":10
-    },
-
-    {
-        "nome":"cura debole",
-        "potenza":"scarsa",
-        "type":"cura",
-        "raggio":"singolo",
-        "costo":6
+        "nome": "fuoco devastante TUTTI",
+        "potenza": "devastante",
+        "type": "fire",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"cura del gruppo debole",
-        "potenza":"scarsa",
-        "type":"cura",
-        "raggio":"gruppo",
-        "costo":9
+        "nome": "ghiaccio devastante TUTTI",
+        "potenza": "devastante",
+        "type": "ice",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"cura normale",
-        "potenza":"normale",
-        "type":"cura",
-        "raggio":"singolo",
-        "costo":8
+        "nome": "vento devastante TUTTI",
+        "potenza": "devastante",
+        "type": "wind",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"cura del gruppo normale",
-        "potenza":"normale",
-        "type":"cura",
-        "raggio":"gruppo",
-        "costo":10
+        "nome": "scarica devastante TUTTI",
+        "potenza": "devastante",
+        "type": "elettric",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"cura pesante",
-        "potenza":"pesante",
-        "type":"cura",
-        "raggio":"singolo",
-        "costo":9
+        "nome": "cura debole",
+        "potenza": "scarsa",
+        "type": "cura",
+        "raggio": "singolo",
+        "costo": 6,
+        "cosa_consuma": "sp"
     },
     {
-        "nome":"cura del gruppo pesante",
-        "potenza":"pesante",
-        "type":"cura",
-        "raggio":"gruppo",
-        "costo":12
+        "nome": "cura del gruppo debole",
+        "potenza": "scarsa",
+        "type": "cura",
+        "raggio": "gruppo",
+        "costo": 9,
+        "cosa_consuma": "sp"
+    },
+    {
+        "nome": "cura normale",
+        "potenza": "normale",
+        "type": "cura",
+        "raggio": "singolo",
+        "costo": 8,
+        "cosa_consuma": "sp"
+    },
+    {
+        "nome": "cura del gruppo normale",
+        "potenza": "normale",
+        "type": "cura",
+        "raggio": "gruppo",
+        "costo": 10,
+        "cosa_consuma": "sp"
+    },
+    {
+        "nome": "cura pesante",
+        "potenza": "pesante",
+        "type": "cura",
+        "raggio": "singolo",
+        "costo": 9,
+        "cosa_consuma": "sp"
+    },
+    {
+        "nome": "cura del gruppo pesante",
+        "potenza": "pesante",
+        "type": "cura",
+        "raggio": "gruppo",
+        "costo": 12,
+        "cosa_consuma": "sp"
     }
-
 ]

@@ -137,19 +137,27 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
             rifai_input = False
             sp_insufficente = False
             i = 0
+            print(colored("posizione","grey"),end="   ")
+            print(colored("nome","cyan"),end="     ")
+            print(colored("bersaglio","blue"),end="      ")
             for magia_ in lista_magie_giocatore:
                 i = i+1
                 if i > 0:
                     print("",end = " " * i) #crea una scaletta di spazi
-
+                
                 numero_magia = magia_["posizione"]
                 print(colored(numero_magia,"grey"),end="  ")
 
                 nome_magia = magia_["nome"]
                 print(colored(nome_magia,"light_cyan"),end=" ")
 
+
+                
                 costo_sp_magia = magia_["costo"]
-                print(colored(f"|{costo_sp_magia}|","magenta"))
+                print(colored(f"|{costo_sp_magia}|HP","green"))
+
+                costo_sp_magia = magia_["costo"]
+                print(colored(f"|{costo_sp_magia}|SP","magenta"))
 
         
             magia_scelta = input(colored("inserire il numero (grigio) della magia scelta...","grey"))
@@ -461,7 +469,7 @@ def preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_):
 
         
         if nemico_atterrato == False and nemico_preso == [True]:
-            
+
             nemico_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
             if nemico_crit == [True]:
                 
