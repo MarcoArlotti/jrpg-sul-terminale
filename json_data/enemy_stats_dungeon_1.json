@@ -6,6 +6,7 @@
         "speed": 10.0,
         "one_more":false,
         "atterrato":false,
+        "crit":false,
         "debole":["fire","elettric"],
         "resiste":["ice"],
         "magie": [
@@ -36,6 +37,7 @@
         "speed": 12.0,
         "one_more":false,
         "atterrato":false,
+        "crit":false,
         "debole":["wind","ice"],
         "resiste":["elettric"],
         "dungeon": 1,

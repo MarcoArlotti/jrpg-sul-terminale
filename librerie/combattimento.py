@@ -197,7 +197,8 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                     rifai = False
                     tipo_magia = magia["type"]
                     raggio = magia["raggio"]
-
+                    tipo_magia = magia["type"]
+                
                     if raggio == "singolo" and not tipo_magia == "cura":
                         rifai_input = True
                         os.system(clear)
@@ -235,8 +236,8 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                             nome_nemico = nemico_["name"]
 
                             if chi_attaccare == id_nemico: #serve nome_,damage_tot
-                                
-                                    nemico_preso = preso_o_mancato_nemici(nemico_)
+                                    
+                                    nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
                                     nome_nemico = colored(nome_nemico,"yellow")
     
                                     if nemico_preso == [True]:
@@ -323,7 +324,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                                 id_nemico = nemico["id"]
                                 nome_nemico = nemico["name"]
     
-                                nemico_preso = preso_o_mancato_nemici(nemico)
+                                nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
                                 nome_nemico = colored(nome_nemico,"yellow")
     
                                 if nemico_preso == [True]:
@@ -411,9 +412,10 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
             for nemico_ in lista_nemici:
                 id_nemico = nemico_["id"]
                 nome_nemico = nemico_["name"]
+                
                 if chi_attaccare == id_nemico: #serve nome_,damage_tot
-
-                    nemico_preso = preso_o_mancato_nemici(nemico_)
+                    tipo_magia = "melee"
+                    nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
                     nome_nemico = colored(nome_nemico,"yellow")
                     if nemico_preso == [True]:
 
@@ -438,12 +440,27 @@ def attaccare(giocatore_vivo_,lista_nemici): #TODO si rompe il programma perchè
 
     return giocatore_vivo_,lista_nemici
 
-def preso_o_mancato_nemici(nemico_):
+def preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_):
     nemico_velocità = nemico_["speed"]
     nemico_velocità_opposto = 100 - nemico_velocità
     flip = True,False
     
     nemico_preso = random.choices(flip,weights=[nemico_velocità_opposto,nemico_velocità],k=1)
+    nemico_crit = False
+    nemico_atterrato = nemico_["atterrato"]
+    if tipo_magia == "melee" and nemico_preso:
+        crit = True,False
+
+        possibilità_crit = giocatore_vivo_["possibilit\u00c3\u00a0_crit"]
+        possibilità_crit_opposto = 100 - possibilità_crit
+
+        
+        if nemico_atterrato == False and nemico_preso == True:
+            nemico_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
+            if nemico_crit == [True]:
+                
+                nemico_.update({"crit":True})
+                nemico_.update({"atterrato":True})
 
     return nemico_preso
 def difendersi(giocatore_vivo):
@@ -834,7 +851,7 @@ def menù_oggetti():
 
 def posizione(lista_giocatori):
     return lista_giocatori["posizione"]
-#da fare per quella in battaglia
+
 def riordina_lista_giocatori_in_battaglia(lista_giocatori_v):
     lista_giocatori_v.sort(key=posizione)
     return lista_giocatori_v

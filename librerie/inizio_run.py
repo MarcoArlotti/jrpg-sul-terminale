@@ -136,12 +136,18 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
     return lista_nemici
 
 
-def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno):
+def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno,crit):
 
     if one_more == True:
         os.system(clear)
-        Art = text2art("one more",font="sub-zero")
+        Art = text2art("o n e  m o r e",font="sub-zero")
         print(colored(Art,"blue"))
+        aspetta_input()
+        os.system(clear)
+    if crit == True:
+        os.system(clear)
+        Art = text2art("c r i t",font="sub-zero")
+        print(Art)
         aspetta_input()
         os.system(clear)
         
@@ -245,6 +251,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
     rifai = True
     sp_insufficente = False
     one_more = False
+    crit = False
     while rifai == True or sp_insufficente == True:
 
         sp_insufficente = False
@@ -265,8 +272,9 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 rifai_input = False
                 os.system(clear)
 
-                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno)
+                print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno,crit)
                 one_more = False
+                crit = False
                 
                 print(colored("\n1","grey"),end=" ")
                 print(colored("ATTACCARE","light_blue"),end="")
@@ -308,6 +316,13 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 one_more = True
                 rifai = True
                 break
+            crit = nemico_["crit"]
+            if crit == True:
+                nemico_.update({"crit":False})
+                crit = True
+                rifai = True
+                break
+
 
         for i in range(len(lista_nemici)):
             for nemico in lista_nemici:
