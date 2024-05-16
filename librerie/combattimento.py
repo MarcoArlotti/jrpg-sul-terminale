@@ -29,6 +29,7 @@ def debolezze(tipo_magia_player,nemico_):
         if debolezza == tipo_magia_player:
             status = "debole"
             break
+
     
     return status
 
@@ -38,9 +39,8 @@ def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
     tipo_magia_player = magia["type"]
     status = None
     if not tipo_magia_player == "cura":
+        chi = "giocatori"
         status = debolezze(tipo_magia_player,nemico_)
-
-        nome_nemico_c = colored(nemico_["name"],"yellow")
 
     if tipo_magia_player == "cura": #la variabile "danno inflitto" verrà convertita in quanta vita curare
             
@@ -288,7 +288,8 @@ def attaccare(giocatore_vivo_,lista_nemici):
                 
                 if chi_attaccare == id_nemico: #serve nome_,damage_tot
                     tipo_magia = "melee"
-                    nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
+                    chi = "giocatori"
+                    nemico_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
                     nome_nemico = colored(nome_nemico,"yellow")
                     if nemico_preso == [True]:
 
@@ -313,33 +314,90 @@ def attaccare(giocatore_vivo_,lista_nemici):
 
     return giocatore_vivo_,lista_nemici
 
-def preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_):
-    nemico_velocità = nemico_["speed"]
-    nemico_velocità_opposto = 100 - nemico_velocità
-    flip = True,False
-    nemico_preso = random.choices(flip,weights=[nemico_velocità_opposto,nemico_velocità],k=1)
+def preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi):
 
-    nemico_crit = False
-    nemico_atterrato = nemico_["atterrato"]
-    if tipo_magia == "melee" and nemico_preso:
-        crit = True,False
+    if chi == "giocatori":
 
-        possibilità_crit = giocatore_vivo_["possibilit\u00c3\u00a0_crit"]
-        possibilità_crit_opposto = 100 - possibilità_crit
-        os.system(clear)
-        print(possibilità_crit_opposto)
-        print(possibilità_crit)
+        agi_nemico = nemico_["AGI"]
+        nemico_velocità = nemico_["schivata"]
 
+        if agi_nemico == 1: #avvantaggiata la schivata
+            percentuale = (nemico_velocità * 40)/100
+            nemico_velocità = percentuale + nemico_velocità
+
+        elif agi_nemico == -1: #svantaggiata la schivata
+            percentuale = (nemico_velocità * 40)/100
+            nemico_velocità = nemico_velocità - percentuale
+
+        nemico_velocità_opposto = 100 - nemico_velocità
         
-        if nemico_atterrato == False and nemico_preso == [True]:
+        flip = True,False
+        nemico_preso = random.choices(flip,weights=[nemico_velocità_opposto,nemico_velocità],k=1)
 
-            nemico_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
-            if nemico_crit == [True]:
+        nemico_crit = False
+        nemico_atterrato = nemico_["atterrato"]
+
+        if tipo_magia == "melee" and nemico_preso:
+            crit = True,False
+
+            possibilità_crit = giocatore_vivo_["possibilit\u00c3\u00a0_crit"]
+            possibilità_crit_opposto = 100 - possibilità_crit
+            os.system(clear)
+            print(possibilità_crit_opposto)
+            print(possibilità_crit)
+
+
+            if nemico_atterrato == False and nemico_preso == [True]:
+
+                nemico_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
+                if nemico_crit == [True]:
+
+                    nemico_.update({"crit":True})
+                    nemico_.update({"atterrato":True})
+        return nemico_preso
+    elif chi == "nemici":
+
+        agi_giocatore = giocatore_vivo_["AGI"]
+        giocatore_velocità = giocatore_vivo_["schivata"]
+
+        if agi_giocatore == 1: #avvantaggiata la schivata
+            percentuale = (giocatore_velocità * 40)/100
+            giocatore_velocità = percentuale + giocatore_velocità
+
+        elif agi_giocatore == -1: #svantaggiata la schivata
+            percentuale = (giocatore_velocità * 40)/100
+            giocatore_velocità = giocatore_velocità - percentuale
+
+
+        giocatore_velocità_opposto = 100 - giocatore_velocità
+        flip = True,False
+        giocatore_preso = random.choices(flip,weights=[giocatore_velocità_opposto,giocatore_velocità],k=1)
+        
                 
-                nemico_.update({"crit":True})
-                nemico_.update({"atterrato":True})
 
-    return nemico_preso
+        giocatore_crit = False
+        giocatore_atterrato = nemico_["atterrato"]
+
+        if tipo_magia == "melee" and giocatore_preso:
+            crit = True,False
+
+            possibilità_crit = nemico_["possibilit\u00c3\u00a0_crit"]
+            possibilità_crit_opposto = 100 - possibilità_crit
+            os.system(clear)
+            print(possibilità_crit_opposto)
+            print(possibilità_crit)
+
+
+            if giocatore_atterrato == False and giocatore_preso == [True]:
+
+                giocatore_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
+                if giocatore_crit == [True]:
+
+                    giocatore_vivo_.update({"crit":True})
+                    giocatore_vivo_.update({"atterrato":True})
+        return giocatore_preso
+
+    
 def difendersi(giocatore_vivo):
 
     os.system(clear)
@@ -756,31 +814,56 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
 
             chi_attaccare_player = random.choice(lista_giocatori_v)
             chi_attaccare_player_nome = chi_attaccare_player["name"]
+            nemico_ = chi_attaccare_player
+            tipo_magia = "melee"
+            giocatore_vivo_ = chi_attaccare_player
+            chi = "nemici"
 
-            for giocatore in lista_giocatori_v:
-                nome_giocatore = giocatore["name"]
+            giocatore_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
+            if giocatore_preso == [True]:
+                for giocatore in lista_giocatori_v:
+                    nome_giocatore = giocatore["name"]
 
-                if nome_giocatore == chi_attaccare_player_nome:
+                    if nome_giocatore == chi_attaccare_player_nome:
+                        tipo_magia_player = "slash"
+                        status = debolezze(tipo_magia_player,giocatore)
 
-                    vita_player = giocatore["health"]
-                    parata_attiva = giocatore["guard"]
+                        vita_player = giocatore["health"]
+                        parata_attiva = giocatore["guard"]
 
-                    if parata_attiva == True:
-                        danno_nemico = int(danno_nemico / 2.2)
+                        if parata_attiva == True:
+                            danno_nemico = int(danno_nemico / 2.2)
 
-                    vita_player = vita_player - danno_nemico
+                        armatura = giocatore["armatura"]
+                        for giocatore_ in lista_giocatori_v:
+                            def_ = giocatore_["DEF"]
 
-                    nome = giocatore["name"]
-                    colore_nome = giocatore["colore_nome"]
+                            if def_ == 1:
+                                armatura = giocatore_["armatura"]
 
-                    player_vivo_nome_c = colored(nome,colore_nome)
-                    danno_nemico = colored(danno_nemico,"red")
+                                percentuale = (armatura * 40)/100
+                                tot = armatura + percentuale
 
-                    print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {player_vivo_nome_c}")
-                    giocatore.update({"health":vita_player})
-                    aspetta_input()
-                    os.system(clear)
-                    break
+                                giocatore_.update({"armatura":tot})
+
+                        vita_player = vita_player - (danno_nemico / armatura)
+                        vita_player = int(vita_player)
+                        for giocatore_ in lista_giocatori_v:
+                            def_ = giocatore_["DEF"]
+                            if def_ == 1:
+                                giocatore_.update({"armatura":armatura})
+
+                        nome = giocatore["name"]
+                        colore_nome = giocatore["colore_nome"]
+
+                        player_vivo_nome_c = colored(nome,colore_nome)
+                        danno_nemico = colored(danno_nemico,"red")
+                        os.system(clear)
+                        print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {player_vivo_nome_c}")
+                        giocatore.update({"health":vita_player})
+                        aspetta_input()
+
+                        break
         #elif numero_piano > 2:
         #    #i nemici posso attaccare con magie
         #    lista_magie_nemico = nemico["magie"]
@@ -943,14 +1026,17 @@ def statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fon
 
 def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_):
     if fonte == "giocatore":
-        atk_ = giocatore_vivo_["ATK"]
-        if atk_ == 1:
-            danno_magie = giocatore_vivo_["danno_magie"]
 
-            percentuale = (danno_magie * 20)/100
-            tot = danno_magie + percentuale
+        for giocatore_ in lista_giocatori_v:
+            atk_ = giocatore_["ATK"]
+            
+            if atk_ == 1:
+                danno_magie = giocatore_vivo_["danno_magie"]
 
-            giocatore_vivo_.update({"danno_magie":tot})
+                percentuale = (danno_magie * 20)/100
+                tot = danno_magie + percentuale
+
+                giocatore_vivo_.update({"danno_magie":tot})
 
         if not tipo_magia == "cura":
             if raggio == "singolo":
@@ -991,8 +1077,8 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                     nome_nemico = nemico_["name"]
 
                     if chi_attaccare == id_nemico: #serve nome_,damage_tot
-
-                            nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
+                            chi = "giocatori"
+                            nemico_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
                             nome_nemico = colored(nome_nemico,"yellow")
 
                             if nemico_preso == [True]:
@@ -1023,7 +1109,8 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         id_nemico = nemico["id"]
                         nome_nemico = nemico["name"]
                         nemico_ = nemico
-                        nemico_preso = preso_o_mancato_nemici(nemico_,tipo_magia,giocatore_vivo_)
+                        chi = "giocatori"
+                        nemico_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
                         nome_nemico = colored(nome_nemico,"yellow")
 
                         if nemico_preso == [True]:
@@ -1125,36 +1212,11 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
 
                     vita_max_giocatore = giocatore["max_health"]
                     print(colored(vita_max_giocatore,"green"))
-    aspetta_input()
-    if atk_ == 1:
-           
+    for giocatore_ in lista_giocatori_v:
+        atk_ = giocatore_["ATK"]
+        if atk_ == 1:
             giocatore_vivo_.update({"danno_magie":danno_magie})
-    elif fonte == "nemici":
-
-        if tipo_magia == "ATK_UP":
-            if raggio == "singolo":
-                pass
-        elif raggio == "gruppo":
-            pass
-
-        elif tipo_magia == "DEF_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-
-        elif tipo_magia == "AGI_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-            
-        elif tipo_magia == "CRIT_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-    
+   
     return magia
 
 

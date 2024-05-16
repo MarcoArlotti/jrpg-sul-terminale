@@ -138,6 +138,20 @@ def random_quanti_nemici(quanti_nemici,lista_nemici):
 
 def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno,crit):
     os.system(clear)
+    nome = giocatore_vivo_["name"]
+    colore_nome = giocatore_vivo_["colore_nome"]
+
+    player_vivo_nome_c = colored(nome,colore_nome)
+    atterrato = giocatore_vivo_["atterrato"]
+    if atterrato == True:
+        giocatore_vivo_.update({"atterrato":False})
+        giocatore_vivo_.update({"one_more":False})
+        giocatore_vivo_.update({"crit":False})
+        rialzato_c = colored("rialzato","red")
+        print(f" il {player_vivo_nome_c} si è {rialzato_c}")
+        aspetta_input()
+    os.system(clear)
+
     if one_more == True:
 
         Art = text2art("o n e  m o r e",font="sub-zero")
@@ -152,10 +166,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
     os.system(clear)
         
 
-    nome = giocatore_vivo_["name"]
-    colore_nome = giocatore_vivo_["colore_nome"]
-
-    player_vivo_nome_c = colored(nome,colore_nome)
+    
     turno_c = colored(turno,"red")
 
     print(colored(f"TURNO |{turno_c}",colore_nome),end="")
@@ -241,6 +252,11 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         
         nome_giocatore = giocatore["name"]
         colore_nome = giocatore["colore_nome"]
+
+        atterrato = giocatore["atterrato"]
+        if atterrato == True:
+            colore_nome = "grey"
+
         nome_giocatore_c = colored(f"|{nome_giocatore}|",colore_nome)
 
         atk_giocatore = giocatore["ATK"]
@@ -370,13 +386,13 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 nemico_.update({"one_more":False})
                 one_more = True
                 rifai = True
-                break
+                
             crit = nemico_["crit"]
             if crit == True:
                 nemico_.update({"crit":False})
                 crit = True
                 rifai = True
-                break
+                
 
 
         for i in range(len(lista_nemici)):
@@ -505,7 +521,26 @@ def sistema_turni(lista_nemici,numero_piano):
                 lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno)
 
             for nemico in lista_nemici:
-                lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
+                rifai = True
+                while rifai == True or one_more == True or crit == True:
+                    one_more = False
+                    crit = False
+                    rifai = False
+                    lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
+
+                    for giocatore in lista_giocatori_v:
+                                
+                        one_more_ = giocatore["one_more"]
+                        if one_more_ == True:
+                            giocatore.update({"one_more":False})
+                            one_more = True
+                            rifai = True
+                            
+                        crit = giocatore["crit"]
+                        if crit == True:
+                            giocatore.update({"crit":False})
+                            crit = True
+                            rifai = True
 
 
             with open(p_lista_giocatori_in_game,"w") as lista_giocatori_v_:
@@ -672,8 +707,7 @@ for numero_piano in range(6):
     battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
 
     if battaglia_vinta == True:
-        #TODO vuoi salvare?
-        #TODO vuoi chiudere il programa?
+
         lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori_v)
 
         riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
@@ -687,36 +721,36 @@ for numero_piano in range(6):
 
     elif battaglia_persa == True:
 
-        riprovare = {
-            "funzione":"riprovare",
-            "posizione":1
-        }
-        salvare = {
-            "funzione":"salva ed esci",
-            "posizione":2
-        }
-        esci = {
-            "funzione":"esci senza salvare",
-            "posizione":3
-        }
-        opzioni = [riprovare,salvare,esci]
-        i = 0
-        for opzione in opzioni:
-            funzione = opzione["funzione"]
-            posizione = opzione["posizione"]
-            i = i+1
-            if i > 1:
-                print("",end = "  " * i) #crea una scaletta di spazi
-            print(colored(posizione,"grey"),end=" ")
-            print(funzione)
-        scelta = str(input(colored("...","grey")))
-        if scelta == 1:
-            #riprova battaglia
-            pass
-        elif scelta == 2:
-            #salva ed esci
-            pass
-        elif scelta == 3:
+        #riprovare = {
+        #    "funzione":"riprovare",
+        #    "posizione":1
+        #}
+        #salvare = {
+        #    "funzione":"salva ed esci",
+        #    "posizione":2
+        #}
+        #esci = {
+        #    "funzione":"esci senza salvare",
+        #    "posizione":3
+        #}
+        #opzioni = [riprovare,salvare,esci]
+        #i = 0
+        #for opzione in opzioni:
+        #    funzione = opzione["funzione"]
+        #    posizione = opzione["posizione"]
+        #    i = i+1
+        #    if i > 1:
+        #        print("",end = "  " * i) #crea una scaletta di spazi
+        #    print(colored(posizione,"grey"),end=" ")
+        #    print(funzione)
+        #scelta = str(input(colored("...","grey")))
+        #if scelta == 1:
+        #    #riprova battaglia
+        #    pass
+        #elif scelta == 2:
+        #    #salva ed esci
+        #    pass
+        #elif scelta == 3:
             os.system(clear)
             print(colored("uscendo dal programma...","grey"))
             aspetta_input()
