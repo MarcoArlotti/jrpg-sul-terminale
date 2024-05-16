@@ -42,54 +42,22 @@
                 "effetto": "magia"
             },
             {
-                "nome": "scarica SINGOLO",
-                "potenza": "scarsa",
-                "type": "elettric",
+                "nome": "ATK UP",
+                "type": "ATK UP",
                 "raggio": "singolo",
-                "costo": 2,
-                "cosa_consuma": "sp",
+                "costo": 20,
+                "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "stats"
             },
             {
-                "nome": "fuoco pesante SINGOLO",
-                "potenza": "normale",
-                "type": "fire",
-                "raggio": "singolo",
-                "costo": 4,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia"
-            },
-            {
-                "nome": "vento devastante SINGOLO",
-                "potenza": "devastante",
-                "type": "wind",
-                "raggio": "singolo",
-                "costo": 8,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia"
-            },
-            {
-                "nome": "scarica devastante SINGOLO",
-                "potenza": "devastante",
-                "type": "elettric",
-                "raggio": "singolo",
-                "costo": 8,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia"
-            },
-            {
-                "nome": "cura del gruppo debole",
-                "potenza": "scarsa",
-                "type": "cura",
+                "nome": "ATK UP TUTTI",
+                "type": "ATK UP",
                 "raggio": "gruppo",
-                "costo": 9,
-                "cosa_consuma": "sp",
+                "costo": 50,
+                "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "stats"
             }
         ],
         "damage_base": 10.0,
@@ -100,28 +68,12 @@
         },
         "guard": false,
         "posizione": 1,
-        "effetti": [
-            {
-                "ATK": 0
-            },
-            {
-                "DEF": 0
-            },
-            {
-                "AGI": 0
-            }
-        ],
-        "scadenze": [
-            {
-                "s_ATK": 0
-            },
-            {
-                "s_DEF": 0
-            },
-            {
-                "s_AGI": 0
-            }
-        ]
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     },
     {
         "name": "CASO",
@@ -164,28 +116,13 @@
         },
         "guard": false,
         "posizione": 2,
-        "effetti": [
-            {
-                "ATK": 0
-            },
-            {
-                "DEF": 0
-            },
-            {
-                "AGI": 0
-            }
-        ],
-        "scadenze": [
-            {
-                "s_ATK": 0
-            },
-            {
-                "s_DEF": 0
-            },
-            {
-                "s_AGI": 0
-            }
-        ]
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
+        
     },
     {
         "name": "O.S.U.B.A.",
@@ -228,27 +165,11 @@
         },
         "guard": false,
         "posizione": 3,
-        "effetti": [
-            {
-                "ATK": 0
-            },
-            {
-                "DEF": 0
-            },
-            {
-                "AGI": 0
-            }
-        ],
-        "scadenze": [
-            {
-                "s_ATK": 0
-            },
-            {
-                "s_DEF": 0
-            },
-            {
-                "s_AGI": 0
-            }
-        ]
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     }
 ]

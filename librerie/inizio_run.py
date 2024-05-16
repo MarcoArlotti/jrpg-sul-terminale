@@ -191,35 +191,33 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         elif nemico_atterrato == False:
             nome_nemico_c = colored(nome_nemico,"light_red")
 
-        atk_nemico = nemico["effetti"]["atk"]
-        def_nemico = nemico["effetti"]["def"]
-        agi_nemico = nemico["effetti"]["agi"]
+        atk_nemico = nemico["ATK"]
+        def_nemico = nemico["DEF"]
+        agi_nemico = nemico["AGI"]
 
         print("|",end="")
         if atk_nemico == 1:
-            print(colored("+ATK [up]","red"),end="")
-        elif def_nemico == 1:
-            print(colored("+DEF [up]","blue"),end="")
-        elif agi_nemico == 1:
-            print(colored("+AGI [up]","green"),end="")
+            print(colored("|^|ATK","red"),end="  ")
+        if def_nemico == 1:
+            print(colored("|^|DEF","blue"),end="  ")
+        if agi_nemico == 1:
+            print(colored("|^|AGI","green"),end="")
 
-        elif atk_nemico == 0:
-            print(colored("ATK [base]","grey"),end="")
-        elif def_nemico == 0:
-            print(colored("DEF [base]","grey"),end="")
-        elif agi_nemico == 0:
-            print(colored("AGI [base]","grey"),end="")
+        if atk_nemico == 0:
+            print(colored("ATK","grey"),end="  ")
+        if def_nemico == 0:
+            print(colored("DEF","grey"),end="  ")
+        if agi_nemico == 0:
+            print(colored("AGI","grey"),end="")
 
-        elif atk_nemico == -1:
-            print(colored("-ATK [down]","light_red"),end="")
-        elif def_nemico == -1:
-            print(colored("-DEF [down]","light_blue"),end="")
-        elif agi_nemico == -1:
-            print(colored("-AGI [down]","light_green"),end="")
+        if atk_nemico == -1:
+            print(colored("|v|ATK","light_red"),end="  ")
+        if def_nemico == -1:
+            print(colored("|v|DEF","light_blue"),end="  ")
+        if agi_nemico == -1:
+            print(colored("|v|AGI","light_green"),end="")
+        print("|",end="  ")
 
-
-
-        print("|",end="")
         quanti_tab = "\t" * quanti_tab
         print(nome_nemico_c + quanti_tab,end="")
         if i > 0:
@@ -236,7 +234,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         i = i+1
         print("\t" * i,end="") #crea una scaletta di spazi
         
-        print(colored("HP","green"),end="\t  ")
+        print(colored("                HP","green"),end="\t  ")
         print(colored("SP","magenta"),end="\n")
         if i > 1:
             print("",end = "  " * i)
@@ -244,6 +242,34 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         nome_giocatore = giocatore["name"]
         colore_nome = giocatore["colore_nome"]
         nome_giocatore_c = colored(f"|{nome_giocatore}|",colore_nome)
+
+        atk_giocatore = giocatore["ATK"]
+        def_giocatore = giocatore["DEF"]
+        agi_giocatore = giocatore["AGI"]
+
+        print("|",end="")
+        if atk_giocatore == 1:
+            print(colored("|^|ATK","red"),end="  ")
+        if def_giocatore == 1:
+            print(colored("|^|DEF","blue"),end="  ")
+        if agi_giocatore == 1:
+            print(colored("|^|AGI","green"),end="")
+
+        if atk_giocatore == 0:
+            print(colored("ATK","grey"),end="  ")
+        if def_giocatore == 0:
+            print(colored("DEF","grey"),end="  ")
+        if agi_giocatore == 0:
+            print(colored("AGI","grey"),end="")
+
+        if atk_giocatore == -1:
+            print(colored("|v|ATK","light_red"),end="  ")
+        if def_giocatore == -1:
+            print(colored("|v|DEF","light_blue"),end="  ")
+        if agi_giocatore == -1:
+            print(colored("|v|AGI","light_green"),end="")
+        print("|",end="  ")
+
         print(nome_giocatore_c,end="\t")
 
         vita_giocatore = giocatore["health"]
@@ -295,7 +321,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
             rifai_input = True
             
-
+            
             while rifai_input == True:
                 
                 rifai_input = False
@@ -375,51 +401,56 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
 def conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici):
     #player
-    
-    
-
     for giocatore in lista_giocatori_v:
-        lista_effetti = giocatore["effetti"]
-        lista_scadenze = giocatore["scadenze"]
-        for scadenza in lista_scadenze:
-            print(scadenza)
-            if scadenza != 0:        
-                scadenza = scadenza -1
-        scadenza_def = lista_scadenze["s_DEF"]
-        scadenza_atk = lista_scadenze["s_ATK"]
-        scadenza_agi = lista_scadenze["s_AGI"]
+        
+        s_ATK = giocatore["s_ATK"]
+        s_DEF = giocatore["s_DEF"]
+        s_AGI = giocatore["s_AGI"]
+        if s_ATK != 0:   
+            s_ATK = s_ATK -1
+            giocatore.update({"s_ATK":s_ATK})
+        elif s_DEF != 0:        
+            s_DEF = s_DEF -1
+            giocatore.update({"s_ATK":s_DEF})
+        elif s_AGI != 0:        
+            s_AGI = s_AGI -1
+            giocatore.update({"s_ATK":s_AGI})
 
-        if scadenza_atk == 0:
-            lista_effetti.update({"ATK":0})
-        elif scadenza_def == 0:
-            lista_effetti.update({"DEF":0})
-        elif scadenza_agi == 0:
-            lista_effetti.update({"AGI":0})
-
+        if s_ATK == 0:
+            giocatore.update({"ATK":0})
+        elif s_DEF == 0:
+            giocatore.update({"DEF":0})
+        elif s_AGI == 0:
+            giocatore.update({"AGI":0})
+            
     for giocatore_morto in lista_giocatori_m:
-        lista_effetti = giocatore_morto["effetti"]
-        lista_effetti.update({"ATK":0})
-        lista_effetti.update({"DEF":0})
-        lista_effetti.update({"AGI":0})
+        giocatore_morto.update({"ATK":0})
+        giocatore_morto.update({"DEF":0})
+        giocatore_morto.update({"AGI":0})
+
+        giocatore_morto.update({"s_ATK":0})
+        giocatore_morto.update({"s_DEF":0})
+        giocatore_morto.update({"s_AGI":0})
 
     #nemici
-    lista_effetti = lista_nemici["effetti"]
-    lista_scadenze = lista_nemici["scadenze"]
-    for scadenza in lista_scadenze:
+    for nemico in lista_nemici:
+        
+        s_ATK = nemico["s_ATK"]
+        s_DEF = nemico["s_DEF"]
+        s_AGI = nemico["s_AGI"]
+        if s_ATK != 0:        
+            s_ATK =-1
+        elif s_DEF != 0:        
+            s_DEF=-1
+        elif s_AGI != 0:        
+            s_AGI=-1
 
-        if scadenza != 0:        
-            scadenza = scadenza -1
-    scadenza_def = lista_scadenze["s_DEF"]
-    scadenza_atk = lista_scadenze["s_ATK"]
-    scadenza_agi = lista_scadenze["s_AGI"]
-
-    if scadenza_atk == 0:
-        lista_effetti.update({"ATK":0})
-    elif scadenza_def == 0:
-        lista_effetti.update({"DEF":0})
-    elif scadenza_agi == 0:
-        lista_effetti.update({"AGI":0})
-
+        if s_ATK == 0:
+            nemico.update({"ATK":0})
+        elif s_DEF == 0:
+            nemico.update({"DEF":0})
+        elif s_AGI == 0:
+            nemico.update({"AGI":0})
     return lista_giocatori_v,lista_giocatori_m,lista_nemici
 
 
@@ -467,10 +498,11 @@ def sistema_turni(lista_nemici,numero_piano):
             #os.system("shutdown/c\"/SKILL ISSUE\"")
                   
         if battaglia_vinta == False and battaglia_persa == False:
-            conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici)
+
+            lista_giocatori_v,lista_giocatori_m,lista_nemici = conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici)
 
             for giocatore_vivo_ in lista_giocatori_v:
-                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno) #giocatore_vivo_ in return?
+                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno)
 
             for nemico in lista_nemici:
                 lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)

@@ -214,8 +214,9 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                             hp_insufficente = True
                             rifai_input = True
                         elif hp_rimasto >= 1:
+                            giocatore_vivo_.update({"hp":hp_rimasto})
+                            break
 
-                            giocatore_vivo_.update({"sp":hp_rimasto})
                     elif cosa_consuma == "sp":
                         sp_rimasta = sp_giocatore - costo_magia
                         if sp_rimasta < 0:
@@ -227,7 +228,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                         elif sp_rimasta >= 0:
                         
                             giocatore_vivo_.update({"sp":sp_rimasta})
-                        break
+                            break
 
         rifai = True
         while rifai == True and sp_insufficente == False and hp_insufficente == False:
@@ -239,14 +240,11 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
             effetto = magia["effetto"]
 
             fonte = magia["fonte"] #determina se lo sta usando un nemico o giocatatore
-            print(effetto)
-            print(tipo_magia)
-            aspetta_input()
             if effetto == "stats": #per le magie che manipolano le statistiche
-                lista_giocatori_v,lista_nemici = statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte)
+                statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte)
 
             elif effetto == "magia": #per magie che fanno del danno
-                lista_nemici,magia,lista_giocatori_v = magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_)
+                magie = magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_)
 
 
     return lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input
@@ -801,64 +799,159 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
 
     return lista_giocatori_v,lista_giocatori_m
 
-def statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte):
+def stat_buff_funzionamento(giocatore_vivo_,tipo_magia):
+    
+    if tipo_magia == "ATK UP":
         
-    if fonte == "giocatori":
-        if tipo_magia == "ATK_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-                
-        elif tipo_magia == "DEF_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-                
-        elif tipo_magia == "AGI_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
+        atk_ = giocatore_vivo_["ATK"]
+        if atk_ == 1:
+            atk_ = 1
             
-        if tipo_magia == "CRIT_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
+        elif atk_ != 1:
+            atk_ =+ 1
+            
+        s_ATK = 3
+        giocatore_vivo_.update({"s_ATK":s_ATK})
+        giocatore_vivo_.update({"ATK":atk_})
+
+    elif tipo_magia == "DEF UP":
+        def_ = giocatore_vivo_["DEF"]
+        if def_ == 1:
+            def_ = 1
+        elif def_ != 1:
+            def_ =+ 1
+        s_DEF = 3
+        giocatore_vivo_.update({"s_DEF":s_DEF})
+        giocatore_vivo_.update({"ATK":def_})
+
+    elif tipo_magia == "AGI UP":
+        agi_ = giocatore_vivo_["AGI"]
+        if agi_ == 1:
+            agi_ = 1
+        elif agi_ != 1:
+            agi_ =+ 1
+        s_AGI = 3
+        giocatore_vivo_.update({"s_AGI":s_AGI})
+        giocatore_vivo_.update({"AGI":agi_})
+
+    if tipo_magia == "CRIT UP":
+        crit_ = giocatore_vivo_["CRIT"]
+        if crit_ == 1:
+            crit_ = 1
+        elif crit_ != 1:
+            crit_ =+ 1
+        s_CRIT = 3
+        giocatore_vivo_.update({"s_CRIT":s_CRIT})
+        giocatore_vivo_.update({"CRIT":crit_})
+
+def statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte):
+
+    if fonte == "giocatore":
+        if raggio == "singolo":
+            i = 0
+            for giocatore in lista_giocatori_v:
+                i = i+1
+                if i > 1:
+                    print("",end = " " * i) #crea una scaletta di spazi
+
+                posizione_giocatore = giocatore["posizione"]
+                print(colored(posizione_giocatore,"grey"),end="  ")
+
+                nome_giocatore = giocatore["name"]
+                colore_nome = giocatore["colore_nome"]
+
+                nome_giocatore_c = colored(nome_giocatore,colore_nome)
+                print(nome_giocatore_c,end=" ")
+
+                vita_giocatore = giocatore["health"]
+                print(colored(f"|{vita_giocatore}","light_green"),end="/")
+
+                vita_max_giocatore = giocatore["max_health"]
+                print(colored(f"{vita_max_giocatore}|","green"))
+
+            rifai = True
+            while rifai == True:
+
+                rifai = False
+                chi_curare = input("chi potenziare?")
+                try:
+                    chi_curare = int(chi_curare)
+                except:
+                    print(colored("rifare inserendo un valore numerico...","grey"))
+                    os.system(clear)
+                    rifai = True
+
+            for giocatore_vivo_ in lista_giocatori_v:
+                posizione_giocatore = giocatore_vivo_["posizione"]
+
+                if chi_curare == posizione_giocatore:
+                    stat_buff_funzionamento(giocatore_vivo_,tipo_magia)
+                    break
+                
+        elif raggio == "gruppo":
+            for giocatore in lista_giocatori_v:
+                stat_buff_funzionamento(giocatore,tipo_magia)
 
 
     elif fonte == "nemici":
+        if raggio == "singolo":
+            i = 0
+            for giocatore in lista_giocatori_v:
+                i = i+1
+                if i > 1:
+                    print("",end = " " * i) #crea una scaletta di spazi
 
-        if tipo_magia == "ATK_UP":
-            if raggio == "singolo":
-                pass
+                posizione_giocatore = giocatore["posizione"]
+                print(colored(posizione_giocatore,"grey"),end="  ")
+
+                nome_giocatore = giocatore["name"]
+                colore_nome = giocatore["colore_nome"]
+
+                nome_giocatore_c = colored(nome_giocatore,colore_nome)
+                print(nome_giocatore_c,end=" ")
+
+                vita_giocatore = giocatore["health"]
+                print(colored(f"|{vita_giocatore}","light_green"),end="/")
+
+                vita_max_giocatore = giocatore["max_health"]
+                print(colored(f"{vita_max_giocatore}|","green"))
+
+            rifai = True
+            while rifai == True:
+            
+                rifai = False
+                chi_curare = input("chi potenziare?")
+                try:
+                    chi_curare = int(chi_curare)
+                except:
+                    print(colored("rifare inserendo un valore numerico...","grey"))
+                    os.system(clear)
+                    rifai = True
+
+            for giocatore_vivo_ in lista_giocatori_v:
+                posizione_giocatore = giocatore_vivo_["posizione"]
+
+                if chi_curare == posizione_giocatore:
+                
+
+                    break
+                
         elif raggio == "gruppo":
             pass
-
-        elif tipo_magia == "DEF_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-
-        elif tipo_magia == "AGI_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
-            
-        if tipo_magia == "CRIT_UP":
-            if raggio == "singolo":
-                pass
-            elif raggio == "gruppo":
-                pass
 
 
 
 def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_):
     if fonte == "giocatore":
+        atk_ = giocatore_vivo_["ATK"]
+        if atk_ == 1:
+            danno_magie = giocatore_vivo_["danno_magie"]
+
+            percentuale = (danno_magie * 20)/100
+            tot = danno_magie + percentuale
+
+            giocatore_vivo_.update({"danno_magie":tot})
+
         if not tipo_magia == "cura":
             if raggio == "singolo":
                 rifai = True
@@ -1032,8 +1125,10 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
 
                     vita_max_giocatore = giocatore["max_health"]
                     print(colored(vita_max_giocatore,"green"))
-
-                
+    aspetta_input()
+    if atk_ == 1:
+           
+            giocatore_vivo_.update({"danno_magie":danno_magie})
     elif fonte == "nemici":
 
         if tipo_magia == "ATK_UP":
@@ -1059,8 +1154,8 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                 pass
             elif raggio == "gruppo":
                 pass
-
-    return lista_nemici,magia,lista_giocatori_v
+    
+    return magia
 
 
 
