@@ -30,7 +30,6 @@
                 "costo": 2
             }
         ],
-        "dungeon": 1,
         "exp_drop": 3,
         "damage": 80,
         "quanti_tab": 2,
@@ -72,9 +71,48 @@
         "resiste": [
             "elettric"
         ],
-        "dungeon": 1,
         "exp_drop": 2.3,
         "damage": 88,
+        "quanti_tab": 1,
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
+    },
+    {
+        "name": "KINIGHT",
+        "max_health": 376,
+        "health": 376,
+        "speed": 9.0,
+        "one_more": false,
+        "atterrato": false,
+        "crit": false,
+        "debole": [
+            "elettric"
+        ],
+        "resiste": [
+            "slash"
+        ],
+        "exp_drop": 5.3,
+        "damage": 58,
         "quanti_tab": 1,
         "effetti": [
             {

@@ -100,16 +100,28 @@
         },
         "guard": false,
         "posizione": 1,
-        "effetti": {
-            "DEF": 0,
-            "ATK": 0,
-            "AGI": 0
-        },
-        "scadenze": {
-            "s_DEF": 0,
-            "s_ATK": 0,
-            "s_AGI": 0
-        }
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     },
     {
         "name": "CASO",
@@ -152,14 +164,28 @@
         },
         "guard": false,
         "posizione": 2,
-        "effetti": {
-            "DEF": 0,
-            "ATK": 0,
-            "AGI": 0,
-            "s_DEF": 0,
-            "s_ATK": 0,
-            "s_AGI": 0
-        }
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     },
     {
         "name": "O.S.U.B.A.",
@@ -202,13 +228,27 @@
         },
         "guard": false,
         "posizione": 3,
-        "effetti": {
-            "DEF": 0,
-            "ATK": 0,
-            "AGI": 0,
-            "s_DEF": 0,
-            "s_ATK": 0,
-            "s_AGI": 0
-        }
+        "effetti": [
+            {
+                "ATK": 0
+            },
+            {
+                "DEF": 0
+            },
+            {
+                "AGI": 0
+            }
+        ],
+        "scadenze": [
+            {
+                "s_ATK": 0
+            },
+            {
+                "s_DEF": 0
+            },
+            {
+                "s_AGI": 0
+            }
+        ]
     }
 ]

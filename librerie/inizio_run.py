@@ -13,7 +13,7 @@ if platform == "linux":
     p_oggetti_curativi = "json_data/oggetti_curativi.json"
     p_zaino = "json_data/zaino.json"
     p_magie = "json_data/magie.json"
-    p_enemy_stats_dungeon = "json_data/enemy_stats_dungeon_1.json"
+    p_enemy_stats_dungeon = "json_data/lista_nemici.json"
     
 elif platform == "win32":
     clear = "cls"
@@ -23,7 +23,7 @@ elif platform == "win32":
     p_oggetti_curativi = "json_data\oggetti_curativi.json"
     p_zaino = "json_data\zaino.json"
     p_magie = "json_data\magie.json"
-    p_enemy_stats_dungeon = "json_data\enemy_stats_dungeon_1.json"
+    p_enemy_stats_dungeon = "json_data\lista_nemici.json"
 
 #python -> json = .dump
 #json -> python = .load
