@@ -382,10 +382,9 @@ def conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici):
         lista_effetti = giocatore["effetti"]
         lista_scadenze = giocatore["scadenze"]
         for scadenza in lista_scadenze:
-
-            numero = lista_scadenze[scadenza]
-            if numero != 0:        
-                numero = numero -1
+            print(scadenza)
+            if scadenza != 0:        
+                scadenza = scadenza -1
         scadenza_def = lista_scadenze["s_DEF"]
         scadenza_atk = lista_scadenze["s_ATK"]
         scadenza_agi = lista_scadenze["s_AGI"]
@@ -408,9 +407,8 @@ def conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici):
     lista_scadenze = lista_nemici["scadenze"]
     for scadenza in lista_scadenze:
 
-        numero = lista_scadenze[scadenza]
-        if numero != 0:        
-            numero = numero -1
+        if scadenza != 0:        
+            scadenza = scadenza -1
     scadenza_def = lista_scadenze["s_DEF"]
     scadenza_atk = lista_scadenze["s_ATK"]
     scadenza_agi = lista_scadenze["s_AGI"]
