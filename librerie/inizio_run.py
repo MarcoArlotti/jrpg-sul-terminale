@@ -473,7 +473,7 @@ def sistema_turni(lista_nemici,numero_piano):
     lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
-        
+
     for giocatore in lista_giocatori_v:
         giocatore.update({"ATK":0})
         giocatore.update({"DEF":0})
@@ -526,42 +526,30 @@ def sistema_turni(lista_nemici,numero_piano):
 
             for nemico in lista_nemici:
                 rifai = True
-                one_more = False
-                crit = False
-                while rifai == True or one_more == True or crit == True:
-                    os.system(clear)
-                    if one_more == True:
-
-                        Art = text2art("o n e  m o r e",font="sub-zero")
-                        print(colored(Art,"red"))
-                        aspetta_input()
-                        one_more = False
-                    elif crit == True:
-
-                        Art = text2art("c r i t",font="sub-zero")
-                        print(colored(Art,"light_red"))
-                        aspetta_input()
-                        crit = False
-                    os.system(clear)
-                    
-                    
+                while rifai == True:
                     rifai = False
                     lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
 
                     for giocatore in lista_giocatori_v:
                                 
-                        one_more_ = giocatore["one_more"]
-                        if one_more_ == True:
-                            print("one_more")
+                        one_more_nemici = giocatore["one_more"]
+                        if one_more_nemici == True:
+                            os.system(clear)              
+                            Art = text2art("o n e  m o r e",font="sub-zero")
+                            print(colored(Art,"red"))
                             aspetta_input()
+                            os.system(clear)
                             giocatore.update({"one_more":False})
-                            one_more = True
                             rifai = True
                             
                         crit = giocatore["crit"]
                         if crit == True:
+                            Art = text2art("c r i t",font="sub-zero")
+                            print(colored(Art,"light_red"))
+                            aspetta_input()
+                            crit = False
+                            os.system(clear)
                             giocatore.update({"crit":False})
-                            crit = True
                             rifai = True
 
 
@@ -603,7 +591,7 @@ def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
 
 def scelta_carte(lista_giocatori,clear):
     os.system(clear)
-    Art = text2art("c a r d   s h o u f f l e",font="sub-zero")
+    Art = text2art("card  shouffle",font="sub-zero")
     print(colored(Art,"yellow"))
     aspetta_input()
     os.system(clear)

@@ -839,7 +839,13 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         if status == "resiste":
                             danno_nemico = danno_nemico / 1.3
                         elif status == "debole":
+                            atterrato = chi_attaccare_player["atterrato"]
                             danno_nemico = danno_nemico * 1.3
+
+                            if atterrato == False:
+                                chi_attaccare_player.update({"one_more":True})
+                                chi_attaccare_player.update({"atterrato":True})
+
                         vita_player = giocatore["health"]
                         parata_attiva = giocatore["guard"]
 
@@ -1132,7 +1138,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         nome_nemico = colored(nome_nemico,"yellow")
 
                         if nemico_preso == [True]:
-                            
+
                             percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
 
                             atk_ = giocatore_vivo_["ATK"]
