@@ -569,7 +569,7 @@ if iniziare_run == "yes":
     inizio_run() 
     print("salvataggio creato...")
 
-    numero_piano = 0
+    numero_piano = 3
     
 elif iniziare_run == "no":
     
@@ -709,8 +709,8 @@ def scelta_carte(lista_giocatori,clear):
 
 
 
-for numero_piano in range(6):
-
+for numero_piano in range(20):
+    numero_piano = 6
     os.system(clear)
     
     numero_piano_c = colored(numero_piano + 1 ,"light_red")

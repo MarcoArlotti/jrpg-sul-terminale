@@ -801,6 +801,15 @@ def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
     giocatore_vivo_ = chi_attaccare_player
     chi = "nemici"
 
+    atk_ = giocatore_vivo_["ATK"]    
+    if atk_ == 1:
+
+        danno_nemico = danno_nemico * 1.2
+    if atk_ == -1:
+
+        danno_nemico = danno_nemico / 1.2
+        danno_nemico = int(danno_nemico)
+
     giocatore_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
     if giocatore_preso == [True]:
         for giocatore in lista_giocatori_v:
@@ -826,15 +835,18 @@ def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
                     danno_nemico = int(danno_nemico / 2.1)
 
                 armatura = giocatore["armatura"]
-                for giocatore_ in lista_giocatori_v:
-                    def_ = giocatore_["DEF"]
+                def_ = giocatore["DEF"]
 
-                    if def_ == 1:
-                        armatura = giocatore_["armatura"]
+                if def_ == 1:
+                    armatura = giocatore["armatura"]
 
-                        percentuale = (armatura * 20)/100
-                        armatura = armatura + percentuale
+                    percentuale = (armatura * 20)/100
+                    armatura = armatura + percentuale
+                if def_ == -1:
+                    armatura = giocatore["armatura"]
 
+                    percentuale = (armatura * 20)/100
+                    armatura = armatura - percentuale
                         
 
                 vita_player = vita_player - (danno_nemico / armatura)
@@ -890,51 +902,92 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
             scelta_magia = random.choices(scelta_magia,weights=[50,40,10],k=1)
             giocatore_da_attaccare = random.choice(lista_giocatori_v)
 
-            #TODO 10 percento il nemico scelga buff statistiche, se una statistica già sù, castare una magia
-            if scelta_magia == ["magie"]:
-                #magie
-                lista_magie_nemico = nemico["magie"]
-                che_magia_usare = random.choice(lista_magie_nemico)
-                percentuale_boost_potenza_magie = nemico["danno_magie"]
-                tipo_magia_nemico = che_magia_usare["type"]
-                danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,che_magia_usare,giocatore_da_attaccare)
-
-                status = debolezze(tipo_magia_nemico,giocatore_da_attaccare)
-
-                if giocatore_da_attaccare["DEF"] == 1:
-                    danno_inflitto = danno_inflitto / 1.2
-                    danno_inflitto = int(danno_inflitto)
-                elif giocatore_da_attaccare["DEF"] == -1:
-                    danno_inflitto = danno_inflitto * 1.2
+            rifai_random = True
+            fai_magie = False
+            while rifai_random == True:
+                rifai_random = False
                 
-                if nemico["ATK"] == 1:
-                    danno_inflitto = danno_inflitto * 1.2
-                elif nemico["ATK"] == -1:
-                    danno_inflitto = danno_inflitto / 1.2
-                    danno_inflitto = int(danno_inflitto)
+                if fai_magie == True:
+                    scelta_magia = "magie"
+                    print("no stats boost")
+                    aspetta_input()
+                    fai_magie = False
 
-                if status == "debole":
-                    giocatore_da_attaccare.update({"one_more":True})
-                    giocatore_da_attaccare.update({"atterrato":True})
-                    danno_inflitto = danno_inflitto * 1.2
-                elif status == "resiste":
-                    danno_inflitto = danno_inflitto / 1.2
-                    danno_inflitto = int(danno_inflitto)
-                
-                vita_giocatore = giocatore_da_attaccare["health"]
-                tot = vita_player - danno_inflitto
-                giocatore_da_attaccare.update({"health":tot})
-                
-            elif scelta_magia == ["attacco"]:
-                nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
-            elif scelta_magia == ["buff_stats"]:
-                atk_ = nemico["ATK"]
-                def_ = nemico["DEF"]
-                agi_ = nemico["AGI"]
-                if atk_ == 0 and def_ == 0 and agi_ == 0:
-                    pass
+                if scelta_magia == ["magie"]:
+                    #magie
+                    print("magie")
+                    aspetta_input()
+                    lista_magie_nemico = nemico["magie"]
+                    rifai = True
+                    while rifai == True:
+                        rifai = False
+                        che_magia_usare = random.choice(lista_magie_nemico)
+                        tipo_magia = che_magia_usare["type"]
+                        if tipo_magia == "ATK UP" or tipo_magia == "DEF UP" or tipo_magia == "AGI UP":
+                            rifai = True
+
+                    percentuale_boost_potenza_magie = nemico["danno_magie"]
+                    tipo_magia_nemico = che_magia_usare["type"]
+                    danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,che_magia_usare,giocatore_da_attaccare)
+
+                    status = debolezze(tipo_magia_nemico,giocatore_da_attaccare)
+
+                    if giocatore_da_attaccare["DEF"] == 1:
+                        danno_inflitto = danno_inflitto / 1.2
+                        danno_inflitto = int(danno_inflitto)
+                    elif giocatore_da_attaccare["DEF"] == -1:
+                        danno_inflitto = danno_inflitto * 1.2
+
+                    if nemico["ATK"] == 1:
+                        danno_inflitto = danno_inflitto * 1.2
+                    elif nemico["ATK"] == -1:
+                        danno_inflitto = danno_inflitto / 1.2
+                        danno_inflitto = int(danno_inflitto)
+
+                    if status == "debole":
+                        giocatore_da_attaccare.update({"one_more":True})
+                        giocatore_da_attaccare.update({"atterrato":True})
+                        danno_inflitto = danno_inflitto * 1.2
+                    elif status == "resiste":
+                        danno_inflitto = danno_inflitto / 1.2
+                        danno_inflitto = int(danno_inflitto)
+
+                    vita_giocatore = giocatore_da_attaccare["health"]
+                    tot = vita_giocatore - danno_inflitto
+                    giocatore_da_attaccare.update({"health":tot})
+
+                elif scelta_magia == ["attacco"]:
+                    print("attacco")
+                    aspetta_input()
+                    nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
+
+                elif scelta_magia == ["buff_stats"]:
+                    print("buff stats")
+                    aspetta_input()
+                    atk_ = nemico["ATK"]
+                    def_ = nemico["DEF"]
+                    agi_ = nemico["AGI"]
+                    if atk_ == 0 and def_ == 0 and agi_ == 0:
+                        lista_possibilità = ["ATK UP","DEF UP","AGI UP"]
+                        rifai = True
+                        while rifai == True:
+                            rifai = False
+                            if lista_possibilità == []:
+                                fai_magie = True
+                                rifai_random = True
+                                break
+                            cosa_buffare = random.choice(lista_possibilità)
+                            lista_magie_nemico = nemico["magie"]
+                            for magia in lista_magie_nemico:
+                                tipo_magia = magia["type"]
+                                if tipo_magia == cosa_buffare:
+                                    stat_buff_funzionamento(nemico,tipo_magia)
+                                    break
+                            if tipo_magia != cosa_buffare:
+                                rifai = True
+                                lista_possibilità.remove(cosa_buffare)
+
        
-    
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]
         if vita_player <= 0:

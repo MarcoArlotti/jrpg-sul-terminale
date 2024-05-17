@@ -17,13 +17,6 @@
         ],
         "magie": [
             {
-                "nome": "cura debole",
-                "potenza": "scarsa",
-                "type": "cura",
-                "raggio": "singolo",
-                "costo": 6
-            },
-            {
                 "nome": "ghiaccio SINGOLO",
                 "potenza": "scarsa",
                 "type": "ice",
@@ -57,6 +50,15 @@
         "resiste": [
             "elettric"
         ],
+        "magie": [
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo",
+                "costo": 2
+            }
+        ],
         "exp_drop": 2.3,
         "damage": 188,
         "quanti_tab": 1,
@@ -81,6 +83,15 @@
         ],
         "resiste": [
             "slash"
+        ],
+        "magie": [
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo",
+                "costo": 2
+            }
         ],
         "exp_drop": 5.3,
         "damage": 158,
