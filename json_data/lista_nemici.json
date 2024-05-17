@@ -7,6 +7,7 @@
         "one_more": false,
         "atterrato": false,
         "crit": false,
+        "danno_magie": 3.2,
         "debole": [
             "fire",
             "elettric"
@@ -48,6 +49,7 @@
         "one_more": false,
         "atterrato": false,
         "crit": false,
+        "danno_magie": 2.9,
         "debole": [
             "wind",
             "ice"
@@ -73,6 +75,7 @@
         "one_more": false,
         "atterrato": false,
         "crit": false,
+        "danno_magie": 1.7,
         "debole": [
             "elettric"
         ],

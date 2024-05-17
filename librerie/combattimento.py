@@ -792,6 +792,68 @@ def menù_oggetti():
                 pass
     return cura_scelta
 
+def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
+    danno_nemico = nemico["damage"]
+    chi_attaccare_player = random.choice(lista_giocatori_v)
+    chi_attaccare_player_nome = chi_attaccare_player["name"]
+    nemico_ = chi_attaccare_player
+    tipo_magia = "melee"
+    giocatore_vivo_ = chi_attaccare_player
+    chi = "nemici"
+
+    giocatore_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
+    if giocatore_preso == [True]:
+        for giocatore in lista_giocatori_v:
+            nome_giocatore = giocatore["name"]
+
+            if nome_giocatore == chi_attaccare_player_nome:
+                tipo_magia_player = "slash"
+                status = debolezze(tipo_magia_player,giocatore)
+                if status == "resiste":
+                    danno_nemico = danno_nemico / 1.3
+                elif status == "debole":
+                    atterrato = chi_attaccare_player["atterrato"]
+                    danno_nemico = danno_nemico * 1.3
+
+                    if atterrato == False:
+                        chi_attaccare_player.update({"one_more":True})
+                        chi_attaccare_player.update({"atterrato":True})
+
+                vita_player = giocatore["health"]
+                parata_attiva = giocatore["guard"]
+
+                if parata_attiva == True:
+                    danno_nemico = int(danno_nemico / 2.1)
+
+                armatura = giocatore["armatura"]
+                for giocatore_ in lista_giocatori_v:
+                    def_ = giocatore_["DEF"]
+
+                    if def_ == 1:
+                        armatura = giocatore_["armatura"]
+
+                        percentuale = (armatura * 20)/100
+                        armatura = armatura + percentuale
+
+                        
+
+                vita_player = vita_player - (danno_nemico / armatura)
+                vita_player = int(vita_player)
+                for giocatore_ in lista_giocatori_v:
+                    def_ = giocatore_["DEF"]
+
+                nome = giocatore["name"]
+                colore_nome = giocatore["colore_nome"]
+
+                player_vivo_nome_c = colored(nome,colore_nome)
+                danno_nemico = colored(danno_nemico,"red")
+                os.system(clear)
+                print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {player_vivo_nome_c}")
+                giocatore.update({"health":vita_player})
+                aspetta_input()
+
+                break
+
 
 def posizione(lista_giocatori):
     return lista_giocatori["posizione"]
@@ -816,74 +878,62 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
         giocatori_morti = True
         
     if giocatori_morti == False:
-        
         nemico_nome = colored(nemico["name"],"light_red")
-        if numero_piano <= 2: #se i nemici si trovano al piano 3 o inferiore attaccheranno e basta
-            danno_nemico = nemico["damage"]
 
-            chi_attaccare_player = random.choice(lista_giocatori_v)
-            chi_attaccare_player_nome = chi_attaccare_player["name"]
-            nemico_ = chi_attaccare_player
-            tipo_magia = "melee"
-            giocatore_vivo_ = chi_attaccare_player
-            chi = "nemici"
 
-            giocatore_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_,chi)
-            if giocatore_preso == [True]:
-                for giocatore in lista_giocatori_v:
-                    nome_giocatore = giocatore["name"]
+        if numero_piano <= 2: #se i nemici si trovano al piano 2 o inferiore attaccheranno e basta
+            nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
 
-                    if nome_giocatore == chi_attaccare_player_nome:
-                        tipo_magia_player = "slash"
-                        status = debolezze(tipo_magia_player,giocatore)
-                        if status == "resiste":
-                            danno_nemico = danno_nemico / 1.3
-                        elif status == "debole":
-                            atterrato = chi_attaccare_player["atterrato"]
-                            danno_nemico = danno_nemico * 1.3
+        elif numero_piano > 2:
+            scelta_magia = "attacco","magie","buff_stats"
 
-                            if atterrato == False:
-                                chi_attaccare_player.update({"one_more":True})
-                                chi_attaccare_player.update({"atterrato":True})
+            scelta_magia = random.choices(scelta_magia,weights=[50,40,10],k=1)
+            giocatore_da_attaccare = random.choice(lista_giocatori_v)
 
-                        vita_player = giocatore["health"]
-                        parata_attiva = giocatore["guard"]
+            #TODO 10 percento il nemico scelga buff statistiche, se una statistica già sù, castare una magia
+            if scelta_magia == ["magie"]:
+                #magie
+                lista_magie_nemico = nemico["magie"]
+                che_magia_usare = random.choice(lista_magie_nemico)
+                percentuale_boost_potenza_magie = nemico["danno_magie"]
+                tipo_magia_nemico = che_magia_usare["type"]
+                danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,che_magia_usare,giocatore_da_attaccare)
 
-                        if parata_attiva == True:
-                            danno_nemico = int(danno_nemico / 2.1)
+                status = debolezze(tipo_magia_nemico,giocatore_da_attaccare)
 
-                        armatura = giocatore["armatura"]
-                        for giocatore_ in lista_giocatori_v:
-                            def_ = giocatore_["DEF"]
+                if giocatore_da_attaccare["DEF"] == 1:
+                    danno_inflitto = danno_inflitto / 1.2
+                    danno_inflitto = int(danno_inflitto)
+                elif giocatore_da_attaccare["DEF"] == -1:
+                    danno_inflitto = danno_inflitto * 1.2
+                
+                if nemico["ATK"] == 1:
+                    danno_inflitto = danno_inflitto * 1.2
+                elif nemico["ATK"] == -1:
+                    danno_inflitto = danno_inflitto / 1.2
+                    danno_inflitto = int(danno_inflitto)
 
-                            if def_ == 1:
-                                armatura = giocatore_["armatura"]
-
-                                percentuale = (armatura * 20)/100
-                                armatura = armatura + percentuale
-
-                                
-
-                        vita_player = vita_player - (danno_nemico / armatura)
-                        vita_player = int(vita_player)
-                        for giocatore_ in lista_giocatori_v:
-                            def_ = giocatore_["DEF"]
-
-                        nome = giocatore["name"]
-                        colore_nome = giocatore["colore_nome"]
-
-                        player_vivo_nome_c = colored(nome,colore_nome)
-                        danno_nemico = colored(danno_nemico,"red")
-                        os.system(clear)
-                        print(f"il nemico {nemico_nome} ha inflitto -{danno_nemico}hp al {player_vivo_nome_c}")
-                        giocatore.update({"health":vita_player})
-                        aspetta_input()
-
-                        break
-        #elif numero_piano > 2:
-        #    #i nemici posso attaccare con magie
-        #    lista_magie_nemico = nemico["magie"]
-             
+                if status == "debole":
+                    giocatore_da_attaccare.update({"one_more":True})
+                    giocatore_da_attaccare.update({"atterrato":True})
+                    danno_inflitto = danno_inflitto * 1.2
+                elif status == "resiste":
+                    danno_inflitto = danno_inflitto / 1.2
+                    danno_inflitto = int(danno_inflitto)
+                
+                vita_giocatore = giocatore_da_attaccare["health"]
+                tot = vita_player - danno_inflitto
+                giocatore_da_attaccare.update({"health":tot})
+                
+            elif scelta_magia == ["attacco"]:
+                nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
+            elif scelta_magia == ["buff_stats"]:
+                atk_ = nemico["ATK"]
+                def_ = nemico["DEF"]
+                agi_ = nemico["AGI"]
+                if atk_ == 0 and def_ == 0 and agi_ == 0:
+                    pass
+       
     
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]

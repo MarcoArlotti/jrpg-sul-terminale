@@ -543,7 +543,7 @@ def sistema_turni(lista_nemici,numero_piano):
                             rifai = True
                             
                         crit = giocatore["crit"]
-                        if crit == True:
+                        if crit == True and one_more_nemici == False:
                             Art = text2art("c r i t",font="sub-zero")
                             print(colored(Art,"light_red"))
                             aspetta_input()
