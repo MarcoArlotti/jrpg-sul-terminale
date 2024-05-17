@@ -38,10 +38,11 @@ def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
     potenza = magia["potenza"]
     tipo_magia_player = magia["type"]
     status = None
+    
+    
     if not tipo_magia_player == "cura":
-        chi = "giocatori"
         status = debolezze(tipo_magia_player,nemico_)
-
+    
     if tipo_magia_player == "cura": #la variabile "danno inflitto" verrà convertita in quanta vita curare
             
         if potenza == "scarsa":
@@ -203,6 +204,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
     
                 if magia_scelta == numero_magia:
                     costo_magia = magia["costo"]
+                    cosa_consuma = magia["cosa_consuma"]
 
                     if cosa_consuma == "hp":
                         hp_rimasto = hp_giocatore - costo_magia
@@ -294,7 +296,14 @@ def attaccare(giocatore_vivo_,lista_nemici):
                     if nemico_preso == [True]:
 
                         hp_nemico = nemico_["health"]
+                        atk_ = giocatore_vivo_["ATK"]
+                        if atk_ == 1:
+                            damage_tot = damage_tot * 1.5
+                        elif atk_ == -1:
+                            damage_tot = damage_tot / 1.5
                         danno_aggiorato = hp_nemico - damage_tot
+                        danno_aggiorato = int(danno_aggiorato)
+
                         damage_tot_c = colored(damage_tot,"red")
 
                         nemico_.update({"health":danno_aggiorato})
@@ -827,12 +836,15 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     if nome_giocatore == chi_attaccare_player_nome:
                         tipo_magia_player = "slash"
                         status = debolezze(tipo_magia_player,giocatore)
-
+                        if status == "resiste":
+                            danno_nemico = danno_nemico / 1.3
+                        elif status == "debole":
+                            danno_nemico = danno_nemico * 1.3
                         vita_player = giocatore["health"]
                         parata_attiva = giocatore["guard"]
 
                         if parata_attiva == True:
-                            danno_nemico = int(danno_nemico / 2.2)
+                            danno_nemico = int(danno_nemico / 2.1)
 
                         armatura = giocatore["armatura"]
                         for giocatore_ in lista_giocatori_v:
@@ -841,17 +853,15 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                             if def_ == 1:
                                 armatura = giocatore_["armatura"]
 
-                                percentuale = (armatura * 40)/100
-                                tot = armatura + percentuale
+                                percentuale = (armatura * 20)/100
+                                armatura = armatura + percentuale
 
-                                giocatore_.update({"armatura":tot})
+                                
 
                         vita_player = vita_player - (danno_nemico / armatura)
                         vita_player = int(vita_player)
                         for giocatore_ in lista_giocatori_v:
                             def_ = giocatore_["DEF"]
-                            if def_ == 1:
-                                giocatore_.update({"armatura":armatura})
 
                         nome = giocatore["name"]
                         colore_nome = giocatore["colore_nome"]
@@ -905,7 +915,7 @@ def stat_buff_funzionamento(giocatore_vivo_,tipo_magia):
             def_ =+ 1
         s_DEF = 3
         giocatore_vivo_.update({"s_DEF":s_DEF})
-        giocatore_vivo_.update({"ATK":def_})
+        giocatore_vivo_.update({"DEF":def_})
 
     elif tipo_magia == "AGI UP":
         agi_ = giocatore_vivo_["AGI"]
@@ -1082,7 +1092,15 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                             nome_nemico = colored(nome_nemico,"yellow")
 
                             if nemico_preso == [True]:
+
                                 percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
+
+                                atk_ = giocatore_vivo_["ATK"]
+                                if atk_ == 1:
+                                    percentuale_boost_potenza_magie = percentuale_boost_potenza_magie * 1.5
+                                elif atk_ == -1:
+                                    percentuale_boost_potenza_magie = percentuale_boost_potenza_magie / 1.5
+
                                 danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
                                 vita_nemico = nemico_["health"]
                                 vita_rimasta_nemico = vita_nemico - danno_inflitto
@@ -1114,7 +1132,15 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         nome_nemico = colored(nome_nemico,"yellow")
 
                         if nemico_preso == [True]:
-                        
+                            
+                            percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
+
+                            atk_ = giocatore_vivo_["ATK"]
+                            if atk_ == 1:
+                                percentuale_boost_potenza_magie = percentuale_boost_potenza_magie * 1.5
+                            elif atk_ == -1:
+                                percentuale_boost_potenza_magie = percentuale_boost_potenza_magie / 1.5
+
                             percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
                             danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
                             print(colored(danno_inflitto,"magenta"))

@@ -182,15 +182,13 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
     for nemico in lista_nemici:
 
         i = i+1
-        print("  " * i,end="") #crea una scaletta di spazi
-        print(colored("                        HP","green"),end="\n")
         if i > 0:
-            print("",end = "  " * i) #crea una scaletta di spazi
+            print("",end = " " * i) #crea una scaletta di spazi
         quanti_tab = nemico["quanti_tab"]
         nome_nemico = nemico["name"]
         vita_max = nemico["max_health"]
         
-        vita_max_c = colored(f"{vita_max}|","light_green")
+        vita_max_c = colored(f"{vita_max}|HP","light_green")
         vita = nemico["health"]
         vita = int(vita)
         vita_c = colored(f"|{vita}","green")
@@ -243,13 +241,8 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
     for giocatore in lista_giocatori_v:
         
         i = i+1
-        print("\t" * i,end="") #crea una scaletta di spazi
-        
-        print(colored("                HP","green"),end="\t  ")
-        print(colored("SP","magenta"),end="\n")
-        if i > 1:
-            print("",end = "  " * i)
-        
+        print(" " * i,end="") #crea una scaletta di spazi
+
         nome_giocatore = giocatore["name"]
         colore_nome = giocatore["colore_nome"]
 
@@ -266,40 +259,42 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         print("|",end="")
         if atk_giocatore == 1:
             print(colored("|^|ATK","red"),end="  ")
-        if def_giocatore == 1:
-            print(colored("|^|DEF","blue"),end="  ")
-        if agi_giocatore == 1:
-            print(colored("|^|AGI","green"),end="")
-
         if atk_giocatore == 0:
             print(colored("ATK","grey"),end="  ")
-        if def_giocatore == 0:
-            print(colored("DEF","grey"),end="  ")
-        if agi_giocatore == 0:
-            print(colored("AGI","grey"),end="")
-
         if atk_giocatore == -1:
             print(colored("|v|ATK","light_red"),end="  ")
+
+        if def_giocatore == 1:
+            print(colored("|^|DEF","blue"),end="  ")
+        if def_giocatore == 0:
+            print(colored("DEF","grey"),end="  ")
         if def_giocatore == -1:
             print(colored("|v|DEF","light_blue"),end="  ")
+
+        if agi_giocatore == 1:
+            print(colored("|^|AGI","green"),end="")
+        if agi_giocatore == 0:
+            print(colored("AGI","grey"),end="")    
         if agi_giocatore == -1:
             print(colored("|v|AGI","light_green"),end="")
+
         print("|",end="  ")
-
-        print(nome_giocatore_c,end="\t")
-
+        if nome_giocatore != "O.S.U.B.A.":
+            print(nome_giocatore_c,end="           ")
+        else:
+            print(nome_giocatore_c,end="     ")
         vita_giocatore = giocatore["health"]
         
         print(colored(f"|{vita_giocatore}","light_green"),end="/")
 
         vita_max_giocatore = giocatore["max_health"]
-        print(colored(f"{vita_max_giocatore}|","green"),end="")
+        print(colored(f"{vita_max_giocatore}|HP","green"),end="   ")
 
         sp_giocatore = giocatore["sp"]
         print(colored(f"|{sp_giocatore}","light_magenta"),end="/")
 
         sp_max_giocatore = giocatore["max_sp"]
-        print(colored(f"{sp_max_giocatore}|","magenta"),end="\n")
+        print(colored(f"{sp_max_giocatore}|SP","magenta"),end="\n")
 
     print(colored("-"*69,"grey"))
 
@@ -478,6 +473,15 @@ def sistema_turni(lista_nemici,numero_piano):
     lista_giocatori_v = []
     for giocatori in lista_giocatori: #spostati tutti i giocatori nella lista di giocatori vivi/attivi
         lista_giocatori_v.append(giocatori)
+        
+    for giocatore in lista_giocatori_v:
+        giocatore.update({"ATK":0})
+        giocatore.update({"DEF":0})
+        giocatore.update({"AGI":0})
+
+        giocatore.update({"s_ATK":0})
+        giocatore.update({"s_DEF":0})
+        giocatore.update({"s_AGI":0})
 
     with open(p_lista_giocatori_in_game,"w") as lista_giocatori_v:
         json.dump(lista_giocatori,lista_giocatori_v,indent=4)
@@ -522,9 +526,25 @@ def sistema_turni(lista_nemici,numero_piano):
 
             for nemico in lista_nemici:
                 rifai = True
+                one_more = False
+                crit = False
                 while rifai == True or one_more == True or crit == True:
-                    one_more = False
-                    crit = False
+                    os.system(clear)
+                    if one_more == True:
+
+                        Art = text2art("o n e  m o r e",font="sub-zero")
+                        print(colored(Art,"red"))
+                        aspetta_input()
+                        one_more = False
+                    elif crit == True:
+
+                        Art = text2art("c r i t",font="sub-zero")
+                        print(colored(Art,"light_red"))
+                        aspetta_input()
+                        crit = False
+                    os.system(clear)
+                    
+                    
                     rifai = False
                     lista_giocatori_v,lista_giocatori_m = AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m)
 
@@ -532,6 +552,8 @@ def sistema_turni(lista_nemici,numero_piano):
                                 
                         one_more_ = giocatore["one_more"]
                         if one_more_ == True:
+                            print("one_more")
+                            aspetta_input()
                             giocatore.update({"one_more":False})
                             one_more = True
                             rifai = True
@@ -702,6 +724,7 @@ def scelta_carte(lista_giocatori,clear):
 for numero_piano in range(6):
 
     os.system(clear)
+    
     numero_piano_c = colored(numero_piano + 1 ,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
     battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)

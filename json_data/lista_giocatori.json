@@ -46,15 +46,6 @@
                 "effetto": "magia"
             },
             {
-                "nome": "ATK UP",
-                "type": "ATK UP",
-                "raggio": "singolo",
-                "costo": 20,
-                "cosa_consuma": "hp",
-                "fonte": "giocatore",
-                "effetto": "stats"
-            },
-            {
                 "nome": "ATK UP TUTTI",
                 "type": "ATK UP",
                 "raggio": "gruppo",
@@ -63,6 +54,7 @@
                 "fonte": "giocatore",
                 "effetto": "stats"
             }
+            
         ],
         "damage_base": 10.0,
         "current_equip_melee": {
@@ -103,6 +95,15 @@
         "armatura": 1.4,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
+            {
+                "nome": "DEF UP TUTTI",
+                "type": "DEF UP",
+                "raggio": "gruppo",
+                "costo": 50,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
+            },
             {
                 "nome": "scarica pesante SINGOLO",
                 "potenza": "normale",
@@ -164,6 +165,15 @@
         "armatura": 2.2,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
+            {
+                "nome": "AGI UP TUTTI",
+                "type": "AGI UP",
+                "raggio": "gruppo",
+                "costo": 50,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
+            },
             {
                 "nome": "vento pesante SINGOLO",
                 "potenza": "normale",

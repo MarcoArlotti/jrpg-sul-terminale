@@ -46,15 +46,6 @@
                 "effetto": "magia"
             },
             {
-                "nome": "ATK UP",
-                "type": "ATK UP",
-                "raggio": "singolo",
-                "costo": 20,
-                "cosa_consuma": "hp",
-                "fonte": "giocatore",
-                "effetto": "stats"
-            },
-            {
                 "nome": "ATK UP TUTTI",
                 "type": "ATK UP",
                 "raggio": "gruppo",
@@ -78,7 +69,7 @@
         "resiste": [
             "elettrical"
         ],
-        "guard": true,
+        "guard": false,
         "posizione": 1,
         "ATK": 0,
         "DEF": 0,
@@ -103,6 +94,15 @@
         "armatura": 1.4,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
+            {
+                "nome": "DEF UP TUTTI",
+                "type": "DEF UP",
+                "raggio": "gruppo",
+                "costo": 50,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
+            },
             {
                 "nome": "scarica pesante SINGOLO",
                 "potenza": "normale",
@@ -138,7 +138,7 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 2,
         "ATK": 0,
         "DEF": 0,
@@ -151,18 +151,27 @@
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 255,
+        "health": 294,
         "schivata": 40.0,
         "exp": 0.0,
         "max_sp": 12,
         "sp": 30,
-        "atterrato": true,
+        "atterrato": false,
         "one_more": false,
         "crit": false,
         "danno_magie": 2.5,
         "armatura": 2.2,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
+            {
+                "nome": "AGI UP TUTTI",
+                "type": "AGI UP",
+                "raggio": "gruppo",
+                "costo": 50,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
+            },
             {
                 "nome": "vento pesante SINGOLO",
                 "potenza": "normale",
@@ -199,7 +208,7 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 3,
         "ATK": 0,
         "DEF": 0,
