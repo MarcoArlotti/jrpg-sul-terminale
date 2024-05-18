@@ -7,6 +7,7 @@
         "one_more": false,
         "atterrato": false,
         "crit": false,
+        "possibilit\u00c3\u00a0_crit":20,
         "danno_magie": 3.2,
         "debole": [
             "fire",
@@ -42,6 +43,7 @@
         "one_more": false,
         "atterrato": false,
         "crit": false,
+        "possibilit\u00c3\u00a0_crit":20,
         "danno_magie": 2.9,
         "debole": [
             "wind",
@@ -77,6 +79,7 @@
         "one_more": false,
         "atterrato": false,
         "crit": false,
+        "possibilit\u00c3\u00a0_crit":20,
         "danno_magie": 1.7,
         "debole": [
             "elettric"
