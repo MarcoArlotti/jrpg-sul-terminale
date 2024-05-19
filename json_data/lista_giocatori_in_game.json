@@ -3,15 +3,15 @@
         "name": "GALO",
         "colore_nome": "light_blue",
         "max_health": 240,
-        "health": 159,
+        "health": 240,
         "schivata": 19.0,
-        "exp": 6.8999999999999995,
+        "exp": 0.0,
         "max_sp": 26,
         "sp": 26,
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 2.2,
+        "danno_magie": 2,
         "armatura": 3,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -23,8 +23,7 @@
                 "costo": 6,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 1
+                "effetto": "magia"
             },
             {
                 "nome": "fuoco pesante SINGOLO",
@@ -34,8 +33,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "fuoco TUTTI",
@@ -45,8 +43,7 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             },
             {
                 "nome": "ATK UP TUTTI",
@@ -55,8 +52,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 4
+                "effetto": "stats"
             }
         ],
         "damage_base": 10.0,
@@ -73,29 +69,28 @@
         "resiste": [
             "elettrical"
         ],
-        "guard": false,
+        "guard": true,
         "posizione": 1,
-        "ATK": 1,
+        "ATK": 0,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 2,
+        "s_ATK": 0,
         "s_DEF": 0,
-        "s_AGI": 0,
-        "hp": 190
+        "s_AGI": 0
     },
     {
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 46,
+        "health": 138,
         "schivata": 23.0,
-        "exp": 6.8999999999999995,
+        "exp": 0.0,
         "max_sp": 22,
-        "sp": 17,
-        "atterrato": false,
+        "sp": 25,
+        "atterrato": true,
         "one_more": false,
         "crit": false,
-        "danno_magie": 4.752000000000001,
+        "danno_magie": 3,
         "armatura": 1.4,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -106,8 +101,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 1
+                "effetto": "stats"
             },
             {
                 "nome": "scarica pesante SINGOLO",
@@ -117,8 +111,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "scarica TUTTI",
@@ -128,8 +121,7 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             }
         ],
         "debole": [
@@ -146,12 +138,12 @@
             "price": 0,
             "type": null
         },
-        "guard": false,
+        "guard": true,
         "posizione": 2,
-        "ATK": 1,
+        "ATK": 0,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 2,
+        "s_ATK": 0,
         "s_DEF": 0,
         "s_AGI": 0
     },
@@ -159,15 +151,15 @@
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 183,
+        "health": 294,
         "schivata": 40.0,
-        "exp": 6.8999999999999995,
+        "exp": 0.0,
         "max_sp": 12,
         "sp": 22,
-        "atterrato": true,
+        "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 3.96,
+        "danno_magie": 2,
         "armatura": 2.2,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -221,10 +213,10 @@
         },
         "guard": false,
         "posizione": 3,
-        "ATK": 1,
+        "ATK": 0,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 2,
+        "s_ATK": 0,
         "s_DEF": 0,
         "s_AGI": 0
     }

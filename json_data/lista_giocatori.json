@@ -11,7 +11,7 @@
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 2.0,
+        "danno_magie": 2,
         "armatura": 3,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -91,7 +91,7 @@
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 3.0,
+        "danno_magie": 3,
         "armatura": 1.4,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -161,7 +161,7 @@
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 2.5,
+        "danno_magie": 2,
         "armatura": 2.2,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
