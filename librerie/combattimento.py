@@ -251,8 +251,10 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
     return lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input
 
 
-def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status):
+def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_):
     os.system(clear)
+    colore_nome = giocatore_vivo_["colore_nome"]
+    print(colored("/" * 69,colore_nome))
     for nemico in lista_nemici:
         nome_nemico = nemico["name"]
         vita_nemico = nemico["health"]
@@ -370,7 +372,8 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                 print(colored("il nemico selezionato non esite/valore non valido","grey"))
                 chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
                 rifai = True
-    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status)
+    
+    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_)
     return giocatore_vivo_,lista_nemici
 
 def preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_):
@@ -1249,7 +1252,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                             break
                 if chi_attaccare != id_nemico:
                         rifai = True
-                stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,danno_inflitto,status)
+                stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,danno_inflitto,status,giocatore_vivo_)
             elif raggio == "gruppo":
                 i = 0
                 for nemico in lista_nemici:
@@ -1294,7 +1297,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         danno_inflitto = None
                         status = None
     
-                    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,i,danno_inflitto,status)
+                    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,i,danno_inflitto,status,giocatore_vivo_)
         elif tipo_magia == "cura":
             if raggio == "singolo":
                 i = 0
