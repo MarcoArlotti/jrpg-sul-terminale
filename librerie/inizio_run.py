@@ -142,6 +142,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
     colore_nome = giocatore_vivo_["colore_nome"]
 
     player_vivo_nome_c = colored(nome,colore_nome)
+    colore_nome_ = colore_nome
     atterrato = giocatore_vivo_["atterrato"]
     if atterrato == True:
         giocatore_vivo_.update({"atterrato":False})
@@ -207,37 +208,37 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         print("|",end="")
         if atk_nemico == 1:
             print(colored("|^|ATK","red"),end="  ")
-        if def_nemico == 1:
-            print(colored("|^|DEF","blue"),end="  ")
-        if agi_nemico == 1:
-            print(colored("|^|AGI","green"),end="")
-
         if atk_nemico == 0:
             print(colored("ATK","grey"),end="  ")
-        if def_nemico == 0:
-            print(colored("DEF","grey"),end="  ")
-        if agi_nemico == 0:
-            print(colored("AGI","grey"),end="")
-
         if atk_nemico == -1:
             print(colored("|v|ATK","light_red"),end="  ")
+
+        if def_nemico == 1:
+            print(colored("|^|DEF","blue"),end="  ")
+        if def_nemico == 0:
+            print(colored("DEF","grey"),end="  ")
         if def_nemico == -1:
             print(colored("|v|DEF","light_blue"),end="  ")
+            
+        if agi_nemico == 1:
+            print(colored("|^|AGI","green"),end="")    
+        if agi_nemico == 0:
+            print(colored("AGI","grey"),end="")
         if agi_nemico == -1:
             print(colored("|v|AGI","light_green"),end="")
-        print("|",end="  ")
+        print("|",end="    ")
 
-        quanti_tab = "\t" * quanti_tab
+        quanti_tab = " " * quanti_tab
         print(nome_nemico_c + quanti_tab,end="")
         if i > 0:
-            print("",end = "  " * i)
+            print("",end = " " * i)
         print(f"{vita_c}/{vita_max_c}")
-        
-    print("\n\n",end="")
 
     #giocatori
     i = 0
-    print(colored("-"*69,"grey"))
+    print()
+    print(colored("="*69,"grey"))
+    print()
     for giocatore in lista_giocatori_v:
         
         i = i+1
@@ -278,7 +279,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         if agi_giocatore == -1:
             print(colored("|v|AGI","light_green"),end="")
 
-        print("|",end="  ")
+        print("|",end="    ")
         if nome_giocatore != "O.S.U.B.A.":
             print(nome_giocatore_c,end="           ")
         else:
@@ -296,7 +297,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         sp_max_giocatore = giocatore["max_sp"]
         print(colored(f"{sp_max_giocatore}|SP","magenta"),end="\n")
 
-    print(colored("-"*69,"grey"))
+    print(colored("="*69,colore_nome_),end="")
 
 def random_che_nemico_pescare(lista_nemici,id):
     with open(p_enemy_stats_dungeon,"r") as file_nemici:
