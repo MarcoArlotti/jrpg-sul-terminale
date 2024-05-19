@@ -258,14 +258,19 @@ def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_att
         nome_nemico = nemico["name"]
         vita_nemico = nemico["health"]
         max_vita_nemico = nemico["max_health"]
+        if vita_nemico < 1:
+            nome_nemico_c = colored(nome_nemico,"grey")
+            vita_nemico = 0
+        else:
+            nome_nemico_c = colored(nome_nemico,"red")
+        print(nome_nemico_c,end="")
 
-        print(colored(nome_nemico,"red"),end="")
         print(colored(f"|{vita_nemico}","light_green"),end="/")
         print(colored(f"{max_vita_nemico}|","green"),end="\t\t")
 
     print()
     if chi_attaccare == 2:
-        print("\t" * 3,end="")
+        print("\t" * 4,end="")
     elif chi_attaccare == 3:
         print("\t" * 6,end="")
 
@@ -297,6 +302,11 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
         
 
         rifai_input = True
+        if len(lista_nemici) == 1:
+            chi_attaccare = 1
+
+            rifai_input = False
+
         while rifai_input == True:
             rifai_input = False
             os.system(clear)

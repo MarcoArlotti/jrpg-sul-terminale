@@ -307,6 +307,11 @@ def random_che_nemico_pescare(lista_nemici,id):
 
     lista_nemici.append(nemico_uscito)
 
+def aggiorna_ordine_nemici(lista_nemici):
+    j = 0
+    for nemico in lista_nemici:
+        j = j +1
+        nemico.update({"posizione":j})
 
 def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno):
     rifai = True
@@ -359,15 +364,18 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
                 match choice:
                     case 1: #attaccare HA bisogno di un "rifai input"
+                        aggiorna_ordine_nemici(lista_nemici)
                         giocatore_vivo_,lista_nemici = attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici)
 
                     case 2: #difendersi NON ha bisogno un "rifai input"
                         difendersi(giocatore_vivo_)
 
                     case 3: #magie
+                        aggiorna_ordine_nemici(lista_nemici)
                         lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
                     case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
                         rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
+                        
         for nemico_ in lista_nemici:
 
             one_more_ = nemico_["one_more"]
@@ -381,10 +389,6 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 nemico_.update({"crit":False})
                 crit = True
                 rifai = True
-        j = 0
-        for nemico in lista_nemici:
-            j = j +1
-            nemico.update({"posizione":j})
             
 
         for i in range(len(lista_nemici)):

@@ -3,11 +3,11 @@
         "name": "GALO",
         "colore_nome": "light_blue",
         "max_health": 240,
-        "health": 104,
+        "health": 159,
         "schivata": 19.0,
-        "exp": 16.6,
+        "exp": 6.8999999999999995,
         "max_sp": 26,
-        "sp": 18,
+        "sp": 26,
         "atterrato": false,
         "one_more": false,
         "crit": false,
@@ -75,21 +75,21 @@
         ],
         "guard": false,
         "posizione": 1,
-        "ATK": 0,
+        "ATK": 1,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 0,
+        "s_ATK": 2,
         "s_DEF": 0,
         "s_AGI": 0,
-        "hp": 54
+        "hp": 190
     },
     {
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 53,
+        "health": 46,
         "schivata": 23.0,
-        "exp": 16.6,
+        "exp": 6.8999999999999995,
         "max_sp": 22,
         "sp": 17,
         "atterrato": false,
@@ -148,10 +148,10 @@
         },
         "guard": false,
         "posizione": 2,
-        "ATK": 0,
+        "ATK": 1,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 0,
+        "s_ATK": 2,
         "s_DEF": 0,
         "s_AGI": 0
     },
@@ -159,15 +159,15 @@
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 15,
+        "health": 183,
         "schivata": 40.0,
-        "exp": 16.6,
+        "exp": 6.8999999999999995,
         "max_sp": 12,
-        "sp": 30,
+        "sp": 22,
         "atterrato": true,
         "one_more": false,
         "crit": false,
-        "danno_magie": 2.75,
+        "danno_magie": 3.96,
         "armatura": 2.2,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -178,7 +178,8 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats"
+                "effetto": "stats",
+                "posizione": 1
             },
             {
                 "nome": "vento pesante SINGOLO",
@@ -188,7 +189,8 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 2
             },
             {
                 "nome": "vento TUTTI",
@@ -198,7 +200,8 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 3
             }
         ],
         "debole": [
@@ -218,10 +221,10 @@
         },
         "guard": false,
         "posizione": 3,
-        "ATK": 0,
+        "ATK": 1,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 0,
+        "s_ATK": 2,
         "s_DEF": 0,
         "s_AGI": 0
     }
