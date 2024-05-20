@@ -14,6 +14,7 @@ if platform == "linux":
     p_zaino = "json_data/zaino.json"
     p_magie = "json_data/magie.json"
     p_enemy_stats_dungeon = "json_data/lista_nemici.json"
+    p_boss_battle_piano5 = "json_data/boss_battle_piano5.json"
     
 elif platform == "win32":
     clear = "cls"
@@ -24,6 +25,7 @@ elif platform == "win32":
     p_zaino = "json_data\zaino.json"
     p_magie = "json_data\magie.json"
     p_enemy_stats_dungeon = "json_data\lista_nemici.json"
+    p_boss_battle_piano5 = "json_data\boss_battle_piano5.json"
 
 #python -> json = .dump
 #json -> python = .load
@@ -712,6 +714,8 @@ for numero_piano in range(5):
     lista_nemici = scelta_percentuali(numero_piano)
     if numero_piano == 5:
         #boss battle
+        with open(p_boss_battle_piano5,"r") as json_:
+            lista_nemici = json.load(json_)
  
     battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
 
@@ -729,37 +733,6 @@ for numero_piano in range(5):
         aspetta_input()
 
     elif battaglia_persa == True:
-
-        #riprovare = {
-        #    "funzione":"riprovare",
-        #    "posizione":1
-        #}
-        #salvare = {
-        #    "funzione":"salva ed esci",
-        #    "posizione":2
-        #}
-        #esci = {
-        #    "funzione":"esci senza salvare",
-        #    "posizione":3
-        #}
-        #opzioni = [riprovare,salvare,esci]
-        #i = 0
-        #for opzione in opzioni:
-        #    funzione = opzione["funzione"]
-        #    posizione = opzione["posizione"]
-        #    i = i+1
-        #    if i > 1:
-        #        print("",end = "  " * i) #crea una scaletta di spazi
-        #    print(colored(posizione,"grey"),end=" ")
-        #    print(funzione)
-        #scelta = str(input(colored("...","grey")))
-        #if scelta == 1:
-        #    #riprova battaglia
-        #    pass
-        #elif scelta == 2:
-        #    #salva ed esci
-        #    pass
-        #elif scelta == 3:
             os.system(clear)
             print(colored("uscendo dal programma...","grey"))
             aspetta_input()

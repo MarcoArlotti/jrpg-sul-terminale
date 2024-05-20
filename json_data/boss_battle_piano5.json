@@ -1,0 +1,151 @@
+[
+    {
+    "name": "THE KING OF JESTER",
+    "max_health": 576,
+    "health": 576,
+    "schivata": 9.0,
+    "one_more": false,
+    "atterrato":false,
+    "crit": false,
+    "possibilit\u00c3\u00a0_crit":20,
+    "danno_magie": 1.7,
+    "debole": [
+    ],
+    "resiste": [
+        "slash","fire"
+    ],
+    "magie": [
+        {
+            "nome": "ATK DOWN TUTTI",
+            "type": "ATK DOWN",
+            "raggio": "gruppo",
+            "costo": 0,
+            "cosa_consuma": "hp",
+            "fonte": "giocatore",
+            "effetto": "stats"
+        },
+        {
+            "nome": "fuoco pesante SINGOLO",
+            "potenza": "normale",
+            "type": "fire",
+            "raggio": "singolo",
+            "costo": 0,
+            "cosa_consuma": "hp",
+            "fonte": "giocatore",
+            "effetto": "magia"
+        }
+    ],
+    "exp_drop": 5.3,
+    "damage": 158,
+    "quanti_tab": 2,
+    "ATK": 0,
+    "DEF": 0,
+    "AGI": 0,
+    "s_ATK": 0,
+    "s_DEF": 0,
+    "s_AGI": 0
+    },
+    {
+        "name": "BLUE JESTER",
+        "max_health": 476,
+        "health": 476,
+        "schivata": 17.0,
+        "one_more": false,
+        "atterrato":false,
+        "crit": false,
+        "possibilit\u00c3\u00a0_crit":20,
+        "danno_magie": 1.7,
+        "debole": [
+        ],
+        "resiste": [
+            "slash","ice"
+        ],
+        "magie": [
+            {
+                "nome": "cura debole",
+                "potenza": "scarsa",
+                "type": "cura",
+                "raggio": "singolo",
+                "costo": 6,
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
+            },
+            {
+                "nome": "DEF UP TUTTI",
+                "type": "DEF UP",
+                "raggio": "gruppo",
+                "costo": 0,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
+            },
+            {
+                "nome": "fuoco pesante SINGOLO",
+                "potenza": "normale",
+                "type": "fire",
+                "raggio": "singolo",
+                "costo": 0,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "magia"
+            }
+        ],
+        "exp_drop": 5.3,
+        "damage": 158,
+        "quanti_tab": 2,
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
+    },
+    {
+        "name": "RED JESTER",
+        "max_health": 476,
+        "health": 476,
+        "schivata": 17.0,
+        "one_more": false,
+        "atterrato":false,
+        "crit": false,
+        "possibilit\u00c3\u00a0_crit":20,
+        "danno_magie": 1.7,
+        "debole": [
+        ],
+        "resiste": [
+            "slash","fire"
+        ],
+        "magie": [
+            {
+                "nome": "cura debole",
+                "potenza": "scarsa",
+                "type": "cura",
+                "raggio": "singolo",
+                "costo": 6,
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
+            },
+            {
+                "nome": "fuoco pesante SINGOLO",
+                "potenza": "normale",
+                "type": "fire",
+                "raggio": "singolo",
+                "costo": 0,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "magia"
+            }
+        ],
+        "exp_drop": 5.3,
+        "damage": 158,
+        "quanti_tab": 2,
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
+    }
+]

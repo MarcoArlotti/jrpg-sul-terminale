@@ -6,8 +6,8 @@
         "health": 240,
         "schivata": 19.0,
         "exp": 0.0,
-        "max_sp": 26,
-        "sp": 26,
+        "max_sp": 36,
+        "sp": 36,
         "atterrato": false,
         "one_more": false,
         "crit": false,
@@ -63,9 +63,7 @@
             "type": null
         },
         "debole": [
-            "fire",
-            "melee",
-            "slash"
+            "fire"
         ],
         "resiste": [
             "elettrical"
@@ -126,9 +124,7 @@
             }
         ],
         "debole": [
-            "elettric",
-            "melee",
-            "slash"
+            "elettric"
         ],
         "resiste": [
             "ice"
@@ -157,7 +153,7 @@
         "schivata": 40.0,
         "exp": 0.0,
         "max_sp": 12,
-        "sp": 30,
+        "sp": 12,
         "atterrato": false,
         "one_more": false,
         "crit": false,
@@ -197,9 +193,7 @@
         ],
         "debole": [
             "ice",
-            "elettric",
-            "melee",
-            "slash"
+            "elettric"
         ],
         "resiste": [
             "fire"
