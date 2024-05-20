@@ -144,6 +144,18 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
     player_vivo_nome_c = colored(nome,colore_nome)
     colore_nome_ = colore_nome
     atterrato = giocatore_vivo_["atterrato"]
+
+    if one_more == True:
+        Art = text2art("o n e  m o r e",font="sub-zero")
+        print(colored(Art,"blue"))
+        aspetta_input()
+
+    if crit == True:
+        Art = text2art("c r i t",font="sub-zero")
+        print(Art)
+        aspetta_input()
+    os.system(clear)
+
     if atterrato == True:
         giocatore_vivo_.update({"atterrato":False})
         giocatore_vivo_.update({"one_more":False})
@@ -152,20 +164,6 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         print(f" il {player_vivo_nome_c} si è {rialzato_c}")
         aspetta_input()
     os.system(clear)
-
-    if one_more == True:
-
-        Art = text2art("o n e  m o r e",font="sub-zero")
-        print(colored(Art,"blue"))
-        aspetta_input()
- 
-    if crit == True:
-        
-        Art = text2art("c r i t",font="sub-zero")
-        print(Art)
-        aspetta_input()
-    os.system(clear)
-        
 
     
     turno_c = colored(turno,"red")
@@ -332,14 +330,13 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
         if battaglia_vinta == False:
 
             rifai_input = True
-            
-            
             while rifai_input == True:
                 
                 rifai_input = False
                 os.system(clear)
 
                 print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turno,crit)
+                one_more = False
                 crit = False
                 
                 print(colored("\n1","grey"),end=" ")
@@ -375,21 +372,20 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                         aggiorna_ordine_nemici(lista_nemici)
                         lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
                     case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
-                        rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m)
-                        
-        for nemico_ in lista_nemici:
-
-            one_more_ = nemico_["one_more"]
-            if one_more_ == True:
-                nemico_.update({"one_more":False})
-                one_more = True
-                rifai = True
+                        rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m) 
+                for nemico_ in lista_nemici:
                 
-            crit = nemico_["crit"]
-            if crit == True:
-                nemico_.update({"crit":False})
-                crit = True
-                rifai = True
+                    one_more_ = nemico_["one_more"]
+                    if one_more_ == True:
+                        nemico_.update({"one_more":False})
+                        one_more = True
+                        rifai = True
+
+                    crit = nemico_["crit"]
+                    if crit == True:
+                        nemico_.update({"crit":False})
+                        crit = True
+                        rifai = True
             
 
         for i in range(len(lista_nemici)):
@@ -408,8 +404,6 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                     lista_nemici.remove(nemico)
                     break
 
-
-    return lista_nemici
 
 
 def conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici):
@@ -524,7 +518,7 @@ def sistema_turni(lista_nemici,numero_piano):
             lista_giocatori_v,lista_giocatori_m,lista_nemici = conteggio_effetti(lista_giocatori_v,lista_giocatori_m,lista_nemici)
 
             for giocatore_vivo_ in lista_giocatori_v:
-                lista_nemici = scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno)
+                scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocatori_m,turno)
 
             for nemico in lista_nemici:
                 rifai = True
@@ -716,155 +710,9 @@ for numero_piano in range(5):
     
     numero_piano_c = colored(numero_piano,"light_red")
     lista_nemici = scelta_percentuali(numero_piano)
- #   if numero_piano == 5:
- #       #boss battle
- #       lista_nemici = [
- #   {
- #       "name": "KNIGHT|1|",
- #       "id":1
- #       "max_health": 476,
- #       "health": 476,
- #       "schivata": 9.0,
- #       "one_more": False,
- #       "atterrato":False,
- #       "crit": False,
- #       "possibilit\u00c3\u00a0_crit":20,
- #       "danno_magie": 1.7,
- #       "debole": [
- #           "ice"
- #       ],
- #       "resiste": [
- #           "slash","fire"
- #       ],
- #       "magie": [
- #           {
- #               "nome": "DEF UP TUTTI",
- #               "type": "DEF UP",
- #               "raggio": "gruppo",
- #               "costo": 0,
- #               "cosa_consuma": "hp",
- #               "fonte": "giocatore",
- #               "effetto": "stats"
- #           },
- #           {
- #               "nome": "fuoco pesante SINGOLO",
- #               "potenza": "normale",
- #               "type": "fire",
- #               "raggio": "singolo",
- #               "costo": 0,
- #               "cosa_consuma": "hp",
- #               "fonte": "giocatore",
- #               "effetto": "magia"
- #           }
- #       ],
- #       "exp_drop": 5.3,
- #       "damage": 158,
- #       "quanti_tab": 2,
- #       "ATK": 0,
- #       "DEF": 0,
- #       "AGI": 0,
- #       "s_ATK": 0,
- #       "s_DEF": 0,
- #       "s_AGI": 0
- #   },
- #   {
- #       "name": "THE KING|2|",
- #       "id":2
- #       "max_health": 576,
- #       "health": 576,
- #       "schivata": 9.0,
- #       "one_more": False,
- #       "atterrato":False,
- #       "crit": False,
- #       "possibilit\u00c3\u00a0_crit":20,
- #       "danno_magie": 1.7,
- #       "debole": [
- #           None
- #       ],
- #       "resiste": [
- #           "slash","fire"
- #       ],
- #       "magie": [
- #           {
- #               "nome": "ATK DOWN TUTTI",
- #               "type": "ATK DOWN",
- #               "raggio": "gruppo",
- #               "costo": 0,
- #               "cosa_consuma": "hp",
- #               "fonte": "giocatore",
- #               "effetto": "stats"
- #           },
- #           {
- #               "nome": "fuoco pesante SINGOLO",
- #               "potenza": "normale",
- #               "type": "fire",
- #               "raggio": "singolo",
- #               "costo": 0,
- #               "cosa_consuma": "hp",
- #               "fonte": "giocatore",
- #               "effetto": "magia"
- #           }
- #       ],
- #       "exp_drop": 5.3,
- #       "damage": 158,
- #       "quanti_tab": 2,
- #       "ATK": 0,
- #       "DEF": 0,
- #       "AGI": 0,
- #       "s_ATK": 0,
- #       "s_DEF": 0,
- #       "s_AGI": 0
- #   },
- #   {
- #       "name": "KNIGHT|3|",
- #       "id":3
- #       "max_health": 476,
- #       "health": 476,
- #       "schivata": 9.0,
- #       "one_more": False,
- #       "atterrato":False,
- #       "crit": False,
- #       "possibilit\u00c3\u00a0_crit":20,
- #       "danno_magie": 1.7,
- #       "debole": [
- #           "elettric"
- #       ],
- #       "resiste": [
- #           "slash","fire"
- #       ],
- #       "magie": [
- #           {
- #               "nome": "ATK UP TUTTI",
- #               "type": "ATK UP",
- #               "raggio": "gruppo",
- #               "costo": 0,
- #               "cosa_consuma": "hp",
- #               "fonte": "giocatore",
- #               "effetto": "stats"
- #           },
- #           {
- #               "nome": "fuoco pesante SINGOLO",
- #               "potenza": "normale",
- #               "type": "fire",
- #               "raggio": "singolo",
- #               "costo": 0,
- #               "cosa_consuma": "hp",
- #               "fonte": "giocatore",
- #               "effetto": "magia"
- #           }
- #       ],
- #       "exp_drop": 5.3,
- #       "damage": 158,
- #       "quanti_tab": 2,
- #       "ATK": 0,
- #       "DEF": 0,
- #       "AGI": 0,
- #       "s_ATK": 0,
- #       "s_DEF": 0,
- #       "s_AGI": 0
- #   }
- #       ]
-#
+    if numero_piano == 5:
+        #boss battle
+ 
     battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
 
     if battaglia_vinta == True:
