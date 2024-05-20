@@ -40,5 +40,12 @@
         "valore": 16.0,
         "type": "revive",
         "numero_nella_lista": 6
+    },
+    {
+        "name": "med met\u00e0",
+        "effetto": "met\u00e0",
+        "valore": 16.0,
+        "type": "revive",
+        "numero_nella_lista": 7
     }
 ]

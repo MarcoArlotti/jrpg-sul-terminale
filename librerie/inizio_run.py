@@ -706,7 +706,7 @@ def scelta_carte(lista_giocatori,clear):
 
 
 
-numero_piano = 1
+numero_piano = 5
 for numero_piano in range(5):
     os.system(clear)
     
@@ -731,6 +731,11 @@ for numero_piano in range(5):
 
         print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
         aspetta_input()
+        if numero_piano == 5:
+            os.system(clear)
+            Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
+            print(colored(Art,"red"))
+            aspetta_input()
 
     elif battaglia_persa == True:
             os.system(clear)

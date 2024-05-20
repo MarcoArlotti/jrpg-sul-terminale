@@ -1,6 +1,7 @@
 import json
 import os
 import random
+from art import text2art
 from termcolor import colored
 from sys import platform
 if platform == "linux":
@@ -951,7 +952,7 @@ def riordina_lista_giocatori_fuori_battaglia(lista_giocatori):
 
 def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori_m):
 
-
+    
     giocatori_morti = False
 
     nemico.update({"atterrato":False})
@@ -963,11 +964,11 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
     if giocatori_morti == False:
         nemico_nome = colored(nemico["name"],"light_red")
 
-
+        numero_piano = 5
         if numero_piano <= 2: #se i nemici si trovano al piano 2 o inferiore attaccheranno e basta
             nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
 
-        elif numero_piano > 2:
+        elif numero_piano == 2 or numero_piano == 3 or numero_piano == 4:
             scelta_magia = "attacco","magie","buff_stats"
             nemico_nome = nemico["name"]
             scelta_magia = random.choices(scelta_magia,weights=[50,40,10],k=1)
@@ -1065,7 +1066,8 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                                 rifai = True
                                 lista_possibilità.remove(cosa_buffare)
 
-       
+        elif numero_piano == 5:
+            pass
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]
         if vita_player <= 0:

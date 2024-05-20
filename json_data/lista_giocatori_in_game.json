@@ -3,7 +3,7 @@
         "name": "GALO",
         "colore_nome": "light_blue",
         "max_health": 240,
-        "health": 73,
+        "health": 240,
         "schivata": 19.0,
         "exp": 0.0,
         "max_sp": 36,
@@ -62,32 +62,30 @@
             "type": null
         },
         "debole": [
-            "fire",
-            "melee",
-            "slash"
+            "fire"
         ],
         "resiste": [
             "elettrical"
         ],
-        "guard": true,
+        "guard": false,
         "posizione": 1,
         "ATK": 0,
-        "DEF": 1,
-        "AGI": 1,
-        "s_ATK": 2,
-        "s_DEF": 3,
-        "s_AGI": 3
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     },
     {
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 3,
+        "health": 220,
         "schivata": 23.0,
         "exp": 0.0,
         "max_sp": 22,
         "sp": 25,
-        "atterrato": true,
+        "atterrato": false,
         "one_more": false,
         "crit": false,
         "danno_magie": 3,
@@ -101,8 +99,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 1
+                "effetto": "stats"
             },
             {
                 "nome": "scarica pesante SINGOLO",
@@ -112,8 +109,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "scarica TUTTI",
@@ -123,14 +119,11 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             }
         ],
         "debole": [
-            "elettric",
-            "melee",
-            "slash"
+            "elettric"
         ],
         "resiste": [
             "ice"
@@ -141,25 +134,25 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 2,
         "ATK": 0,
-        "DEF": 1,
-        "AGI": 1,
-        "s_ATK": 2,
-        "s_DEF": 3,
-        "s_AGI": 3
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     },
     {
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 44,
+        "health": 294,
         "schivata": 40.0,
         "exp": 0.0,
         "max_sp": 12,
         "sp": 12,
-        "atterrato": true,
+        "atterrato": false,
         "one_more": false,
         "crit": false,
         "danno_magie": 2,
@@ -173,8 +166,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 1
+                "effetto": "stats"
             },
             {
                 "nome": "vento pesante SINGOLO",
@@ -184,8 +176,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "vento TUTTI",
@@ -195,15 +186,12 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             }
         ],
         "debole": [
             "ice",
-            "elettric",
-            "melee",
-            "slash"
+            "elettric"
         ],
         "resiste": [
             "fire"
@@ -214,13 +202,13 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 3,
         "ATK": 0,
-        "DEF": 1,
-        "AGI": 1,
-        "s_ATK": 2,
-        "s_DEF": 3,
-        "s_AGI": 3
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     }
 ]
