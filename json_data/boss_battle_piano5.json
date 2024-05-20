@@ -79,7 +79,7 @@
                 "costo": 6,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "cura"
             },
             {
                 "nome": "DEF UP TUTTI",
@@ -135,7 +135,7 @@
                 "costo": 6,
                 "cosa_consuma": "sp",
                 "fonte": "nemico",
-                "effetto": "magia"
+                "effetto": "cura"
             },
             {
                 "nome": "fuoco SINGOLO",
@@ -146,6 +146,15 @@
                 "cosa_consuma": "hp",
                 "effetto": "magia",
                 "fonte": "giocatore"
+            },
+            {
+                "nome": "ATK UP TUTTI",
+                "type": "ATK UP",
+                "raggio": "gruppo",
+                "costo": 0,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
             }
         ],
         "exp_drop": 5.3,
