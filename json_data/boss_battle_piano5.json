@@ -12,7 +12,7 @@
     "debole": [
     ],
     "resiste": [
-        "slash","fire"
+        "slash","fire","ice"
     ],
     "magie": [
         {
@@ -25,14 +25,24 @@
             "effetto": "stats"
         },
         {
-            "nome": "fuoco pesante SINGOLO",
-            "potenza": "normale",
+            "nome": "fuoco devastante SINGOLO",
+            "potenza": "devastante",
             "type": "fire",
             "raggio": "singolo",
             "costo": 0,
             "cosa_consuma": "hp",
-            "fonte": "giocatore",
-            "effetto": "magia"
+            "effetto": "magia",
+            "fonte": "giocatore"
+        },
+        {
+            "nome": "ghiaccio devastante SINGOLO",
+            "potenza": "devastante",
+            "type": "ice",
+            "raggio": "singolo",
+            "costo": 0,
+            "cosa_consuma": "hp",
+            "effetto": "magia",
+            "fonte": "giocatore"
         }
     ],
     "exp_drop": 5.3,
@@ -81,14 +91,14 @@
                 "effetto": "stats"
             },
             {
-                "nome": "fuoco pesante SINGOLO",
-                "potenza": "normale",
+                "nome": "fuoco SINGOLO",
+                "potenza": "scarsa",
                 "type": "fire",
                 "raggio": "singolo",
                 "costo": 0,
                 "cosa_consuma": "hp",
-                "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "fonte": "giocatore"
             }
         ],
         "exp_drop": 5.3,
@@ -124,18 +134,18 @@
                 "raggio": "singolo",
                 "costo": 6,
                 "cosa_consuma": "sp",
-                "fonte": "giocatore",
+                "fonte": "nemico",
                 "effetto": "magia"
             },
             {
-                "nome": "fuoco pesante SINGOLO",
-                "potenza": "normale",
+                "nome": "fuoco SINGOLO",
+                "potenza": "scarsa",
                 "type": "fire",
                 "raggio": "singolo",
                 "costo": 0,
                 "cosa_consuma": "hp",
-                "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "fonte": "giocatore"
             }
         ],
         "exp_drop": 5.3,

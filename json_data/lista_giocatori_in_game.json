@@ -67,7 +67,7 @@
         "resiste": [
             "elettrical"
         ],
-        "guard": false,
+        "guard": true,
         "posizione": 1,
         "ATK": 0,
         "DEF": 0,
@@ -134,76 +134,8 @@
             "price": 0,
             "type": null
         },
-        "guard": false,
+        "guard": true,
         "posizione": 2,
-        "ATK": 0,
-        "DEF": 0,
-        "AGI": 0,
-        "s_ATK": 0,
-        "s_DEF": 0,
-        "s_AGI": 0
-    },
-    {
-        "name": "O.S.U.B.A.",
-        "colore_nome": "yellow",
-        "max_health": 294,
-        "health": 294,
-        "schivata": 40.0,
-        "exp": 0.0,
-        "max_sp": 12,
-        "sp": 12,
-        "atterrato": false,
-        "one_more": false,
-        "crit": false,
-        "danno_magie": 2,
-        "armatura": 2.2,
-        "possibilit\u00c3\u00a0_crit": 80.0,
-        "magie": [
-            {
-                "nome": "AGI UP TUTTI",
-                "type": "AGI UP",
-                "raggio": "gruppo",
-                "costo": 50,
-                "cosa_consuma": "hp",
-                "fonte": "giocatore",
-                "effetto": "stats"
-            },
-            {
-                "nome": "vento pesante SINGOLO",
-                "potenza": "normale",
-                "type": "wind",
-                "raggio": "singolo",
-                "costo": 4,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia"
-            },
-            {
-                "nome": "vento TUTTI",
-                "potenza": "scarsa",
-                "type": "wind",
-                "raggio": "gruppo",
-                "costo": 8,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia"
-            }
-        ],
-        "debole": [
-            "ice",
-            "elettric"
-        ],
-        "resiste": [
-            "fire"
-        ],
-        "damage_base": 17.0,
-        "current_equip_melee": {
-            "damage": 32,
-            "price": 0,
-            "type": null
-        },
-        "guard": false,
-        "posizione": 3,
         "ATK": 0,
         "DEF": 0,
         "AGI": 0,

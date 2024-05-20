@@ -503,7 +503,6 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
         rifai = False
         tipo_oggetto = cura_scelta["type"]
         
-
         if tipo_oggetto == "hp":
             i = 0
             for giocatore in lista_giocatori_v:
@@ -1033,7 +1032,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     print(colored("/" * 69,"light_red"))
                     print(colored(f"il nemico {nemico_nome_c},","grey"),end=" ")
                     print(colored(f"ha usato: |{che_magia_usare_nome_c}|","grey"),end="")
-                    print(colored(f"\n\nil nemico ha inflitto -{danno_inflitto_c}HP","grey"),end=" ")
+                    print(colored(f"\n\ninfliggendo -{danno_inflitto_c}HP","grey"),end=" ")
                     print(colored(f"al {nome_giocatore_scelto_c}","grey"))
                     aspetta_input()
                     giocatore_da_attaccare.update({"health":tot})
@@ -1067,7 +1066,106 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                                 lista_possibilità.remove(cosa_buffare)
 
         elif numero_piano == 5:
-            pass
+            nemico_nome = nemico["name"]
+            
+
+            rifai_random = True
+            fai_magie = False
+            while rifai_random == True:
+                scelta_magia = "magie","buff_stats"
+                scelta_magia = random.choices(scelta_magia,weights=[70,30],k=1)
+                giocatore_da_attaccare = random.choice(lista_giocatori_v)
+                rifai_random = False
+                
+                if fai_magie == True:
+                    scelta_magia = "magie"
+                    fai_magie = False
+
+                if scelta_magia == ["magie"]:
+                    #magie
+                    lista_magie_nemico = nemico["magie"]
+                    rifai = True
+                    while rifai == True:
+                        rifai = False
+                        che_magia_usare = random.choice(lista_magie_nemico)
+                        tipo_magia = che_magia_usare["type"]
+                        if tipo_magia == "ATK UP" or tipo_magia == "DEF UP" or tipo_magia == "AGI UP" or tipo_magia == "ATK DOWN" or tipo_magia == "DEF DOWN" or tipo_magia == "AGI DOWN":
+                            rifai = True
+
+                    percentuale_boost_potenza_magie = nemico["danno_magie"]
+                    tipo_magia_nemico = che_magia_usare["type"]
+                    danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,che_magia_usare,giocatore_da_attaccare)
+
+                    status = debolezze(tipo_magia_nemico,giocatore_da_attaccare)
+
+                    if giocatore_da_attaccare["DEF"] == 1:
+                        danno_inflitto = danno_inflitto / 1.2
+                        
+                    elif giocatore_da_attaccare["DEF"] == -1:
+                        danno_inflitto = danno_inflitto * 1.2
+
+                    if nemico["ATK"] == 1:
+                        danno_inflitto = danno_inflitto * 1.2
+                    elif nemico["ATK"] == -1:
+                        danno_inflitto = danno_inflitto / 1.2
+
+                    if status == "debole":
+                        giocatore_da_attaccare.update({"one_more":True})
+                        giocatore_da_attaccare.update({"atterrato":True})
+                        danno_inflitto = danno_inflitto * 1.2
+                    elif status == "resiste":
+                        danno_inflitto = danno_inflitto / 1.2
+
+                    danno_inflitto = int(danno_inflitto)
+
+                    vita_giocatore = giocatore_da_attaccare["health"]
+                    tot = vita_giocatore - danno_inflitto
+                    danno_inflitto_c = colored(danno_inflitto,"red")
+                    nome_giocatore_scelto = giocatore_da_attaccare["name"]
+                    colore_nome = giocatore_da_attaccare["colore_nome"]
+                    che_magia_usare_nome = che_magia_usare["nome"]
+
+                    nemico_nome_c = colored(nemico_nome,"red")
+                    nome_giocatore_scelto_c = colored(nome_giocatore_scelto,colore_nome)
+                    che_magia_usare_nome_c = colored(che_magia_usare_nome,"cyan")
+                    os.system(clear)
+                    print(colored("/" * 69,"light_red"))
+                    print(colored(f"il nemico {nemico_nome_c},","grey"),end=" ")
+                    print(colored(f"ha usato: |{che_magia_usare_nome_c}|","grey"),end="")
+                    print(colored(f"\n\ninfliggendo -{danno_inflitto_c}HP","grey"),end=" ")
+                    print(colored(f"al {nome_giocatore_scelto_c}","grey"))
+                    aspetta_input()
+                    giocatore_da_attaccare.update({"health":tot})
+
+                elif scelta_magia == ["buff_stats"]:
+
+                    atk_ = nemico["ATK"]
+                    def_ = nemico["DEF"]
+                    agi_ = nemico["AGI"]
+                    if atk_ == 0 or def_ == 0 or agi_ == 0:
+                        lista_possibilità = ["ATK UP","DEF UP","AGI UP"]
+                        rifai = True
+                        while rifai == True:
+                            rifai = False
+                            if lista_possibilità == []:
+                                fai_magie = True
+                                rifai_random = True
+                                break
+                            cosa_buffare = random.choice(lista_possibilità)
+                            lista_magie_nemico = nemico["magie"]
+                            for magia in lista_magie_nemico:
+                                tipo_magia = magia["type"]
+                                if tipo_magia == cosa_buffare:
+                                    stat_buff_funzionamento(nemico,tipo_magia)
+                                    break
+                            if tipo_magia != cosa_buffare:
+                                rifai = True
+                                lista_possibilità.remove(cosa_buffare)
+                    else:
+                        rifai_random = True
+
+
+
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]
         if vita_player <= 0:
@@ -1471,5 +1569,3 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
         print(nemico["one_more"])
     return lista_nemici
 
-
-        

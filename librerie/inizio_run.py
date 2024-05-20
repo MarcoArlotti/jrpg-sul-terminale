@@ -25,7 +25,7 @@ elif platform == "win32":
     p_zaino = "json_data\zaino.json"
     p_magie = "json_data\magie.json"
     p_enemy_stats_dungeon = "json_data\lista_nemici.json"
-    p_boss_battle_piano5 = "json_data\boss_battle_piano5.json"
+    p_boss_battle_piano5 = "json_data\\boss_battle_piano5.json"
 
 #python -> json = .dump
 #json -> python = .load
@@ -297,7 +297,7 @@ def print_battaglia(lista_nemici,lista_giocatori_v,giocatore_vivo_,one_more,turn
         sp_max_giocatore = giocatore["max_sp"]
         print(colored(f"{sp_max_giocatore}|SP","magenta"),end="\n")
 
-    print(colored("="*69,colore_nome_),end="")
+    print(colored("\n" + "="*69,colore_nome_),end="")
 
 def random_che_nemico_pescare(lista_nemici,id):
     with open(p_enemy_stats_dungeon,"r") as file_nemici:
@@ -558,22 +558,6 @@ def sistema_turni(lista_nemici,numero_piano):
             
     return battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v
 
-os.system(clear)
-
-
-iniziare_run = "yes" #DEBUG
-if iniziare_run == "yes":
-
-    inizio_run() 
-    print("salvataggio creato...")
-
-    numero_piano = 3
-    
-elif iniziare_run == "no":
-    
-    print("continuando dall'ultimo salvataggio...")
-
-    pass
 
 def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
 
@@ -705,42 +689,60 @@ def scelta_carte(lista_giocatori,clear):
 
 
 
-
-numero_piano = 5
-for numero_piano in range(5):
+def main():
     os.system(clear)
+
+
+    iniziare_run = "yes" #DEBUG
+    if iniziare_run == "yes":
+
+        inizio_run() 
+        print("salvataggio creato...")
+        numero_piano = 1
+
+    elif iniziare_run == "no":
+
+        print("continuando dall'ultimo salvataggio...")
+
+        pass
+
     
-    numero_piano_c = colored(numero_piano,"light_red")
-    lista_nemici = scelta_percentuali(numero_piano)
-    if numero_piano == 5:
-        #boss battle
-        with open(p_boss_battle_piano5,"r") as json_:
-            lista_nemici = json.load(json_)
- 
-    battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
+    for numero_piano in range(5):
+        numero_piano = 5
+        os.system(clear)
 
-    if battaglia_vinta == True:
-
-        lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori_v)
-
-        riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
-        lista_giocatori = scelta_carte(lista_giocatori,clear)
-
-        with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
-            json.dump(lista_giocatori,lista_giocatori_,indent=4)
-
-        print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
-        aspetta_input()
+        numero_piano_c = colored(numero_piano,"light_red")
         if numero_piano == 5:
-            os.system(clear)
-            Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
-            print(colored(Art,"red"))
-            aspetta_input()
-
-    elif battaglia_persa == True:
-            os.system(clear)
-            print(colored("uscendo dal programma...","grey"))
-            aspetta_input()
-            os.system("^C")
-            os.system(clear)
+            #boss battle
+            with open(p_boss_battle_piano5,"r") as json_:
+                lista_nemici = json.load(json_)
+        else:
+            lista_nemici = scelta_percentuali(numero_piano)
     
+        battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
+
+        if battaglia_vinta == True:
+
+            lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori_v)
+
+            riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
+            lista_giocatori = scelta_carte(lista_giocatori,clear)
+
+            with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
+                json.dump(lista_giocatori,lista_giocatori_,indent=4)
+
+            print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
+            aspetta_input()
+            if numero_piano == 5:
+                os.system(clear)
+                Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
+                print(colored(Art,"red"))
+                aspetta_input()
+
+        elif battaglia_persa == True:
+                os.system(clear)
+                print(colored("uscendo dal programma...","grey"))
+                aspetta_input()
+                os.system("^C")
+                os.system(clear)
+main()
