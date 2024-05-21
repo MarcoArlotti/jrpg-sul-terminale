@@ -118,7 +118,6 @@ def scelta_percentuali(numero_piano):
 
 
 def random_quanti_nemici(quanti_nemici,lista_nemici):
-    quanti_nemici = ["3"] #DEBUG
     if quanti_nemici == ["1"]: # tra le quandre perchè il random da come uscita una lista
         id = 1
         random_che_nemico_pescare(lista_nemici,id)
@@ -341,17 +340,17 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 one_more = False
                 crit = False
                 
-                print(colored("\n1","grey"),end=" ")
-                print(colored("ATTACCARE","light_blue"),end="")
+                print(colored("\n1","grey", 'on_black', ['bold', 'blink']),end=" ")
+                print(colored("ATTACCARE","light_blue", 'on_black', ['bold', 'blink']),end="")
                 
-                print(colored("\n\t2","grey"),end=" ")
-                print(colored("PARARE","cyan"),end="")
+                print(colored("\n\t2","grey", 'on_black', ['bold', 'blink']),end=" ")
+                print(colored("PARARE","cyan", 'on_black', ['bold', 'blink']),end="")
 
-                print(colored("\n\t\t3","grey"),end=" ")
-                print(colored("MAGIE","light_blue"),end="")
+                print(colored("\n\t\t3","grey", 'on_black', ['bold', 'blink']),end=" ")
+                print(colored("MAGIE","light_blue", 'on_black', ['bold', 'blink']),end="")
 
-                print(colored("\n\t\t\t4","grey"),end=" ")
-                print(colored("CURE","cyan"),end="\n")
+                print(colored("\n\t\t\t4","grey", 'on_black', ['bold', 'blink']),end=" ")
+                print(colored("CURE","cyan", 'on_black', ['bold', 'blink']),end="\n")
         
                 choice = input(colored("...","grey"))
 
@@ -618,7 +617,7 @@ def scelta_carte(lista_giocatori,clear):
             print("",end="  " * i)
 
         print(colored(f"|{i}|","grey"),end=" ")
-        print(colored(nome,colore_carta),end="   ")
+        print(colored(nome,colore_carta, 'on_black', ['bold', 'blink']),end="   ")
         print(colored(f"\t{effetto_carta}","grey"),end="\n\n")
 
     rifai = True
@@ -659,6 +658,7 @@ def scelta_carte(lista_giocatori,clear):
 
             percentuale = (sp_max * 20)/100
             tot = sp_max + percentuale
+            tot = int(tot)
 
             if tot > sp_max:
                 tot = sp_max
@@ -675,8 +675,18 @@ def scelta_carte(lista_giocatori,clear):
         zaino.append(oggetto_uscito)
         with open(p_zaino,"w") as zaino_json:
             json.dump(zaino,zaino_json,indent=4)
-        print(colored(oggetto_uscito,"yellow"))
-
+        cosa_uscito_nome = oggetto_uscito["name"]
+        tipo = oggetto_uscito["type"]
+        effetto = oggetto_uscito["effetto"]
+        print(colored(cosa_uscito_nome,"yellow","on_black",["bold","blink"]))
+        if tipo == "hp":
+            print(colored(f"+{effetto}","green","on_black",["bold","blink"]),end="")
+            print(colored(tipo,"white","on_black",["bold","blink"]))
+        if tipo == "sp":
+            print(colored(f"+{effetto}","magenta","on_black",["bold","blink"]),end="")
+            print(colored(tipo,"white","on_black",["bold","blink"]))
+        if tipo == "revive":
+            print(colored(f"+{effetto} vità ai giocatori morti","white","on_black",["bold","blink"]))
     elif nome_carta == "+10% attacco magico":
         for giocatore in lista_giocatori:
             danno_magie = giocatore["danno_magie"]
@@ -693,17 +703,17 @@ def main():
     os.system(clear)
     rifai = True
     while rifai == True:
-        rifai = False
-        iniziare_run = input(str("creare un nuovo salvataggio...\n\n\"yes\"\n\"no\"\n"))
+
+        iniziare_run = input(str(colored("creare un nuovo salvataggio...\n\n\"yes\"\n\"no\"\n","cyan")))
         os.system(clear)
         if iniziare_run == "yes":
-
+            rifai = False
             inizio_run() 
             print("salvataggio creato...")
             
             numero_piano = 1
         elif iniziare_run == "no":
-
+            rifai = False
             print("continuando dall'ultimo salvataggio...")
 
         aspetta_input()

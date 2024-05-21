@@ -22,6 +22,7 @@
                 "potenza": "scarsa",
                 "type": "ice",
                 "raggio": "singolo",
+                "effetto": "magia",
                 "costo": 2
             }
         ],
@@ -57,6 +58,7 @@
                 "nome": "ghiaccio SINGOLO",
                 "potenza": "scarsa",
                 "type": "ice",
+                "effetto": "magia",
                 "raggio": "singolo",
                 "costo": 2
             }
@@ -92,6 +94,7 @@
                 "nome": "ghiaccio SINGOLO",
                 "potenza": "scarsa",
                 "type": "ice",
+                "effetto": "magia",
                 "raggio": "singolo",
                 "costo": 2
             }

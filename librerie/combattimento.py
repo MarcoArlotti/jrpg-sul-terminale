@@ -290,7 +290,7 @@ def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_att
     os.system(clear)
 
     colore_nome = giocatore_vivo_["colore_nome"]
-    print(colored("/" * 69,colore_nome))
+    print(colored("\\" * 69,colore_nome))
     i = -1
     print()
     for nemico in lista_nemici:
@@ -1158,10 +1158,14 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     for magia in lista_magie:
                         if magia["effetto"] == "stats":
                             lista_magie_nemico_buff.append(magia)
-                    cosa_buffare = random.choice(lista_magie_nemico_buff)
-                    tipo_magia_ = cosa_buffare["type"]
-                    for nemico_ in lista_nemici:
-                        stat_buff_funzionamento(nemico_,tipo_magia_,lista_giocatori_v)
+                    try:
+                        cosa_buffare = random.choice(lista_magie_nemico_buff)
+                    except:
+                        fai_magie = True
+                    if fai_magie == False:
+                        tipo_magia_ = cosa_buffare["type"]
+                        for nemico_ in lista_nemici:
+                            stat_buff_funzionamento(nemico_,tipo_magia_,lista_giocatori_v)
 
                 elif scelta_magia == ["cura"]:
                     lista_magie_nemico = nemico["magie"]
