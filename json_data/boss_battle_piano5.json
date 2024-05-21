@@ -128,12 +128,12 @@
         ],
         "magie": [
             {
-                "nome": "cura debole",
-                "potenza": "scarsa",
+                "nome": "cura devastante",
+                "potenza": "devastante",
                 "type": "cura",
                 "raggio": "singolo",
-                "costo": 6,
-                "cosa_consuma": "sp",
+                "costo": 0,
+                "cosa_consuma": "hp",
                 "fonte": "nemico",
                 "effetto": "cura"
             },

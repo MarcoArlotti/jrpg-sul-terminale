@@ -991,6 +991,9 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         rifai = False
                         che_magia_usare = random.choice(lista_magie_nemico)
                         tipo_magia = che_magia_usare["type"]
+                        print("magie")
+                        print(tipo_magia)
+                        aspetta_input()
                         if tipo_magia == "ATK UP" or tipo_magia == "DEF UP" or tipo_magia == "AGI UP" or tipo_magia == "ATK DOWN" or tipo_magia == "DEF DOWN" or tipo_magia == "AGI DOWN":
                             rifai = True
 
@@ -1047,14 +1050,10 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     def_ = nemico["DEF"]
                     agi_ = nemico["AGI"]
                     if atk_ == 0 and def_ == 0 and agi_ == 0:
-                        lista_possibilità = ["ATK UP","DEF UP","AGI UP"]
+                        lista_possibilità = ["ATK UP","DEF UP","AGI UP","ATK DOWN","DEF DOWN","AGI DOWN"]
                         rifai = True
                         while rifai == True:
                             rifai = False
-                            if lista_possibilità == []:
-                                fai_magie = True
-                                rifai_random = True
-                                break
                             cosa_buffare = random.choice(lista_possibilità)
                             lista_magie_nemico = nemico["magie"]
                             for magia in lista_magie_nemico:
@@ -1070,12 +1069,13 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
             nemico_nome = nemico["name"]
 
             rifai_random = True
-            fai_magie = False
+            
             while rifai_random == True:
+                rifai_random = True
+                fai_magie = False
                 scelta_magia = "magie","buff_stats","cura"
-                scelta_magia = random.choices(scelta_magia,weights=[50,30,20],k=1)
+                scelta_magia = random.choices(scelta_magia,weights=[5,90,5],k=1)
                 giocatore_da_attaccare = random.choice(lista_giocatori_v)
-                rifai_random = False
                 
                 if fai_magie == True:
                     scelta_magia = "magie"
@@ -1086,7 +1086,6 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     if scelta_magia == ["magie"]:
                         #magie
                         lista_magie_nemico = nemico["magie"]
-                        rifai = True
                         for magia in lista_magie_nemico:
                             tipo_magia = magia["type"]
                             if tipo_magia == "magia":
@@ -1147,32 +1146,31 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                             aspetta_input()
                     elif scelta_magia == ["buff_stats"]:
 
-                        atk_ = nemico["ATK"]
-                        def_ = nemico["DEF"]
-                        agi_ = nemico["AGI"]
-                        if atk_ == 0 or def_ == 0 or agi_ == 0:
-                            lista_possibilità = ["ATK UP","DEF UP","AGI UP"]
-                            rifai = True
-                            while rifai == True:
-                                rifai = False
-                                if lista_possibilità == []:
-                                    fai_magie = True
-                                    rifai_random = True
-                                    break
-                                cosa_buffare = random.choice(lista_possibilità)
-                                lista_magie_nemico = nemico["magie"]
-                                for magia in lista_magie_nemico:
-                                    tipo_magia = magia["type"]
-                                    if tipo_magia == cosa_buffare:
-                                        for nemico_ in lista_nemici:
-                                            stat_buff_funzionamento(nemico_,tipo_magia)
-                                        break
-                                if tipo_magia != cosa_buffare:
-                                    rifai = True
-                                    lista_possibilità.remove(cosa_buffare)
-                        else:
-                            rifai_random = True
-                            fai_magie = True
+                        lista_possibilità = ["ATK UP","DEF UP","AGI UP","ATK DOWN","DEF DOWN","AGI DOWN"]
+                        rifai = True
+                        stop = False
+                        while rifai == True and stop == False:
+                            rifai = False
+                            cosa_buffare = random.choice(lista_possibilità)
+                            lista_magie_nemico = nemico["magie"]
+                            trovato = False
+                            for magia in lista_magie_nemico:
+                                tipo_magia_ = magia["type"]
+                               
+                                tipo_magia = [tipo_magia_]
+                                
+                                if tipo_magia_ == cosa_buffare:
+                                    for nemico_ in lista_nemici:
+                                        stat_buff_funzionamento(nemico_,tipo_magia_)
+                                    rifai = False
+                                    trovato = True
+                                    stop = True
+                                    scelte = False
+                                    rifai_random = False
+
+                            if tipo_magia != cosa_buffare and trovato == False:
+                                rifai = True
+                                lista_possibilità.remove(cosa_buffare)
 
                     elif scelta_magia == ["cura"]:
                         lista_magie_nemico = nemico["magie"]
@@ -1221,11 +1219,6 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         if not magia["type"] == "cura":
                             scelte = True
                             scelta_magia = ["magia"]
-                        
-
-                            
-
-
 
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]
@@ -1284,6 +1277,51 @@ def stat_buff_funzionamento(giocatore_vivo_,tipo_magia):
         s_CRIT = 3
         giocatore_vivo_.update({"s_CRIT":s_CRIT})
         giocatore_vivo_.update({"CRIT":crit_})
+
+
+    if tipo_magia == "ATK DOWN":
+        
+        atk_ = giocatore_vivo_["ATK"]
+        if atk_ == -1:
+            atk_ = -1
+            
+        elif atk_ != -1:
+            atk_ =+ -1
+            
+        s_ATK = 3
+        giocatore_vivo_.update({"s_ATK":s_ATK})
+        giocatore_vivo_.update({"ATK":atk_})
+
+    elif tipo_magia == "DEF DOWN":
+        def_ = giocatore_vivo_["DEF"]
+        if def_ == -1:
+            def_ = -1
+        elif def_ != -1:
+            def_ =+ -1
+        s_DEF = 3
+        giocatore_vivo_.update({"s_DEF":s_DEF})
+        giocatore_vivo_.update({"DEF":def_})
+
+    elif tipo_magia == "AGI DOWN":
+        agi_ = giocatore_vivo_["AGI"]
+        if agi_ == -1:
+            agi_ = -1
+        elif agi_ != -1:
+            agi_ =+ -1
+        s_AGI = 3
+        giocatore_vivo_.update({"s_AGI":s_AGI})
+        giocatore_vivo_.update({"AGI":agi_})
+
+    if tipo_magia == "CRIT DOWN":
+        crit_ = giocatore_vivo_["CRIT"]
+        if crit_ == -1:
+            crit_ = -1
+        elif crit_ != -1:
+            crit_ =+ -1
+        s_CRIT = 3
+        giocatore_vivo_.update({"s_CRIT":s_CRIT})
+        giocatore_vivo_.update({"CRIT":crit_})
+
 
 def statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte):
     if fonte == "giocatore":
