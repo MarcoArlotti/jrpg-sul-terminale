@@ -1,8 +1,8 @@
 [
     {
-    "name": "THE KING OF JESTER",
-    "max_health": 576,
-    "health": 576,
+    "name": "THE KING OF JESTERS",
+    "max_health": 776,
+    "health": 776,
     "schivata": 9.0,
     "one_more": false,
     "atterrato":false,
