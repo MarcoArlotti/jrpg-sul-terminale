@@ -44,31 +44,31 @@ def inizio_run(): #tutte le stat sono portare a 0
     #TODO in base alla difficoltà, aumentare/diminuire, costo/quantità degli oggetti
     zaino = [{
         "name":"cura parziale",
-        "effetto":50,
+        "effetto":90,
         "valore":3.5,
         "type":"hp"
     },
     {
         "name":"cura parziale",
-        "effetto":50,
+        "effetto":90,
         "valore":3.5,
         "type":"hp"
     },
     {
         "name":"cura pesante",
-        "effetto":80,
+        "effetto":180,
         "valore":6.8,
         "type":"hp"
     },
     {
         "name":"cura sp",
-        "effetto":30,
+        "effetto":15,
         "valore":7.5,
         "type":"sp"
     },
     {
         "name":"cura sp",
-        "effetto":30,
+        "effetto":15,
         "valore":7.5,
         "type":"sp"
     },
@@ -691,24 +691,25 @@ def scelta_carte(lista_giocatori,clear):
 
 def main():
     os.system(clear)
+    rifai = True
+    while rifai == True:
+        rifai = False
+        iniziare_run = input(str("creare un nuovo salvataggio...\n\n\"yes\"\n\"no\"\n"))
+        os.system(clear)
+        if iniziare_run == "yes":
 
+            inizio_run() 
+            print("salvataggio creato...")
+            
+            numero_piano = 1
+        elif iniziare_run == "no":
 
-    iniziare_run = "yes" #DEBUG
-    if iniziare_run == "yes":
+            print("continuando dall'ultimo salvataggio...")
 
-        inizio_run() 
-        print("salvataggio creato...")
-        numero_piano = 1
-
-    elif iniziare_run == "no":
-
-        print("continuando dall'ultimo salvataggio...")
-
-        pass
+        aspetta_input()
 
     
     for numero_piano in range(5):
-        numero_piano = 5
         os.system(clear)
 
         numero_piano_c = colored(numero_piano,"light_red")

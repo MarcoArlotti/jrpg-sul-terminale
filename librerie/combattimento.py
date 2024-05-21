@@ -34,8 +34,6 @@ def debolezze(tipo_magia_player,nemico_):
     return status
 
 def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
-    print(colored(magia,"red"))
-    aspetta_input()
     potenza = magia["potenza"]
     tipo_magia_player = magia["type"]
     status = None
@@ -356,7 +354,14 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
         while rifai_input == True:
             rifai_input = False
             os.system(clear)
+            i = -1
+            colore_nome = giocatore_vivo_["colore_nome"]
+            print(colored("\\" * 69,colore_nome))
             for nemico in lista_nemici:
+
+                i = i + 1
+                if i > 0:
+                    print(" " * i,end="")
                 nome_nemico = nemico["name"]
                 vita_nemico = nemico["health"]
                 max_vita_nemico = nemico["max_health"]
@@ -365,7 +370,7 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                 print(colored(f"|{posizione}|","grey"),end=" ")
                 print(colored(nome_nemico,"red"),end="")
                 print(colored(f"|{vita_nemico}","light_green"),end="/")
-                print(colored(f"{max_vita_nemico}|","green"),end="\t")
+                print(colored(f"{max_vita_nemico}|","green"))
 
             chi_attaccare = input("\ninserire la posizione (grigio) di chi attaccare...") #id/nome da prendere
             try:
@@ -533,6 +538,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                     chi_curare = int(chi_curare)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
+                    aspetta_input()
                     os.system(clear)
                     rifai_input = True
 
@@ -558,11 +564,13 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                         vita_recuperata = colored(vita_info,"green")
                         print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
                         print(colored(f"{vita_max} hp","light_green"))
+                        aspetta_input()
                         nome_trovato = True
                         rimuovi_cura(lista_oggetti_zaino,cura_scelta)
                         break
                 if nome_trovato == False:
                     print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                    aspetta_input()
                     rifai = True          
 
         elif tipo_oggetto == "sp":
@@ -598,6 +606,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                         chi_curare = int(chi_curare)
                     except:
                         print(colored("rifare inserendo un valore numerico...","grey"))
+                        aspetta_input()
                         os.system(clear)
                         rifai_input = True
 
@@ -622,11 +631,13 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                             sp_recuperata = colored(sp_info,"blue")
                             print(f"{nome_persona} si è curato... {sp_recuperata}/",end="")
                             print(colored(f"{sp_max} sp","light_blue"))
+                            aspetta_input()
                             nome_trovato = True
                             rimuovi_cura(lista_oggetti_zaino,cura_scelta)
                             break
                     if nome_trovato == False:
                         print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
+                        aspetta_input()
                         rifai = True          
 
         elif tipo_oggetto == "revive" and not lista_giocatori_m == []:
@@ -655,6 +666,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                     chi_curare = int(chi_curare)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
+                    aspetta_input()
                     os.system(clear)
                     rifai_input = True
 
@@ -682,22 +694,22 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
 
                     print(f"{nome_giocatore_c} è ora vivo... {vita_recuperata}/",end="")
                     print(colored(f"{vita_max} hp","light_green"))
-
+                    aspetta_input()
                     nome_trovato = True
                     lista_giocatori_v.append(persona)
                     lista_giocatori_m.remove(persona)
-                    print(colored(lista_giocatori_m,"red"),end="\n\n") #MOMENTANEO
-                    print(colored(lista_giocatori_v,"blue"))
                     rimuovi_cura(lista_oggetti_zaino,cura_scelta)
 
                     riordina_lista_giocatori_in_battaglia(lista_giocatori_v)
                     break
             if nome_trovato == False:
                 print(colored("numero inserito non valido...\n","grey"))
+                aspetta_input()
                 rifai = True
 
         elif tipo_oggetto == "revive" and lista_giocatori_m == []:
             print(colored("tutti i giocatori sono vivi, cura non usata...","grey"))
+            aspetta_input()
             rifai_input = True
             
         if rifai_input == False:
@@ -1213,6 +1225,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
             print(colored("il","red"),end=" ")
             print(colored(giocatore["name"],"cyan"),end=" ")
             print(colored("è morto","red"),end="\n")
+            aspetta_input()
 
     return lista_giocatori_v,lista_giocatori_m
 
@@ -1338,6 +1351,7 @@ def statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fon
                     chi_curare = int(chi_curare)
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
+                    aspetta_input()
                     os.system(clear)
                     rifai = True
 
@@ -1409,13 +1423,14 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
         if not tipo_magia == "cura":
 
             if raggio == "singolo":
-                aspetta_input()
                 rifai = True
                 os.system(clear)
                 if len(lista_nemici) == 1:
                     chi_attaccare = 1
                     rifai = False
                 while rifai == True:
+                    colore_nome = giocatore_vivo_["colore_nome"]
+                    print(colored("\\" * 69,colore_nome))
                     i = 0
                     for nemico in lista_nemici:
                         i = i+1
@@ -1423,7 +1438,9 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                             print("",end = " " * i) #crea una scaletta di spazi
 
                         nome_nemico = nemico["name"]
-
+                        posizione_nemico = nemico["posizione"]
+                        posizione_nemico_c = colored(f"|{posizione_nemico}|","grey")
+                        print(posizione_nemico_c,end=" ")
                         nome_nemico_c = colored(nome_nemico,"red")
                         print(nome_nemico_c,end=" ")
 
@@ -1440,6 +1457,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         chi_attaccare = int(chi_attaccare)
                     except:
                         print(colored("rifare inserendo un valore numerico...","grey"))
+                        aspetta_input()
                         os.system(clear)
                         rifai = True
 
@@ -1450,13 +1468,9 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                     if chi_attaccare == id_nemico: #serve nome_,damage_tot
                             nemico_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_)
                             nome_nemico = colored(nome_nemico,"yellow")
-                            print(nemico_preso)
-                            aspetta_input()
                             if nemico_preso == [True]:
                                 tipo_magia = magia["type"]
                                 status = debolezze(tipo_magia,nemico_)
-                                print(status)
-                                aspetta_input()
                                 if nemico_["DEF"] == 1:
                                     danno_inflitto = danno_inflitto / 1.2
                                 elif nemico_["DEF"] == -1:
@@ -1588,6 +1602,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         chi_curare = int(chi_curare)
                     except:
                         print(colored("rifare inserendo un valore numerico...","grey"))
+                        aspetta_input()
                         os.system(clear)
                         rifai = True
 
@@ -1646,7 +1661,5 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
         atk_ = giocatore_["ATK"]
         if atk_ == 1:
             giocatore_vivo_.update({"danno_magie":danno_magie})
-    for nemico in lista_nemici:
-        print(nemico["one_more"])
     return lista_nemici
 

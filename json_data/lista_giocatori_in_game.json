@@ -16,14 +16,14 @@
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
             {
-                "nome": "cura debole",
-                "potenza": "scarsa",
+                "nome": "cura del gruppo normale",
+                "potenza": "normale",
                 "type": "cura",
-                "raggio": "singolo",
-                "costo": 6,
+                "raggio": "gruppo",
+                "costo": 10,
                 "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "fonte": "giocatore"
             },
             {
                 "nome": "fuoco pesante SINGOLO",
@@ -67,12 +67,12 @@
         "resiste": [
             "elettrical"
         ],
-        "guard": true,
+        "guard": false,
         "posizione": 1,
-        "ATK": -1,
+        "ATK": 0,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 2,
+        "s_ATK": 0,
         "s_DEF": 0,
         "s_AGI": 0
     },
@@ -134,12 +134,12 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 2,
-        "ATK": -1,
+        "ATK": 0,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 2,
+        "s_ATK": 0,
         "s_DEF": 0,
         "s_AGI": 0
     },
@@ -147,7 +147,7 @@
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 294,
-        "health": 254,
+        "health": 294,
         "schivata": 40.0,
         "exp": 0.0,
         "max_sp": 12,
@@ -202,12 +202,12 @@
             "price": 0,
             "type": null
         },
-        "guard": true,
+        "guard": false,
         "posizione": 3,
-        "ATK": -1,
+        "ATK": 0,
         "DEF": 0,
         "AGI": 0,
-        "s_ATK": 2,
+        "s_ATK": 0,
         "s_DEF": 0,
         "s_AGI": 0
     }
