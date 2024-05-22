@@ -723,41 +723,49 @@ def main():
         aspetta_input()
 
     
-    for numero_piano in range(5):
-        os.system(clear)
-
-        numero_piano_c = colored(numero_piano,"light_red")
-        if numero_piano == 5:
-            #boss battle
-            with open(p_boss_battle_piano5,"r") as json_:
-                lista_nemici = json.load(json_)
-        else:
-            lista_nemici = scelta_percentuali(numero_piano)
+    #for numero_piano in range(6):
+    #    os.system(clear)
+        
+        #numero_piano_c = colored(numero_piano,"light_red")
+        #if numero_piano == 5:
+        #    #boss battle
+        #    with open(p_boss_battle_piano5,"r") as json_:
+        #        lista_nemici = json.load(json_)
+        #else:
+        #    lista_nemici = scelta_percentuali(numero_piano)
     
-        battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
+        #battaglia_persa,battaglia_vinta,numero_piano,lista_giocatori_m,lista_giocatori_v = sistema_turni(lista_nemici,numero_piano)
 
-        if battaglia_vinta == True:
+        #if battaglia_vinta == True:
 
-            lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori_v)
+        #    lista_giocatori = svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori_v)
 
-            riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
-            lista_giocatori = scelta_carte(lista_giocatori,clear)
+        #    riordina_lista_giocatori_fuori_battaglia(lista_giocatori)
+        #    lista_giocatori = scelta_carte(lista_giocatori,clear)
 
-            with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
-                json.dump(lista_giocatori,lista_giocatori_,indent=4)
+        #    with open(p_lista_giocatori_in_game,"w") as lista_giocatori_:
+        #        json.dump(lista_giocatori,lista_giocatori_,indent=4)
 
-            print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
-            aspetta_input()
-            if numero_piano == 5:
-                os.system(clear)
-                Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
-                print(colored(Art,"red"))
-                aspetta_input()
+        #    print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
+        #    aspetta_input()
+        #    if numero_piano == 5:
+        #        os.system(clear)
+        #        Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
+        #        print(colored(Art,"red"))
+        #        aspetta_input()
 
-        elif battaglia_persa == True:
-                os.system(clear)
-                print(colored("uscendo dal programma...","grey"))
-                aspetta_input()
-                os.system("^C")
-                os.system(clear)
+        #elif battaglia_persa == True:
+        #        os.system(clear)
+        #        print(colored("uscendo dal programma...","grey"))
+        #        aspetta_input()
+        #        os.system("^C")
+        #        os.system(clear)
+    os.system(clear)
+    Art = text2art("b o s s  s c o n f i t t o",font="sub-zero")
+    print(colored(Art,"yellow"))
+    aspetta_input()
+    os.system(clear)
+    Art = text2art("complimenti\nhai  vinto",font="sub-zero")
+    print(colored(Art,"cyan","on_black",["bold","blink"]))
+    aspetta_input()
 main()
