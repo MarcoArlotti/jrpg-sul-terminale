@@ -47,11 +47,5 @@
         "valore": 16.0,
         "type": "revive",
         "numero_nella_lista": 7
-    },
-    {
-        "name": "cura sp",
-        "effetto": 15,
-        "valore": 7.5,
-        "type": "sp"
     }
 ]
