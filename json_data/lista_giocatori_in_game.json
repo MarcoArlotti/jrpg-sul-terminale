@@ -3,15 +3,15 @@
         "name": "GALO",
         "colore_nome": "light_blue",
         "max_health": 340,
-        "health": 340,
+        "health": 241,
         "schivata": 19.0,
-        "exp": 0.0,
+        "exp": 41.7,
         "max_sp": 38,
-        "sp": 38,
+        "sp": 6,
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 2,
+        "danno_magie": 2.2,
         "armatura": 3,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -23,7 +23,8 @@
                 "costo": 10,
                 "cosa_consuma": "sp",
                 "effetto": "magia",
-                "fonte": "giocatore"
+                "fonte": "giocatore",
+                "posizione": 1
             },
             {
                 "nome": "fuoco pesante SINGOLO",
@@ -33,7 +34,8 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 2
             },
             {
                 "nome": "fuoco TUTTI",
@@ -43,7 +45,8 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 3
             },
             {
                 "nome": "ATK UP TUTTI",
@@ -52,7 +55,8 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats"
+                "effetto": "stats",
+                "posizione": 4
             }
         ],
         "damage_base": 10.0,
@@ -80,15 +84,15 @@
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 220,
+        "health": 170,
         "schivata": 23.0,
-        "exp": 0.0,
+        "exp": 41.7,
         "max_sp": 36,
-        "sp": 36,
+        "sp": 20,
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 3,
+        "danno_magie": 3.3,
         "armatura": 1.4,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -99,7 +103,8 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats"
+                "effetto": "stats",
+                "posizione": 1
             },
             {
                 "nome": "scarica pesante SINGOLO",
@@ -109,7 +114,8 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 2
             },
             {
                 "nome": "scarica TUTTI",
@@ -119,7 +125,8 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 3
             }
         ],
         "debole": [
@@ -147,15 +154,15 @@
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 494,
-        "health": 494,
+        "health": 444,
         "schivata": 40.0,
-        "exp": 0.0,
+        "exp": 41.7,
         "max_sp": 18,
         "sp": 18,
         "atterrato": false,
         "one_more": false,
         "crit": false,
-        "danno_magie": 2,
+        "danno_magie": 2.2,
         "armatura": 2.2,
         "possibilit\u00c3\u00a0_crit": 80.0,
         "magie": [
@@ -166,7 +173,8 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats"
+                "effetto": "stats",
+                "posizione": 1
             },
             {
                 "nome": "vento pesante SINGOLO",
@@ -176,7 +184,8 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 2
             },
             {
                 "nome": "vento TUTTI",
@@ -186,7 +195,8 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia"
+                "effetto": "magia",
+                "posizione": 3
             }
         ],
         "debole": [

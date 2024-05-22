@@ -731,6 +731,10 @@ def main():
             #boss battle
             with open(p_boss_battle_piano5,"r") as json_:
                 lista_nemici = json.load(json_)
+            os.system(clear)
+            Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
+            print(colored(Art,"red"))
+            aspetta_input()
         else:
             lista_nemici = scelta_percentuali(numero_piano)
     
@@ -748,12 +752,7 @@ def main():
 
             print(f"\n\nSALENDO...\nPIANO:|{numero_piano_c}|\n\n")
             aspetta_input()
-            if numero_piano == 5:
-                os.system(clear)
-                Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
-                print(colored(Art,"red"))
-                aspetta_input()
-
+                
         elif battaglia_persa == True:
                 os.system(clear)
                 print(colored("uscendo dal programma...","grey"))
