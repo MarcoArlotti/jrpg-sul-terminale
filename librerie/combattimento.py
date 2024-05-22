@@ -356,7 +356,7 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
             os.system(clear)
             i = -1
             colore_nome = giocatore_vivo_["colore_nome"]
-            print(colored("\\" * 69,colore_nome))
+            print(colored("\\" * 69,colore_nome),end="\n\n")
             for nemico in lista_nemici:
 
                 i = i + 1
@@ -377,6 +377,7 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                 chi_attaccare = int(chi_attaccare)
             except:
                 print(colored("rifare inserendo un valore numerico corretto(guarda il numero in grigio a sinistra del nome del nemico)...","grey"))
+                aspetta_input()
                 os.system(clear)
                 rifai_input = True
 
@@ -469,7 +470,35 @@ def preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_):
                 nemico_.update({"atterrato":True})
                 
     return nemico_preso
-    
+
+
+def stampa_cure(giocatore_vivo_,lista_giocatori_v,vita_recuperata):
+
+    os.system(clear)
+    print(colored("\\" * 69,"green"))
+    i = -1
+    print()
+    for giocatore in lista_giocatori_v:
+
+        colore_nome = giocatore["colore_nome"]
+        i = i+1
+        if i > 0:
+            print(" " * i,end="")
+        nome_giocatore = giocatore["name"]
+        vita_giocatore = giocatore["health"]
+        max_vita_giocatore = giocatore["max_health"]
+        nome_giocatore_c = colored(nome_giocatore,colore_nome)
+        print(nome_giocatore_c,end=" ")
+        print(colored(f"|{vita_giocatore}","light_green"),end="/")
+        if giocatore_vivo_["posizione"] == giocatore["posizione"]:
+            print(colored(f"{max_vita_giocatore}|","green"),end=" ")
+            print(colored(f"+{vita_recuperata}HP","green"))
+        else:
+            print(colored(f"{max_vita_giocatore}|","green"))
+                
+
+    aspetta_input()
+
 def difendersi(giocatore_vivo):
 
     os.system(clear)
@@ -560,8 +589,10 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                         persona.update({"health":vita_finale})
 
                         nome_giocatore = persona["name"]
-                        nome_persona = colored(nome_giocatore,"cyan")
+                        colore_nome = persona["colore_nome"]
+                        nome_persona = colored(nome_giocatore,colore_nome)
                         vita_recuperata = colored(vita_info,"green")
+                        os.system(clear)
                         print(f"{nome_persona} si è curato... {vita_recuperata}/",end="")
                         print(colored(f"{vita_max} hp","light_green"))
                         aspetta_input()
@@ -627,10 +658,12 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                                 sp_info = sp_finale
                             persona.update({"sp":sp_finale})
                             nome_giocatore = persona["name"]
-                            nome_persona = colored(nome_giocatore,"cyan")
-                            sp_recuperata = colored(sp_info,"blue")
-                            print(f"{nome_persona} si è curato... {sp_recuperata}/",end="")
-                            print(colored(f"{sp_max} sp","light_blue"))
+                            colore_nome = persona["colore_nome"]
+                            nome_persona = colored(nome_giocatore,colore_nome)
+                            sp_recuperata = colored(sp_info,"magenta")
+                            os.system(clear)
+                            print(f"{nome_persona} ha recuperato: {sp_recuperata}/",end="")
+                            print(colored(f"{sp_max} sp","light_magenta"))
                             aspetta_input()
                             nome_trovato = True
                             rimuovi_cura(lista_oggetti_zaino,cura_scelta)
@@ -1622,11 +1655,11 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         vita_max_giocatore = giocatore_vivo_["max_health"]
 
                         vita_curata = danno_inflitto
-                        vita_curata = vita_curata + vita_giocatore
-                        if vita_curata > vita_max_giocatore:
-                            vita_curata = vita_max_giocatore
-
-                        giocatore_vivo_.update({"health":vita_curata})
+                        vita_curata_ = vita_curata + vita_giocatore
+                        if vita_curata_ > vita_max_giocatore:
+                            vita_curata_ = vita_max_giocatore
+                        stampa_cure(giocatore_vivo_,lista_giocatori_v,vita_curata)
+                        giocatore_vivo_.update({"health":vita_curata_})
                         break
                         
             elif raggio == "gruppo":
@@ -1641,11 +1674,12 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                     vita_max_giocatore = giocatore_vivo_["max_health"]
 
                     vita_curata = danno_inflitto
-                    vita_curata = vita_curata + vita_giocatore
-                    if vita_curata > vita_max_giocatore:
-                        vita_curata = vita_max_giocatore
-
-                    giocatore_vivo_.update({"health":vita_curata})
+                    vita_curata_ = vita_curata + vita_giocatore
+                    if vita_curata_ > vita_max_giocatore:
+                        vita_curata_ = vita_max_giocatore
+                    colore_nome = giocatore_vivo_["colore_nome"]
+                    stampa_cure(giocatore_vivo_,lista_giocatori_v,vita_curata)
+                    giocatore_vivo_.update({"health":vita_curata_})
                 i = 0
                 for giocatore in lista_giocatori_v:
                     i = i+1
@@ -1667,3 +1701,115 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
             giocatore_vivo_.update({"danno_magie":danno_magie})
     return lista_nemici
 
+def tutorial():
+    os.system(clear)
+    lista_nemici = [
+        {
+        "name": "SHADOW",
+        "max_health": 220,
+        "health": 220,
+        "schivata": 10.0,
+        "one_more": False,
+        "atterrato": False,
+        "crit": False,
+        "possibilit\u00c3\u00a0_crit":20,
+        "danno_magie": 3.2,
+        "debole": [
+            "fire",
+            "elettric"
+        ],
+        "resiste": [
+            "ice"
+        ],
+        "magie": [
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo",
+                "effetto": "magia",
+                "costo": 2
+            }
+        ],
+        "exp_drop": 3,
+        "damage": 180,
+        "quanti_tab": 11,
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
+        },
+        {
+        "name": "SHADOW",
+        "max_health": 220,
+        "health": 220,
+        "schivata": 10.0,
+        "one_more": False,
+        "atterrato": False,
+        "crit": False,
+        "possibilit\u00c3\u00a0_crit":20,
+        "danno_magie": 3.2,
+        "debole": [
+            "fire",
+            "elettric"
+        ],
+        "resiste": [
+            "ice"
+        ],
+        "magie": [
+            {
+                "nome": "ghiaccio SINGOLO",
+                "potenza": "scarsa",
+                "type": "ice",
+                "raggio": "singolo",
+                "effetto": "magia",
+                "costo": 2
+            }
+        ],
+        "exp_drop": 3,
+        "damage": 180,
+        "quanti_tab": 11,
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
+    }]
+    print("benvenuto nel tutorial...\nqui verranno spiegate brevemente le basi per il funzionamento del gioco.")
+    aspetta_input()
+    os.system(clear)
+    print("|",end="")
+    print(colored("ATK ","red"),end="")
+    print(colored("DEF ","blue"),end="")
+    print(colored("AGI","green"),end="")
+    print("|",end="\n\n")
+    atk_ = colored("ATK","red")
+    def_ = colored("DEF","blue")
+    agi_ = colored("AGI","green")
+    print("queste statistiche indicano lo stato della squadra,\n")
+    print(f"{atk_} questa statistica influisce sulla quantità di danni inflitti (attacco)")
+    print(f"{def_} questa statistica influisce sui danni ricevuti dai nemici (difesa)")
+    print(f"{agi_} questa statistica influisce sulla possibilità di mandare a segno un colpo/schivare un attacco nemico (agilità)\n\n se le statistiche avranno il simbolo \"^\" si avrà la suddetta statistica migliorata\n\nesempio:")
+    print(colored("|^ATK|","red"))
+    aspetta_input()
+    os.system(clear)
+    SP = colored("SP","magenta")
+    print(f"giocatore ... |22/22|{SP}\n")
+    CURA = colored("CURA","cyan",'on_black', ['bold', 'blink'])
+    print(f"l'{SP} viene usato per fare le magie, più una magia è potente più {SP} costerà.\nper usare magie in caso di {SP} troppo basso, basta andare nel menù {CURA} e scegliere il denterminato giocatore scegliendo una cura per gli {SP}")
+    aspetta_input()
+    os.system(clear)
+    Art = text2art("o n e  m o r e",font="sub-zero")
+    print(colored(Art,"blue"))
+    print("l'effetto ONE MORE si applica quando si colpisce un nemico con la sua debolezza,\nse il nemico è atterrato (in tale caso il nome del nemico sarà in grigio)\nnon sarà possibile fare one more.\n\nl'effetto di ONE MORE farà fare un turno BONUS in più al giocatore/nemico che lo ha causato")
+    aspetta_input()
+    os.system(clear)
+    Art = text2art("o n e  m o r e",font="sub-zero")
+    print(colored(Art,"red"))
+    print("se il ONE MORE è ROSSO significa che il nemico ha causato un one more quindi attaccherà una volta in più")
+    aspetta_input()
+    
+    

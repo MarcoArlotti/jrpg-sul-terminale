@@ -7,7 +7,7 @@
         "schivata": 19.0,
         "exp": 0.0,
         "max_sp": 38,
-        "sp": 30,
+        "sp": 38,
         "atterrato": false,
         "one_more": false,
         "crit": false,
@@ -23,8 +23,7 @@
                 "costo": 10,
                 "cosa_consuma": "sp",
                 "effetto": "magia",
-                "fonte": "giocatore",
-                "posizione": 1
+                "fonte": "giocatore"
             },
             {
                 "nome": "fuoco pesante SINGOLO",
@@ -34,8 +33,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "fuoco TUTTI",
@@ -45,8 +43,7 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             },
             {
                 "nome": "ATK UP TUTTI",
@@ -55,8 +52,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 4
+                "effetto": "stats"
             }
         ],
         "damage_base": 10.0,

@@ -3,7 +3,7 @@ import os
 import random
 from art import text2art
 from termcolor import colored
-from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie
+from combattimento import attaccare,difendersi,curarsi,AI_nemico,aspetta_input,riordina_lista_giocatori_in_battaglia,riordina_lista_giocatori_fuori_battaglia,magie,tutorial
 from sys import platform
 if platform == "linux":
     clear = "clear"
@@ -351,11 +351,15 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
                 print(colored("\n\t\t\t4","grey", 'on_black', ['bold', 'blink']),end=" ")
                 print(colored("CURE","cyan", 'on_black', ['bold', 'blink']),end="\n")
-        
+
                 choice = input(colored("...","grey"))
 
                 try:
                     choice = int(choice)
+                    if choice < 1 or choice > 4:
+                        rifai_input = True
+                        print(colored("rifare inserendo un valore tra 1 e 4...","grey"))
+                        aspetta_input()
                 except:
                     print(colored("rifare inserendo un valore numerico...","grey"))
                     aspetta_input()
@@ -700,11 +704,10 @@ def scelta_carte(lista_giocatori,clear):
 
 
 def main():
-    os.system(clear)
     rifai = True
     while rifai == True:
-
-        iniziare_run = input(str(colored("creare un nuovo salvataggio...\n\n\"yes\"\n\"no\"\n","cyan")))
+        os.system(clear)
+        iniziare_run = input(str(colored("iniziare la run...\n\n\"yes\"\n\"no\"(leggi un tutorial per sapere come giocare)\n","cyan")))
         os.system(clear)
         if iniziare_run == "yes":
             rifai = False
@@ -713,8 +716,9 @@ def main():
             
             numero_piano = 1
         elif iniziare_run == "no":
-            rifai = False
-            print("continuando dall'ultimo salvataggio...")
+            rifai = True
+            tutorial()
+            
 
         aspetta_input()
 
