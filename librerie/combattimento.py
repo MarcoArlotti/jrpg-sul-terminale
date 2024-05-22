@@ -1109,7 +1109,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                 rifai_random = False
                 fai_magie = False
                 scelta_magia = "magie","buff_stats","cura"
-                scelta_magia = random.choices(scelta_magia,weights=[40,50,10],k=1)
+                scelta_magia = random.choices(scelta_magia,weights=[50,30,20],k=1)
                 giocatore_da_attaccare = random.choice(lista_giocatori_v)
                 if fai_magie == True:
                     scelta_magia = "magie"
@@ -1216,7 +1216,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                             _ = 0
                             j = 0
                             i = -1
-                            for nemico in lista_nemici:
+                            for nemico__ in lista_nemici:
                                 _ = _ +1 
                                 nemico.update({"posizione":_})
 
@@ -1233,12 +1233,12 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                                 print(colored("/" * 69,"red"))
                                 print()
                                 j = j+1
-                                vita_nemico_ = nemico_["health"]
-                                vita_nemico_max_ = nemico_["max_health"]
+                                vita_nemico_ = nemico__["health"]
+                                vita_nemico_max_ = nemico__["max_health"]
                                 i = i+1
                                 if i > 0:
                                     print(" " * i,end="")
-                                nome_nemico = nemico_["name"]
+                                nome_nemico = nemico__["name"]
                                 nome_nemico_c = colored(nome_nemico,"red")
                                 print(nome_nemico_c,end=" ")
 

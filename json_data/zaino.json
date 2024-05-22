@@ -42,22 +42,10 @@
         "numero_nella_lista": 6
     },
     {
-        "name": "med met\u00e0",
-        "effetto": "met\u00e0",
-        "valore": 16.0,
-        "type": "revive",
-        "numero_nella_lista": 7
-    },
-    {
-        "name": "cura sp pesantissima",
-        "effetto": 80,
-        "valore": 38.0,
-        "type": "sp"
-    },
-    {
         "name": "cura pesante",
         "effetto": 180,
         "valore": 6.8,
-        "type": "hp"
+        "type": "hp",
+        "numero_nella_lista": 7
     }
 ]
