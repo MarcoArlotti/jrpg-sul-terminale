@@ -24,6 +24,15 @@
                 "raggio": "singolo",
                 "effetto": "magia",
                 "costo": 2
+            },
+            {
+                "nome": "ATK UP TUTTI",
+                "type": "ATK UP",
+                "raggio": "gruppo",
+                "costo": 0,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
             }
         ],
         "exp_drop": 3,
@@ -61,6 +70,15 @@
                 "effetto": "magia",
                 "raggio": "singolo",
                 "costo": 2
+            },
+            {
+                "nome": "AGI UP TUTTI",
+                "type": "AGI UP",
+                "raggio": "singolo",
+                "costo": 0,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
             }
         ],
         "exp_drop": 2.3,

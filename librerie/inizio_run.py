@@ -122,14 +122,14 @@ def scelta_percentuali(numero_piano):
     lista_nemici = []
     flip = ["1","2","3"]
 
-    if numero_piano < 5: #il livello dei nemici fa variare la quantità che appariranno #GLOBAL_LEVEL
+    if numero_piano < 3: #il livello dei nemici fa variare la quantità che appariranno #GLOBAL_LEVEL
         
         quanti_nemici = random.choices(flip,weights=[20,40,15],k=1)
 
         lista_nemici = random_quanti_nemici(quanti_nemici,lista_nemici)     
-    elif numero_piano < 15 and numero_piano >= 5:
+    elif numero_piano >= 3:
 
-        quanti_nemici = random.choices(flip,weights=[15,50,40],k=1)
+        quanti_nemici = random.choices(flip,weights=[5,45,50],k=1)
         lista_nemici = random_quanti_nemici(quanti_nemici,lista_nemici)
        
     return lista_nemici
@@ -508,6 +508,8 @@ def sistema_turni(lista_nemici,numero_piano):
         giocatore.update({"s_ATK":0})
         giocatore.update({"s_DEF":0})
         giocatore.update({"s_AGI":0})
+
+        giocatore.update({"atterrato":False})
 
     with open(p_lista_giocatori_in_game,"w") as lista_giocatori_v:
         json.dump(lista_giocatori,lista_giocatori_v,indent=4)

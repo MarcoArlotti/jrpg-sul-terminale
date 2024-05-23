@@ -411,9 +411,9 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                         hp_nemico = nemico_["health"]
                         atk_ = giocatore_vivo_["ATK"]
                         if atk_ == 1:
-                            damage_tot = damage_tot * 1.5
+                            damage_tot = damage_tot * 1.1
                         elif atk_ == -1:
-                            damage_tot = damage_tot / 1.5
+                            damage_tot = damage_tot / 1.1
                         danno_aggiorato = hp_nemico - damage_tot
                         danno_aggiorato = int(danno_aggiorato)
 
@@ -800,7 +800,7 @@ def menù_oggetti():
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
             fare_if = True
             try:
-                for i in range(9): #TODO come capire se è più lungo di 9 (se no crash programma)
+                for i in range(9):
                     n_attuale = i + numero_min
                     cura_attuale = lista_oggetti_cure[n_attuale]
                     if i > 0:
@@ -873,7 +873,7 @@ def menù_oggetti():
                     cura_scelta = lista_oggetti_cure[scelta - 1]
                 
         elif torna_indietro == False and len(lista_oggetti_cure) <= 9 and finito == False : #selezione basica di max len di 9
-            fai_if = True
+            scala_di_uno = True
             for a in range(len(lista_oggetti_cure)):
                 cura_attuale = lista_oggetti_cure[a]
 
@@ -892,23 +892,26 @@ def menù_oggetti():
                 elif type == "revive":
                     print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
             scelta = input(colored("\nscegliere tra \"back\" o  un numero tra 1 e 9...\n","grey"))
+            scala_di_uno = True
             try:
+                print(scelta)
                 scelta = int(scelta)
+                cura_scelta = lista_oggetti_cure[scelta - 1]
+                print(cura_scelta)
+                aspetta_input()
             except:
                 scelta = str(scelta)
                 if scelta == "back":
                     torna_indietro == True
                     finito = True
                 else:
-                    fai_if = False
+                    scala_di_uno = False
 
-    if torna_indietro == False:
-        lunghezza_lista = len(lista_oggetti_cure)
-        if fai_if == True and scelta <= lunghezza_lista:
-            finito = True
-            cura_scelta = lista_oggetti_cure[scelta - 1]
-        return cura_scelta,torna_indietro
-    elif torna_indietro == True:
+            lunghezza_lista = len(lista_oggetti_cure)
+            if scala_di_uno == True and scelta <= lunghezza_lista:
+                finito = True
+
+    if torna_indietro == True:
         cura_scelta = None
     return cura_scelta,torna_indietro
 
@@ -923,10 +926,10 @@ def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
     atk_ = nemico["ATK"]    
     if atk_ == 1:
 
-        danno_nemico = danno_nemico * 1.2
+        danno_nemico = danno_nemico * 1.1
     if atk_ == -1:
 
-        danno_nemico = danno_nemico / 1.2
+        danno_nemico = danno_nemico / 1.1
         danno_nemico = int(danno_nemico)
 
     giocatore_preso = preso_o_mancato(chi_attaccare_player,tipo_magia,nemico)
@@ -938,20 +941,20 @@ def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
                 tipo_magia_player = "slash"
                 status = debolezze(tipo_magia_player,giocatore)
                 if status == "resiste":
-                    danno_nemico = danno_nemico / 1.3
+                    danno_nemico = danno_nemico / 1.1
                 elif status == "debole":
                     atterrato = chi_attaccare_player["atterrato"]
-                    danno_nemico = danno_nemico * 1.3
-
-                    if atterrato == False:
+                    danno_nemico = danno_nemico * 1.1
+                    parata_attiva = giocatore["guard"]
+                    if atterrato == False and parata_attiva == False:
                         chi_attaccare_player.update({"one_more":True})
                         chi_attaccare_player.update({"atterrato":True})
-
-                vita_player = giocatore["health"]
                 parata_attiva = giocatore["guard"]
+                vita_player = giocatore["health"]
+                
 
                 if parata_attiva == True:
-                    danno_nemico = int(danno_nemico / 2.1)
+                    danno_nemico = int(danno_nemico / 1.7)
 
                 armatura = giocatore["armatura"]
                 def_ = giocatore["DEF"]
@@ -1027,10 +1030,10 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
         nemico_nome = colored(nemico["name"],"light_red")
 
         numero_piano = 5
-        if numero_piano <= 2: #se i nemici si trovano al piano 2 o inferiore attaccheranno e basta
+        if numero_piano < 3: #se i nemici si trovano al piano 2 o inferiore attaccheranno e basta
             nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
 
-        elif numero_piano == 2 or numero_piano == 3 or numero_piano == 4:
+        elif numero_piano == 3 or numero_piano == 4:
             scelta_magia = "attacco","magie","buff_stats"
             nemico_nome = nemico["name"]
             scelta_magia = random.choices(scelta_magia,weights=[50,40,10],k=1)
@@ -1063,22 +1066,23 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     status = debolezze(tipo_magia_nemico,giocatore_da_attaccare)
 
                     if giocatore_da_attaccare["DEF"] == 1:
-                        danno_inflitto = danno_inflitto / 1.2
+                        danno_inflitto = danno_inflitto / 1.1
                         
                     elif giocatore_da_attaccare["DEF"] == -1:
-                        danno_inflitto = danno_inflitto * 1.2
+                        danno_inflitto = danno_inflitto * 1.1
 
                     if nemico["ATK"] == 1:
-                        danno_inflitto = danno_inflitto * 1.2
+                        danno_inflitto = danno_inflitto * 1.1
                     elif nemico["ATK"] == -1:
-                        danno_inflitto = danno_inflitto / 1.2
+                        danno_inflitto = danno_inflitto / 1.1
 
                     if status == "debole":
-                        giocatore_da_attaccare.update({"one_more":True})
-                        giocatore_da_attaccare.update({"atterrato":True})
-                        danno_inflitto = danno_inflitto * 1.2
+                        if giocatore_da_attaccare["guard"] == False:
+                            giocatore_da_attaccare.update({"one_more":True})
+                            giocatore_da_attaccare.update({"atterrato":True})
+                        danno_inflitto = danno_inflitto * 1.1
                     elif status == "resiste":
-                        danno_inflitto = danno_inflitto / 1.2
+                        danno_inflitto = danno_inflitto / 1.1
 
                     danno_inflitto = int(danno_inflitto)
 
@@ -1108,14 +1112,20 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     lista_magie_nemico = nemico["magie"]
                     lista_magie_nemico_buff = []
                     for magie in lista_magie_nemico:
-                        print(magie["effetto"])
                         if magie["effetto"] == "stats":
                             lista_magie_nemico_buff.append(magie)
-                    aspetta_input()
-                    cosa_buffare = random.choice(lista_magie_nemico_buff)
-                    tipo_magia = cosa_buffare["type"]
-                    for nemico_ in lista_nemici:
-                        stat_buff_funzionamento(nemico_,tipo_magia,None)
+                    if lista_magie_nemico_buff == []:
+                        fai_magie = True
+                        rifai_random = True
+                    if fai_magie == False:
+                        cosa_buffare = random.choice(lista_magie_nemico_buff)
+                        tipo_magia = cosa_buffare["type"]
+                        raggio = cosa_buffare["raggio"]
+                        if raggio == "gruppo":
+                            for nemico_ in lista_nemici:
+                                stat_buff_funzionamento(nemico_,tipo_magia,None)
+                        elif raggio == "singolo":
+                            stat_buff_funzionamento(nemico,tipo_magia,lista_giocatori_v)
 
         elif numero_piano == 5:
             nemico_nome = nemico["name"]
@@ -1149,26 +1159,26 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     status = debolezze(tipo_magia_nemico,giocatore_da_attaccare)
                     if nemico_preso == [True]:
                         if giocatore_da_attaccare["DEF"] == 1:
-                            danno_inflitto = danno_inflitto / 1.2
+                            danno_inflitto = danno_inflitto / 1.1
                             danno_inflitto = int(danno_inflitto)
 
                         elif giocatore_da_attaccare["DEF"] == -1:
-                            danno_inflitto = danno_inflitto * 1.2
+                            danno_inflitto = danno_inflitto * 1.1
                             danno_inflitto = int(danno_inflitto)
 
                         if nemico["ATK"] == 1:
-                            danno_inflitto = danno_inflitto * 1.2
+                            danno_inflitto = danno_inflitto * 1.1
                             danno_inflitto = int(danno_inflitto)
                         elif nemico["ATK"] == -1:
-                            danno_inflitto = danno_inflitto / 1.2
+                            danno_inflitto = danno_inflitto / 1.1
                             danno_inflitto = int(danno_inflitto)
 
                         if status == "debole":
                             giocatore_da_attaccare.update({"one_more":True})
                             giocatore_da_attaccare.update({"atterrato":True})
-                            danno_inflitto = danno_inflitto * 1.2
+                            danno_inflitto = danno_inflitto * 1.1
                         elif status == "resiste":
-                            danno_inflitto = danno_inflitto / 1.2
+                            danno_inflitto = danno_inflitto / 1.1
 
                         danno_inflitto = int(danno_inflitto)
 
@@ -1535,31 +1545,31 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                                 tipo_magia = magia["type"]
                                 status = debolezze(tipo_magia,nemico_)
                                 if nemico_["DEF"] == 1:
-                                    danno_inflitto = danno_inflitto / 1.2
+                                    danno_inflitto = danno_inflitto / 1.1
                                 elif nemico_["DEF"] == -1:
-                                    danno_inflitto = danno_inflitto * 1.2
+                                    danno_inflitto = danno_inflitto * 1.1
 
                                 if nemico_["ATK"] == 1:
-                                    danno_inflitto = danno_inflitto * 1.2
+                                    danno_inflitto = danno_inflitto * 1.1
                                 elif nemico_["ATK"] == -1:
-                                    danno_inflitto = danno_inflitto / 1.2
+                                    danno_inflitto = danno_inflitto / 1.1
 
                                 if status == "debole":
                                     nemico_.update({"one_more":True})
                                     nemico_.update({"atterrato":True})
-                                    danno_inflitto = danno_inflitto * 1.2
+                                    danno_inflitto = danno_inflitto * 1.1
                                 elif status == "resiste":
-                                    danno_inflitto = danno_inflitto / 1.2
+                                    danno_inflitto = danno_inflitto / 1.1
 
                                 danno_inflitto = int(danno_inflitto)
                                 percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
 
                                 atk_ = giocatore_vivo_["ATK"]
                                 if atk_ == 1:
-                                    percentuale_boost_potenza_magie = percentuale_boost_potenza_magie * 1.2
+                                    percentuale_boost_potenza_magie = percentuale_boost_potenza_magie * 1.1
                                     percentuale_boost_potenza_magie = int(percentuale_boost_potenza_magie)
                                 elif atk_ == -1:
-                                    percentuale_boost_potenza_magie = percentuale_boost_potenza_magie / 1.2
+                                    percentuale_boost_potenza_magie = percentuale_boost_potenza_magie / 1.1
                                     percentuale_boost_potenza_magie = int(percentuale_boost_potenza_magie)
 
                                 danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_)
@@ -1592,35 +1602,35 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         status = debolezze(tipo_magia,nemico)
                         danno_inflitto = int(danno_inflitto)
                         if nemico["DEF"] == 1:
-                            danno_inflitto = danno_inflitto / 1.2
+                            danno_inflitto = danno_inflitto / 1.1
                             danno_inflitto = int(danno_inflitto)
                         elif nemico["DEF"] == -1:
-                            danno_inflitto = danno_inflitto * 1.2
+                            danno_inflitto = danno_inflitto * 1.1
                             danno_inflitto = int(danno_inflitto)
     
                         if nemico["ATK"] == 1:
-                            danno_inflitto = danno_inflitto * 1.2
+                            danno_inflitto = danno_inflitto * 1.1
                             danno_inflitto = int(danno_inflitto)
                         elif nemico["ATK"] == -1:
-                            danno_inflitto = danno_inflitto / 1.2
+                            danno_inflitto = danno_inflitto / 1.1
                             danno_inflitto = int(danno_inflitto)
     
                         if status == "debole":
                             danno_inflitto = int(danno_inflitto)
-                            danno_inflitto = danno_inflitto * 1.2
+                            danno_inflitto = danno_inflitto * 1.1
                             danno_inflitto = int(danno_inflitto)
                         elif status == "resiste":
-                            danno_inflitto = danno_inflitto / 1.2
+                            danno_inflitto = danno_inflitto / 1.1
                             danno_inflitto = int(danno_inflitto)
     
                         percentuale_boost_potenza_magie = giocatore_vivo_["danno_magie"]
                         
                         atk_ = giocatore_vivo_["ATK"]
                         if atk_ == 1:
-                            percentuale_boost_potenza_magie = percentuale_boost_potenza_magie * 1.2
+                            percentuale_boost_potenza_magie = percentuale_boost_potenza_magie * 1.1
                             percentuale_boost_potenza_magie = int(percentuale_boost_potenza_magie)
                         elif atk_ == -1:
-                            percentuale_boost_potenza_magie = percentuale_boost_potenza_magie / 1.2
+                            percentuale_boost_potenza_magie = percentuale_boost_potenza_magie / 1.1
                             percentuale_boost_potenza_magie = int(percentuale_boost_potenza_magie)
     
                         danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
