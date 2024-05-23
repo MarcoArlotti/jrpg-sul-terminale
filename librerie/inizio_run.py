@@ -61,9 +61,27 @@ def inizio_run(): #tutte le stat sono portare a 0
         "type":"hp"
     },
     {
+        "name":"cura pesante",
+        "effetto":180,
+        "valore":6.8,
+        "type":"hp"
+    },
+    {
         "name":"cura sp",
         "effetto":15,
         "valore":7.5,
+        "type":"sp"
+    },
+    {
+        "name":"cura sp pesante",
+        "effetto":30,
+        "valore":15.0,
+        "type":"sp"
+    },
+    {
+        "name":"cura sp pesantissima",
+        "effetto":80,
+        "valore":38.0,
         "type":"sp"
     },
     {
@@ -576,7 +594,7 @@ def svuota_lista_giocatori_morti(lista_giocatori_m,lista_giocatori):
 
 def scelta_carte(lista_giocatori,clear):
     os.system(clear)
-    Art = text2art("card  shouffle",font="sub-zero")
+    Art = text2art("card  shuffle",font="sub-zero")
     print(colored(Art,"yellow"))
     aspetta_input()
     os.system(clear)
@@ -632,6 +650,7 @@ def scelta_carte(lista_giocatori,clear):
             scelta = int(scelta)
         except:
             print(colored("inserire un numero valido","grey"))
+            aspetta_input()
             rifai = True
         if len(carte_uscite) < scelta <= 0:
             rifai = True
@@ -725,7 +744,7 @@ def main():
     
     for numero_piano in range(6):
         os.system(clear)
-        
+
         numero_piano_c = colored(numero_piano,"light_red")
         if numero_piano == 5:
             #boss battle

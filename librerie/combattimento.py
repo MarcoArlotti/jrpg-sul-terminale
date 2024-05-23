@@ -1817,6 +1817,6 @@ def tutorial():
     print("se il ONE MORE è ROSSO significa che il nemico ha causato un one more quindi attaccherà una volta in più")
     aspetta_input()
     os.system(clear)
-    print("per selezione qualcosa nei vari menù basta scrivere il numero (in grigio)\nper eseguire l'azione che si vuole compiere e poi premere invio")
+    print("per selezionare qualcosa nei vari menù basta scrivere il numero (in grigio)\nper eseguire l'azione che si vuole compiere e poi premere invio")
     
     
