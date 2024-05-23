@@ -1206,51 +1206,56 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     for magie in lista_magie_nemico:
                         if magie["effetto"] == "cura":
                             lista_magie_nemico_cura.append(magie)
-                        try:
-                            fai_magie = False
-                            magia = random.choice(lista_magie_nemico_cura)
-                        except:
-                            rifai_random = True
-                            fai_magie = True
-                        if fai_magie == False:
-                            _ = 0
-                            j = 0
+                    try:
+                        fai_magie = False
+                        magia = random.choice(lista_magie_nemico_cura)
+                    except:
+                        rifai_random = True
+                        fai_magie = True
+                    if fai_magie == False:
+                        _ = 0
+                        
+                        
+                        for nemico__ in lista_nemici:
                             i = -1
-                            for nemico__ in lista_nemici:
-                                _ = _ +1 
-                                nemico.update({"posizione":_})
+                            k = 1
+                            _ = _ +1 
+                            nemico__.update({"posizione":_})
 
-                                vita_nemico = nemico["health"]
-                                vita_nemico_max = nemico["max_health"]
-                                percentuale_boost_potenza_magie = 1
-                                vita_curata = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
+                            vita_nemico = nemico__["health"]
+                            vita_nemico_max = nemico__["max_health"]
+                            percentuale_boost_potenza_magie = 1
+                            vita_curata = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico__)
 
-                                tot = vita_nemico + vita_curata
-                                if tot > vita_nemico_max:
-                                    tot = vita_nemico
+                            tot = vita_nemico + vita_curata
+                            if tot > vita_nemico_max:
+                                tot = vita_nemico
 
-                                os.system(clear)
-                                print(colored("/" * 69,"red"))
-                                print()
-                                j = j+1
-                                vita_nemico_ = nemico__["health"]
-                                vita_nemico_max_ = nemico__["max_health"]
+                            os.system(clear)
+                            print(colored("/" * 69,"red"))
+                            print()
+                            for nemico___ in lista_nemici:
+                                nemico___.update({"posizione":k})
+                                k = k + 1
                                 i = i+1
                                 if i > 0:
                                     print(" " * i,end="")
-                                nome_nemico = nemico__["name"]
+                                nome_nemico = nemico___["name"]
+
+                                vita_nemico_max_ = nemico___["max_health"]
+                                vita_nemico_ = nemico___["health"]
+
                                 nome_nemico_c = colored(nome_nemico,"red")
                                 print(nome_nemico_c,end=" ")
 
                                 print(colored(f"|{vita_nemico_}","light_green"),end="/")
-
-                                if nemico["posizione"] == j:
+                                if nemico___["posizione"] == _:
                                     vita_curata_c = colored(vita_curata,"green")
                                     print(colored(f"{vita_nemico_max_}|","green"),end=f" +{vita_curata_c}HP\n")
                                 else:
                                     print(colored(f"{vita_nemico_max_}|","green"),end="\n")
-                                nemico.update({"health":tot})
-                                aspetta_input()
+                                nemico__.update({"health":tot})
+                            aspetta_input()
 
     for giocatore in lista_giocatori_v:
         vita_player = giocatore["health"]

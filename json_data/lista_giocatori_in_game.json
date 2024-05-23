@@ -1,92 +1,11 @@
 [
     {
-        "name": "GALO",
-        "colore_nome": "light_blue",
-        "max_health": 340,
-        "health": 141,
-        "schivata": 19.0,
-        "exp": 41.7,
-        "max_sp": 38,
-        "sp": 26,
-        "atterrato": false,
-        "one_more": false,
-        "crit": false,
-        "danno_magie": 2.2,
-        "armatura": 3,
-        "possibilit\u00c3\u00a0_crit": 80.0,
-        "magie": [
-            {
-                "nome": "cura del gruppo normale",
-                "potenza": "normale",
-                "type": "cura",
-                "raggio": "gruppo",
-                "costo": 10,
-                "cosa_consuma": "sp",
-                "effetto": "magia",
-                "fonte": "giocatore",
-                "posizione": 1
-            },
-            {
-                "nome": "fuoco pesante SINGOLO",
-                "potenza": "normale",
-                "type": "fire",
-                "raggio": "singolo",
-                "costo": 4,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
-            },
-            {
-                "nome": "fuoco TUTTI",
-                "potenza": "scarsa",
-                "type": "fire",
-                "raggio": "gruppo",
-                "costo": 8,
-                "cosa_consuma": "sp",
-                "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
-            },
-            {
-                "nome": "ATK UP TUTTI",
-                "type": "ATK UP",
-                "raggio": "gruppo",
-                "costo": 50,
-                "cosa_consuma": "hp",
-                "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 4
-            }
-        ],
-        "damage_base": 10.0,
-        "current_equip_melee": {
-            "damage": 32,
-            "price": 0,
-            "type": null
-        },
-        "debole": [
-            "fire"
-        ],
-        "resiste": [
-            "elettrical"
-        ],
-        "guard": false,
-        "posizione": 1,
-        "ATK": -1,
-        "DEF": 1,
-        "AGI": 1,
-        "s_ATK": 3,
-        "s_DEF": 3,
-        "s_AGI": 3
-    },
-    {
         "name": "CASO",
         "colore_nome": "green",
         "max_health": 220,
-        "health": 62,
+        "health": 220,
         "schivata": 23.0,
-        "exp": 41.7,
+        "exp": 0.0,
         "max_sp": 36,
         "sp": 36,
         "atterrato": false,
@@ -103,8 +22,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 1
+                "effetto": "stats"
             },
             {
                 "nome": "scarica pesante SINGOLO",
@@ -114,8 +32,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "scarica TUTTI",
@@ -125,8 +42,7 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             }
         ],
         "debole": [
@@ -143,22 +59,22 @@
         },
         "guard": true,
         "posizione": 2,
-        "ATK": -1,
-        "DEF": 1,
-        "AGI": 1,
-        "s_ATK": 3,
-        "s_DEF": 3,
-        "s_AGI": 3
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     },
     {
         "name": "O.S.U.B.A.",
         "colore_nome": "yellow",
         "max_health": 494,
-        "health": 394,
+        "health": 494,
         "schivata": 40.0,
-        "exp": 41.7,
+        "exp": 0.0,
         "max_sp": 18,
-        "sp": 10,
+        "sp": 18,
         "atterrato": false,
         "one_more": false,
         "crit": false,
@@ -173,8 +89,7 @@
                 "costo": 50,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
-                "effetto": "stats",
-                "posizione": 1
+                "effetto": "stats"
             },
             {
                 "nome": "vento pesante SINGOLO",
@@ -184,8 +99,7 @@
                 "costo": 4,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 2
+                "effetto": "magia"
             },
             {
                 "nome": "vento TUTTI",
@@ -195,8 +109,7 @@
                 "costo": 8,
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
-                "effetto": "magia",
-                "posizione": 3
+                "effetto": "magia"
             }
         ],
         "debole": [
@@ -214,11 +127,11 @@
         },
         "guard": true,
         "posizione": 3,
-        "ATK": -1,
-        "DEF": 1,
-        "AGI": 1,
-        "s_ATK": 3,
-        "s_DEF": 3,
-        "s_AGI": 3
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
     }
 ]
