@@ -336,8 +336,14 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
     sp_insufficente = False
     one_more = False
     crit = False
-    while rifai == True or sp_insufficente == True:
-
+    torna_indietro = False
+    while rifai == True or sp_insufficente == True or torna_indietro == True:
+        if torna_indietro == True:
+            os.system(clear)
+            print(colored("tornando indietro..."))
+            aspetta_input()
+            os.system(clear)
+        torna_indietro = False
         sp_insufficente = False
         rifai = False
         battaglia_vinta = False
@@ -386,20 +392,21 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 match choice:
                     case 1: #attaccare HA bisogno di un "rifai input"
                         aggiorna_ordine_nemici(lista_nemici)
-                        giocatore_vivo_,lista_nemici = attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici)
+                        giocatore_vivo_,lista_nemici,torna_indietro = attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici)
 
                     case 2: #difendersi NON ha bisogno un "rifai input"
                         difendersi(giocatore_vivo_)
 
                     case 3: #magie
                         aggiorna_ordine_nemici(lista_nemici)
-                        lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
+                        lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input,torna_indietro = magie(giocatore_vivo_,lista_giocatori_v,lista_nemici)
                     case 4:#oggetti/inventario(eccetto armature/armi...). HA bisono di un "rifai input"
-                        rifai_input = curarsi(lista_giocatori_v,lista_giocatori_m) 
+                        rifai_input,torna_indietro = curarsi(lista_giocatori_v,lista_giocatori_m)
                 for nemico_ in lista_nemici:
                 
                     one_more_ = nemico_["one_more"]
-                    if one_more_ == True:
+                    atterrato = nemico_["atterrato"]
+                    if one_more_ == True and atterrato == False:
                         nemico_.update({"one_more":False})
                         one_more = True
                         rifai = True
@@ -731,15 +738,15 @@ def main():
         if iniziare_run == "yes":
             rifai = False
             inizio_run() 
-            print("salvataggio creato...")
+            print("iniziando la run...")
             
             numero_piano = 1
         elif iniziare_run == "no":
             rifai = True
             tutorial()
-            
-
-        aspetta_input()
+        else:
+            print("inserisci una delle scelte scritta tra gli \"\"")
+            aspetta_input()
 
     
     for numero_piano in range(6):

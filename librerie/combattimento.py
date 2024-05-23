@@ -34,6 +34,7 @@ def debolezze(tipo_magia_player,nemico_):
     return status
 
 def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
+    
     potenza = magia["potenza"]
     tipo_magia_player = magia["type"]
     status = None
@@ -118,7 +119,7 @@ def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
 
 
 def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
-
+    torna_indietro = False
     rifai_input = False
     sp_giocatore = giocatore_vivo_["sp"]
     hp_giocatore = giocatore_vivo_["health"]
@@ -217,12 +218,15 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                 magia_scelta = int(magia_scelta)
                 
             except:
-                print(colored("\nrifare inserendo un valore numerico corretto...","grey"))
-                aspetta_input()
-                os.system(clear)
-                rifai = True
+                if magia_scelta == "back":
+                    torna_indietro = True
+                else:
+                    print(colored("\nrifare inserendo un valore numerico corretto...","grey"))
+                    aspetta_input()
+                    os.system(clear)
+                    rifai = True
 
-            if rifai == False:
+            if rifai == False and torna_indietro == False:
                 lunghezza_lista_magie = len(lista_magie_giocatore)
                 if magia_scelta > lunghezza_lista_magie or magia_scelta < 1:
 
@@ -234,56 +238,56 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                     aspetta_input()
                     rifai = True
 
-            
-            for magia in lista_magie_giocatore:
-                numero_magia = magia["posizione"]
-    
-                if magia_scelta == numero_magia:
-                    costo_magia = magia["costo"]
-                    cosa_consuma = magia["cosa_consuma"]
+            if torna_indietro == False:
+                for magia in lista_magie_giocatore:
+                    numero_magia = magia["posizione"]
 
-                    if cosa_consuma == "hp":
-                        hp_rimasto = hp_giocatore - costo_magia
+                    if magia_scelta == numero_magia:
+                        costo_magia = magia["costo"]
+                        cosa_consuma = magia["cosa_consuma"]
 
-                        if hp_rimasto <= 0:
+                        if cosa_consuma == "hp":
+                            hp_rimasto = hp_giocatore - costo_magia
 
-                            print(colored("hp insufficente...","grey"))
-                            aspetta_input()
-                            hp_insufficente = True
-                            rifai_input = True
-                        elif hp_rimasto >= 1:
-                            giocatore_vivo_.update({"health":hp_rimasto})
-                            break
-                    elif cosa_consuma == "sp":
-                        sp_rimasta = sp_giocatore - costo_magia
-                        if sp_rimasta < 0:
-                        
-                            print(colored("sp insufficente...","grey"))
-                            aspetta_input()
-                            sp_insufficente = True
-                            rifai_input = True
-                        elif sp_rimasta >= 0:
-                        
-                            giocatore_vivo_.update({"sp":sp_rimasta})
-                            break
+                            if hp_rimasto <= 0:
 
-        rifai = True
-        while rifai == True and sp_insufficente == False and hp_insufficente == False:
-            rifai = False
-            raggio = magia["raggio"]
-            tipo_magia = magia["type"]
-            effetto = magia["effetto"]
+                                print(colored("hp insufficente...","grey"))
+                                aspetta_input()
+                                hp_insufficente = True
+                                rifai_input = True
+                            elif hp_rimasto >= 1:
+                                giocatore_vivo_.update({"health":hp_rimasto})
+                                break
+                        elif cosa_consuma == "sp":
+                            sp_rimasta = sp_giocatore - costo_magia
+                            if sp_rimasta < 0:
+                            
+                                print(colored("sp insufficente...","grey"))
+                                aspetta_input()
+                                sp_insufficente = True
+                                rifai_input = True
+                            elif sp_rimasta >= 0:
+                            
+                                giocatore_vivo_.update({"sp":sp_rimasta})
+                                break
+        if torna_indietro == False:
+            rifai = True
+            while rifai == True and sp_insufficente == False and hp_insufficente == False:
+                rifai = False
+                raggio = magia["raggio"]
+                tipo_magia = magia["type"]
+                effetto = magia["effetto"]
 
-            fonte = magia["fonte"] #determina se lo sta usando un nemico o giocatatore
-            if effetto == "stats": #per le magie che manipolano le statistiche
-                statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte)
+                fonte = magia["fonte"] #determina se lo sta usando un nemico o giocatatore
+                if effetto == "stats": #per le magie che manipolano le statistiche
+                    statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fonte)
 
-            elif effetto == "magia": #per magie che fanno del danno
+                elif effetto == "magia": #per magie che fanno del danno
 
-                lista_nemici = magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_)
+                    lista_nemici = magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_)
 
 
-    return lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input
+    return lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input,torna_indietro
 
 
 def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_):
@@ -332,7 +336,7 @@ def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_att
     aspetta_input()
 
 def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici): 
-
+    torna_indietro = False
     battaglia_vinta = False
     if lista_nemici == []: #fine battaglia (vittoria) se lista_nemici è vuota
         battaglia_vinta = True
@@ -376,16 +380,21 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
             try:
                 chi_attaccare = int(chi_attaccare)
             except:
-                print(colored("rifare inserendo un valore numerico corretto(guarda il numero in grigio a sinistra del nome del nemico)...","grey"))
-                aspetta_input()
-                os.system(clear)
                 rifai_input = True
+                if chi_attaccare == "back":
+                    torna_indietro = True
+                    rifai_input = False
+                else:
+                    print(colored("rifare inserendo un valore numerico corretto(guarda il numero in grigio a sinistra del nome del nemico)...","grey"))
+                    aspetta_input()
+                    os.system(clear)
+                
 
 
         
         rifai = True
         
-        while rifai == True:
+        while rifai == True and torna_indietro == False:
             rifai = False
             for nemico_ in lista_nemici:
                 id_nemico = nemico_["posizione"]
@@ -419,10 +428,11 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                 print(colored("il nemico selezionato non esite/valore non valido","grey"))
                 chi_attaccare = int(input("che nemico attaccare?")) #id da prendere
                 rifai = True
-    if damage_tot != None:
+    if damage_tot != None and torna_indietro == False:
         damage_tot = int(damage_tot)
-    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_)
-    return giocatore_vivo_,lista_nemici
+    if torna_indietro == False:
+        stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_)
+    return giocatore_vivo_,lista_nemici,torna_indietro
 
 def preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_):
 
@@ -525,6 +535,7 @@ def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
 
 
 def curarsi(lista_giocatori_v,lista_giocatori_m):
+    torna_indietro = False
     with open(p_zaino,"r") as lista_oggetti_zaino:
         lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     rifai_input = False
@@ -532,9 +543,11 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
     rifai = True
     cura_scelta = None
     while cura_scelta == None:
-        cura_scelta = menù_oggetti()
-    
-    while rifai == True:
+        cura_scelta,torna_indietro = menù_oggetti()
+        if cura_scelta == None and torna_indietro == True:
+            rifai_input = False
+            break
+    while rifai == True and torna_indietro == False:
         rifai = False
         tipo_oggetto = cura_scelta["type"]
         
@@ -752,17 +765,18 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                 i = i + 1
             with open(p_zaino,"w") as zaino_json:
                 json.dump(lista_oggetti_zaino,zaino_json,indent=4)
-    return rifai_input
+    return rifai_input,torna_indietro
+
 def name_item(lista_oggetti_zaino):
     return lista_oggetti_zaino["name"]
+
 def menù_oggetti():
     with open(p_zaino,"r") as lista_oggetti_zaino:
         lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     lista_oggetti_zaino.sort(key=name_item) #riordinamento oggetti per nome
 
     lista_oggetti_cure = []
-    lista_oggetti_vari = [] #oggetti che non sono cure che verranno usate dopo per riaggiornare zaino.json?
-    lista_oggetti_tutti = []
+    lista_oggetti_vari = [] #oggetti che non sono cure che verranno usate dopo per riaggiornare zaino
     for oggetto in lista_oggetti_zaino:
         tipologia_oggetto = oggetto["type"]
 
@@ -782,8 +796,6 @@ def menù_oggetti():
 
     while finito == False:
         os.system(clear)
-        finito = False
-
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
             fare_if = True
             try:
@@ -805,12 +817,16 @@ def menù_oggetti():
                     elif type == "revive":
                         print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
 
-                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+                scelta = input(colored("\nmettere cosa scegliere tra \">\",\"<\",\"back\", il numero in grigio...\n","grey"))
                 try:
                     scelta = int(scelta)
                 except:
                     scelta = str(scelta)
-                    fare_if = False
+                    if scelta == "back":
+                        torna_indietro = True
+                        finito = True
+                    else:
+                        fare_if = False
             except:
                 lunghezza_lista_meno_min = len(lista_oggetti_cure) - numero_min - 1
                 for j in range(lunghezza_lista_meno_min):
@@ -832,12 +848,16 @@ def menù_oggetti():
                     elif type == "revive":
                         print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
 
-                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"stop\", il numero in grigio...\n","grey"))
+                scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"back\", il numero in grigio...\n","grey"))
                 try:
                     scelta = int(scelta) 
                 except:
                     scelta = str(scelta)
-                    fare_if = False
+                    if scelta == "back":
+                        torna_indietro = True
+                        finito = True
+                    else:
+                        fare_if = False
             if scelta == ">":
                 numero_min = numero_min + 9
                 if numero_min > len(lista_oggetti_cure):
@@ -846,20 +866,12 @@ def menù_oggetti():
             elif scelta == "<":
                 if numero_min >= 9:
                     numero_min = numero_min - 9
-
-            elif scelta == "stop":
-                #TODO torna indietro (cancella scelta cura)
-
-                pass
-            if fare_if == True:
+            if fare_if == True and torna_indietro == False:
                 if scelta <= len(lista_oggetti_cure):
                     finito = True
                     cura_scelta = lista_oggetti_cure[scelta - 1]
-
-                if finito == True:
-                    pass
                 
-        elif len(lista_oggetti_cure) <= 9 and finito == False: #selezione basica di max len di 9
+        elif torna_indietro == False and len(lista_oggetti_cure) <= 9 and finito == False : #selezione basica di max len di 9
             fai_if = True
             for a in range(len(lista_oggetti_cure)):
                 cura_attuale = lista_oggetti_cure[a]
@@ -878,22 +890,26 @@ def menù_oggetti():
                     print(colored(f"+{effetto}SP","magenta"))
                 elif type == "revive":
                     print(colored(f"resuscita un alleto con |{effetto} hp|","grey"))
-            scelta = input(colored("mettere cosa scegliere \"stop\" o  un numero tra 1 e 9...\n","grey"))
+            scelta = input(colored("\nscegliere tra \"back\" o  un numero tra 1 e 9...\n","grey"))
             try:
                 scelta = int(scelta)
-                
             except:
                 scelta = str(scelta)
-                fai_if = False
+                if scelta == "back":
+                    torna_indietro == True
+                    finito = True
+                else:
+                    fai_if = False
 
-
-            lunghezza_lista = len(lista_oggetti_cure)
-            if fai_if == True and scelta <= lunghezza_lista:
-                finito = True
-                cura_scelta = lista_oggetti_cure[scelta - 1]
-            elif scelta == "stop":
-                pass
-    return cura_scelta
+    if torna_indietro == False:
+        lunghezza_lista = len(lista_oggetti_cure)
+        if fai_if == True and scelta <= lunghezza_lista:
+            finito = True
+            cura_scelta = lista_oggetti_cure[scelta - 1]
+        return cura_scelta,torna_indietro
+    elif torna_indietro == True:
+        cura_scelta = None
+    return cura_scelta,torna_indietro
 
 def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
     danno_nemico = nemico["damage"]
@@ -1817,6 +1833,6 @@ def tutorial():
     print("se il ONE MORE è ROSSO significa che il nemico ha causato un one more quindi attaccherà una volta in più")
     aspetta_input()
     os.system(clear)
-    print("per selezionare qualcosa nei vari menù basta scrivere il numero (in grigio)\nper eseguire l'azione che si vuole compiere e poi premere invio")
-    
+    print("per selezionare qualcosa nei vari menù basta scrivere il numero (in grigio),\ne poi premere invio\n\nper tornare inditro in un menù basta scrivere \"back\" e poi premere invio.")
+    aspetta_input()
     
