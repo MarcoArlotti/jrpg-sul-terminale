@@ -284,7 +284,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
 
                 elif effetto == "magia": #per magie che fanno del danno
 
-                    lista_nemici = magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_)
+                    lista_nemici,torna_indietro = magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_)
 
 
     return lista_giocatori_v,sp_insufficente,giocatore_vivo_,lista_nemici,rifai_input,torna_indietro
@@ -795,6 +795,7 @@ def menù_oggetti():
     numero_min = 0
 
     while finito == False:
+        torna_indietro = False
         os.system(clear)
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
             fare_if = True
@@ -802,7 +803,7 @@ def menù_oggetti():
                 for i in range(9): #TODO come capire se è più lungo di 9 (se no crash programma)
                     n_attuale = i + numero_min
                     cura_attuale = lista_oggetti_cure[n_attuale]
-                    if i > 1:
+                    if i > 0:
                         print("",end = " " * i)
 
                     print(colored(cura_attuale["numero_nella_lista"],"grey"),end=" ")
@@ -1474,6 +1475,7 @@ def statistiche_buff_debuff(tipo_magia,raggio,lista_giocatori_v,lista_nemici,fon
 
 
 def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,giocatore_vivo_):
+    torna_indietro = False
     if fonte == "giocatore":
         danno_magie = giocatore_vivo_["danno_magie"]
         danno_magie = int(danno_magie)
@@ -1513,17 +1515,20 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                     chi_attaccare = input("che nemico attaccare?") #id/nome da prendere
                     try:
                         chi_attaccare = int(chi_attaccare)
+                        
                     except:
+                        if chi_attaccare == "back":
+                            torna_indietro = True
+                            break
                         print(colored("rifare inserendo un valore numerico...","grey"))
                         aspetta_input()
                         os.system(clear)
                         rifai = True
-
                 for nemico_ in lista_nemici:
                     id_nemico = nemico_["posizione"]
                     nome_nemico = nemico_["name"]
 
-                    if chi_attaccare == id_nemico: #serve nome_,damage_tot
+                    if chi_attaccare == id_nemico and torna_indietro == False: #serve nome_,damage_tot
                             nemico_preso = preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_)
                             nome_nemico = colored(nome_nemico,"yellow")
                             if nemico_preso == [True]:
@@ -1566,11 +1571,12 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                                 danno_inflitto = None
                                 status = None
                             break
-                if chi_attaccare != id_nemico:
+                if chi_attaccare != id_nemico and torna_indietro == False:
                     rifai = True
-                if danno_inflitto != None:
+                if danno_inflitto != None and torna_indietro == False:
                     danno_inflitto = int(danno_inflitto)
-                stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,danno_inflitto,status,giocatore_vivo_)
+                if torna_indietro == False:
+                    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,danno_inflitto,status,giocatore_vivo_)
             elif raggio == "gruppo":
 
                 i = 0
@@ -1630,6 +1636,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                     stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,i,danno_inflitto,status,giocatore_vivo_)
         elif tipo_magia == "cura":
             if raggio == "singolo":
+                torna_indietro = False
                 i = 0
                 for giocatore in lista_giocatori_v:
                     i = i+1
@@ -1658,16 +1665,19 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                     chi_curare = input("chi si vuole curare?")
                     try:
                         chi_curare = int(chi_curare)
+                        
                     except:
+                        if chi_curare == "back":
+                            torna_indietro = True
+                            break
                         print(colored("rifare inserendo un valore numerico...","grey"))
                         aspetta_input()
                         os.system(clear)
                         rifai = True
-
                 for giocatore_vivo_ in lista_giocatori_v:
                     posizione_giocatore = giocatore_vivo_["posizione"]
 
-                    if chi_curare == posizione_giocatore:
+                    if chi_curare == posizione_giocatore and torna_indietro == False:
                         percentuale_boost_potenza_magie = 1
                         nemico = None
                         danno_inflitto = magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico)
@@ -1720,7 +1730,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
         atk_ = giocatore_["ATK"]
         if atk_ == 1:
             giocatore_vivo_.update({"danno_magie":danno_magie})
-    return lista_nemici
+    return lista_nemici,torna_indietro
 
 def tutorial():
     os.system(clear)

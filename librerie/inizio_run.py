@@ -748,17 +748,17 @@ def main():
             print("inserisci una delle scelte scritta tra gli \"\"")
             aspetta_input()
 
-    
-    for numero_piano in range(6):
+    numero_piano = 0
+    while True:
         os.system(clear)
-
+        numero_piano = numero_piano + 1 
         numero_piano_c = colored(numero_piano,"light_red")
         if numero_piano == 5:
             #boss battle
             with open(p_boss_battle_piano5,"r") as json_:
                 lista_nemici = json.load(json_)
             os.system(clear)
-            Art = text2art("p i a n o  d e l  b o s s",font="sub-zero")
+            Art = text2art("p i a n o  d e l\nb o s s",font="sub-zero")
             print(colored(Art,"red"))
             aspetta_input()
         else:
@@ -785,6 +785,8 @@ def main():
                 aspetta_input()
                 os.system("^C")
                 os.system(clear)
+        if numero_piano == 5:
+            break
     os.system(clear)
     Art = text2art("b o s s  s c o n f i t t o",font="sub-zero")
     print(colored(Art,"yellow"))

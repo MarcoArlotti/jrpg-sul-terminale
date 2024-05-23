@@ -120,6 +120,16 @@
                 "cosa_consuma": "sp",
                 "fonte": "giocatore",
                 "effetto": "magia"
+            },
+            {
+                "nome": "cura del gruppo debole",
+                "potenza": "scarsa",
+                "type": "cura",
+                "raggio": "gruppo",
+                "costo": 9,
+                "cosa_consuma": "sp",
+                "effetto": "magia",
+                "fonte": "giocatore"
             }
         ],
         "debole": [
