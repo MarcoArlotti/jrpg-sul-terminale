@@ -48,24 +48,24 @@ def inizio_run(): #tutte le stat sono portare a 0
         "valore":3.5,
         "type":"hp"
     },
-    {
-        "name":"cura parziale",
-        "effetto":90,
-        "valore":3.5,
-        "type":"hp"
-    },
-    {
-        "name":"cura pesante",
-        "effetto":180,
-        "valore":6.8,
-        "type":"hp"
-    },
-    {
-        "name":"cura pesante",
-        "effetto":180,
-        "valore":6.8,
-        "type":"hp"
-    },
+    #{
+    #    "name":"cura parziale",
+    #    "effetto":90,
+    #    "valore":3.5,
+    #    "type":"hp"
+    #},
+    #{
+    #    "name":"cura pesante",
+    #    "effetto":180,
+    #    "valore":6.8,
+    #    "type":"hp"
+    #},
+    #{
+    #    "name":"cura pesante",
+    #    "effetto":180,
+    #    "valore":6.8,
+    #    "type":"hp"
+    #},
     {
         "name":"cura sp",
         "effetto":15,
