@@ -40,7 +40,6 @@ def inizio_run(): #tutte le stat sono portare a 0
     with open(p_oggetti_curativi,"r") as lista_oggetti_curativi:
         lista_oggetti_curativi = json.load(lista_oggetti_curativi)
 
-    #3 cure parziali, 2 cure ps, un med metà
     #TODO in base alla difficoltà, aumentare/diminuire, costo/quantità degli oggetti
     zaino = [{
         "name":"cura parziale",
@@ -48,24 +47,24 @@ def inizio_run(): #tutte le stat sono portare a 0
         "valore":3.5,
         "type":"hp"
     },
-    #{
-    #    "name":"cura parziale",
-    #    "effetto":90,
-    #    "valore":3.5,
-    #    "type":"hp"
-    #},
-    #{
-    #    "name":"cura pesante",
-    #    "effetto":180,
-    #    "valore":6.8,
-    #    "type":"hp"
-    #},
-    #{
-    #    "name":"cura pesante",
-    #    "effetto":180,
-    #    "valore":6.8,
-    #    "type":"hp"
-    #},
+    {
+        "name":"cura parziale",
+        "effetto":90,
+        "valore":3.5,
+        "type":"hp"
+    },
+    {
+        "name":"cura pesante",
+        "effetto":180,
+        "valore":6.8,
+        "type":"hp"
+    },
+    {
+        "name":"cura pesante",
+        "effetto":180,
+        "valore":6.8,
+        "type":"hp"
+    },
     {
         "name":"cura sp",
         "effetto":15,
@@ -104,10 +103,11 @@ def inizio_run(): #tutte le stat sono portare a 0
     },
     
     ]
-    i = 1
+    i = 0
     for oggetto in zaino:
-        oggetto.update({"numero_nella_lista":i})
         i = i + 1
+        oggetto.update({"numero_nella_lista":i})
+        
     with open(p_zaino,"w") as zaino_json:
         json.dump(zaino,zaino_json,indent=4)
         
@@ -735,8 +735,9 @@ def main():
     rifai = True
     while rifai == True:
         os.system(clear)
-        iniziare_run = input(str(colored("iniziare la run...\n\n\"yes\"\n\"no\"(leggi un tutorial per sapere come giocare)\n","cyan")))
+        #iniziare_run = input(str(colored("iniziare la run...\n\n\"yes\"\n\"no\"(leggi un tutorial per sapere come giocare)\n","cyan")))
         os.system(clear)
+        iniziare_run = "yes" #DEBUG
         if iniziare_run == "yes":
             rifai = False
             inizio_run() 

@@ -523,8 +523,18 @@ def difendersi(giocatore_vivo):
     aspetta_input()
     os.system(clear)
 
-def rimuovi_cura(lista_oggetti_zaino,cura_scelta):
+def rimuovi_cura(selezione_basica,lista_oggetti_zaino,cura_scelta):
+    print(cura_scelta["effetto"])
+    aspetta_input()
+    i = 0
+    for oggetto_ in lista_oggetti_zaino:
+        i = i + 1
+        oggetto_.update({"numero_nella_lista":i})
+
     posizione_oggetto_scelto = cura_scelta["numero_nella_lista"]
+    posizione_oggetto_scelto = posizione_oggetto_scelto - 1
+    #se selezione basica e sp (1 di offset)
+
     for oggetto in lista_oggetti_zaino:
         posizione_oggetto = oggetto["numero_nella_lista"]
         if posizione_oggetto == posizione_oggetto_scelto:
@@ -543,7 +553,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
     rifai = True
     cura_scelta = None
     while cura_scelta == None:
-        cura_scelta,torna_indietro = menù_oggetti()
+        selezione_basica,cura_scelta,torna_indietro = menù_oggetti()
         if cura_scelta == None and torna_indietro == True:
             rifai_input = False
             break
@@ -610,7 +620,10 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                         print(colored(f"{vita_max} hp","light_green"))
                         aspetta_input()
                         nome_trovato = True
-                        rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                        posiz = cura_scelta["numero_nella_lista"]
+                        posiz = posiz + 1
+                        cura_scelta.update({"numero_nella_lista":posiz})
+                        rimuovi_cura(selezione_basica,lista_oggetti_zaino,cura_scelta)
                         break
                 if nome_trovato == False:
                     print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
@@ -679,7 +692,11 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                             print(colored(f"{sp_max} sp","light_magenta"))
                             aspetta_input()
                             nome_trovato = True
-                            rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                            if selezione_basica == True:
+                                posiz = cura_scelta["numero_nella_lista"]
+                                posiz = posiz + 1
+                                cura_scelta.update({"numero_nella_lista":posiz})
+                            rimuovi_cura(selezione_basica,lista_oggetti_zaino,cura_scelta)
                             break
                     if nome_trovato == False:
                         print(colored("persona non trovata...\nriprovare scrivendo lettera per lettera (e maiuscole) il nome della cura\n","grey"))
@@ -744,7 +761,7 @@ def curarsi(lista_giocatori_v,lista_giocatori_m):
                     nome_trovato = True
                     lista_giocatori_v.append(persona)
                     lista_giocatori_m.remove(persona)
-                    rimuovi_cura(lista_oggetti_zaino,cura_scelta)
+                    rimuovi_cura(selezione_basica,lista_oggetti_zaino,cura_scelta)
 
                     riordina_lista_giocatori_in_battaglia(lista_giocatori_v)
                     break
@@ -774,22 +791,13 @@ def menù_oggetti():
     with open(p_zaino,"r") as lista_oggetti_zaino:
         lista_oggetti_zaino = json.load(lista_oggetti_zaino)
     lista_oggetti_zaino.sort(key=name_item) #riordinamento oggetti per nome
-
-    lista_oggetti_cure = []
-    lista_oggetti_vari = [] #oggetti che non sono cure che verranno usate dopo per riaggiornare zaino
-    for oggetto in lista_oggetti_zaino:
-        tipologia_oggetto = oggetto["type"]
-
-        if tipologia_oggetto == "hp" or tipologia_oggetto == "sp" or tipologia_oggetto == "revive": #smistamento tra cure ed altri oggetti
-            lista_oggetti_cure.append(oggetto)
-        else:
-            lista_oggetti_vari.append(oggetto)
-
+    lista_oggetti_cure = lista_oggetti_zaino
     #menù a 9 scelte + 2 di movimento + torna inditro
-    numero_cura = 1
+    numero_cura = 0
     for cura in lista_oggetti_cure:
-        cura.update({"numero_nella_lista":numero_cura})
         numero_cura = numero_cura + 1
+        cura.update({"numero_nella_lista":numero_cura})
+        
 
     finito = False
     numero_min = 0
@@ -798,7 +806,7 @@ def menù_oggetti():
         torna_indietro = False
         os.system(clear)
         if len(lista_oggetti_cure) > 9 and finito == False: # menù
-            fare_if = True
+            selezione_basica = False
             try:
                 for i in range(9):
                     n_attuale = i + numero_min
@@ -821,11 +829,15 @@ def menù_oggetti():
                 scelta = input(colored("\nmettere cosa scegliere tra \">\",\"<\",\"back\", il numero in grigio...\n","grey"))
                 try:
                     scelta = int(scelta)
+                    fare_if = True
+                    torna_indietro = False
+                    finito = False
                 except:
                     scelta = str(scelta)
                     if scelta == "back":
                         torna_indietro = True
                         finito = True
+                        fare_if = True
                     else:
                         fare_if = False
             except:
@@ -851,14 +863,16 @@ def menù_oggetti():
 
                 scelta = input(colored("mettere cosa scegliere tra \">\",\"<\",\"back\", il numero in grigio...\n","grey"))
                 try:
-                    scelta = int(scelta) 
+                    scelta = int(scelta)
+                    fare_if = True
+
                 except:
                     scelta = str(scelta)
                     if scelta == "back":
+                        fare_if = False
                         torna_indietro = True
                         finito = True
-                    else:
-                        fare_if = False
+
             if scelta == ">":
                 numero_min = numero_min + 9
                 if numero_min > len(lista_oggetti_cure):
@@ -872,8 +886,10 @@ def menù_oggetti():
                     finito = True
                     cura_scelta = lista_oggetti_cure[scelta - 1]
                 
-        elif torna_indietro == False and len(lista_oggetti_cure) <= 9 and finito == False : #selezione basica di max len di 9
+        elif torna_indietro == False and len(lista_oggetti_cure) <= 9 and finito == False: #selezione basica di max len di 9
+            selezione_basica = True
             scala_di_uno = True
+            aspetta_input()
             for a in range(len(lista_oggetti_cure)):
                 cura_attuale = lista_oggetti_cure[a]
 
@@ -894,26 +910,23 @@ def menù_oggetti():
             scelta = input(colored("\nscegliere tra \"back\" o  un numero tra 1 e 9...\n","grey"))
             scala_di_uno = True
             try:
-                print(scelta)
+                if scelta == "back":
+                    torna_indietro = True
+                    finito = True
                 scelta = int(scelta)
                 cura_scelta = lista_oggetti_cure[scelta - 1]
-                print(cura_scelta)
-                aspetta_input()
             except:
                 scelta = str(scelta)
-                if scelta == "back":
-                    torna_indietro == True
-                    finito = True
-                else:
-                    scala_di_uno = False
+                scala_di_uno = False
 
             lunghezza_lista = len(lista_oggetti_cure)
-            if scala_di_uno == True and scelta <= lunghezza_lista:
-                finito = True
+            if torna_indietro == False:
+                if scala_di_uno == True and scelta <= lunghezza_lista:
+                    finito = True
 
     if torna_indietro == True:
         cura_scelta = None
-    return cura_scelta,torna_indietro
+    return selezione_basica,cura_scelta,torna_indietro
 
 def nemico_attacco(nemico,lista_giocatori_v,nemico_nome):
     danno_nemico = nemico["damage"]

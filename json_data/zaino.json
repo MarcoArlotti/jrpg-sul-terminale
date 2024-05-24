@@ -7,45 +7,17 @@
         "numero_nella_lista": 1
     },
     {
-        "name": "cura sp",
-        "effetto": 15,
-        "valore": 7.5,
-        "type": "sp",
+        "name": "cura parziale",
+        "effetto": 90,
+        "valore": 3.5,
+        "type": "hp",
         "numero_nella_lista": 2
     },
     {
-        "name": "cura sp pesante",
-        "effetto": 30,
-        "valore": 15.0,
-        "type": "sp",
+        "name": "med met\u00e0",
+        "effetto": "met\u00e0",
+        "valore": 16.0,
+        "type": "revive",
         "numero_nella_lista": 3
-    },
-    {
-        "name": "cura sp pesantissima",
-        "effetto": 80,
-        "valore": 38.0,
-        "type": "sp",
-        "numero_nella_lista": 4
-    },
-    {
-        "name": "cura sp",
-        "effetto": 15,
-        "valore": 7.5,
-        "type": "sp",
-        "numero_nella_lista": 5
-    },
-    {
-        "name": "med met\u00e0",
-        "effetto": "met\u00e0",
-        "valore": 16.0,
-        "type": "revive",
-        "numero_nella_lista": 6
-    },
-    {
-        "name": "med met\u00e0",
-        "effetto": "met\u00e0",
-        "valore": 16.0,
-        "type": "revive",
-        "numero_nella_lista": 7
     }
 ]
