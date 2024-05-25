@@ -746,7 +746,6 @@ def main():
     while True:
         os.system(clear)
         numero_piano = numero_piano + 1
-        numero_piano = 5
         numero_piano_c = colored(numero_piano,"light_red")
         if numero_piano == 5:
             #boss battle
