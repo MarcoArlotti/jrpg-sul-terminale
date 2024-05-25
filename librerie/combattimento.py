@@ -499,69 +499,125 @@ def stampa_cure(giocatore_vivo_,lista_giocatori_v,vita_recuperata):
 
     aspetta_input()
 
-def stampa_buff(lista_nemici,nemico,cosa_buffare):
+def stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore):
     i = 0
-    nome_nemico = nemico["name"]
-    nome_nemico_c = colored(nome_nemico,"light_red")
-    os.system(clear)
-    print(colored("\\" * 69,"red"),end="\n\n")
+    if tipo_magia == "ATK UP" or tipo_magia == "DEF UP" or tipo_magia == "AGI UP":
+        nome_nemico = nemico["name"]
+        nome_nemico_c = colored(nome_nemico,"light_red")
+        os.system(clear)
+        print(colored("\\" * 69,"red"),end="\n\n")
 
-    nome_magia = cosa_buffare["nome"]
-    nome_magia_c = colored(nome_magia,"cyan")
+        nome_magia = cosa_buffare["nome"]
+        nome_magia_c = colored(nome_magia,"cyan")
 
-    print(f"il nemico {nome_nemico_c} ha usato {nome_magia_c}")
-    print()
-    for nemico_ in lista_nemici:
+        print(f"il nemico {nome_nemico_c} ha usato {nome_magia_c}")
+        print()
+        for nemico_ in lista_nemici:
 
-        nome_nemico_ = nemico_["name"]
-        nome_nemico_c_ = colored(nome_nemico_,"red")
-        
+            nome_nemico_ = nemico_["name"]
+            nome_nemico_c_ = colored(nome_nemico_,"red")
 
-        
-        i = i+1
-        if i > 0:
-            print(" " * i,end="")
-        
-        atk_nemico = nemico_["ATK"]
-        def_nemico = nemico_["DEF"]
-        agi_nemico = nemico_["AGI"]
 
-        print("|",end="")
-        if atk_nemico == 1:
-            print(colored("|^|ATK","red"),end="  ")
-        if atk_nemico == 0:
-            print(colored("ATK","grey"),end="  ")
-        if atk_nemico == -1:
-            print(colored("|v|ATK","light_red"),end="  ")
-        if def_nemico == 1:
-            print(colored("|^|DEF","blue"),end="  ")
-        if def_nemico == 0:
-            print(colored("DEF","grey"),end="  ")
-        if def_nemico == -1:
-            print(colored("|v|DEF","light_blue"),end="  ")
 
-        if agi_nemico == 1:
-            print(colored("|^|AGI","green"),end="")    
-        if agi_nemico == 0:
-            print(colored("AGI","grey"),end="")
-        if agi_nemico == -1:
-            print(colored("|v|AGI","light_green"),end="")
-        print("|",end="    ")
+            i = i+1
+            if i > 0:
+                print(" " * i,end="")
 
-        print(nome_nemico_c_,end=" ")
+            atk_nemico = nemico_["ATK"]
+            def_nemico = nemico_["DEF"]
+            agi_nemico = nemico_["AGI"]
 
-        if nemico_["posizione"] == nemico["posizione"]:
-            if cosa_buffare["type"] == "ATK UP":
-                print(colored("+ ^ATK","red")) #+ATK
+            print("|",end="")
+            if atk_nemico == 1:
+                print(colored("|^|ATK","red"),end="  ")
+            if atk_nemico == 0:
+                print(colored("ATK","grey"),end="  ")
+            if atk_nemico == -1:
+                print(colored("|v|ATK","light_red"),end="  ")
+            if def_nemico == 1:
+                print(colored("|^|DEF","blue"),end="  ")
+            if def_nemico == 0:
+                print(colored("DEF","grey"),end="  ")
+            if def_nemico == -1:
+                print(colored("|v|DEF","light_blue"),end="  ")
 
-            elif cosa_buffare["type"] == "DEF UP":
-                print(colored("+ ^DEF","blue")) #+DEF
+            if agi_nemico == 1:
+                print(colored("|^|AGI","green"),end="")    
+            if agi_nemico == 0:
+                print(colored("AGI","grey"),end="")
+            if agi_nemico == -1:
+                print(colored("|v|AGI","light_green"),end="")
+            print("|",end="    ")
 
-            elif cosa_buffare["type"] == "AGI UP":
-                print(colored("+ ^AGI","green")) #+AGI
-        else:
-            print()
-    aspetta_input()
+            print(nome_nemico_c_,end=" ")
+
+            if nemico_ == nemico:
+                if cosa_buffare["type"] == "ATK UP":
+                    print(colored("+ ^ATK","red")) #+ATK
+
+                elif cosa_buffare["type"] == "DEF UP":
+                    print(colored("+ ^DEF","blue")) #+DEF
+
+                elif cosa_buffare["type"] == "AGI UP":
+                    print(colored("+ ^AGI","green")) #+AGI
+            else:
+                print()
+        aspetta_input()
+    else:
+        nome_nemico = nemico["name"]
+        nome_nemico_c = colored(nome_nemico,"light_red")
+        os.system(clear)
+        print(colored("\\" * 69,"red"),end="\n\n")
+
+        nome_magia = cosa_buffare["nome"]
+        nome_magia_c = colored(nome_magia,"cyan")
+        print(f"il nemico {nome_nemico_c} ha usato {nome_magia_c}")
+        print()
+        for giocatore_ in lista_nemici: #sarebbe lista_giocatori_v
+
+            nome_giocatore_ = giocatore_["name"]
+            colore_nome = giocatore_["colore_nome"]
+            nome_giocatore_c_ = colored(nome_giocatore_,colore_nome)
+            i = i+1
+            if i > 0:
+                print(" " * i,end="")
+
+            atk_giocatore = giocatore_["ATK"]
+            def_giocatore = giocatore_["DEF"]
+            agi_giocatore = giocatore_["AGI"]
+
+            print("|",end="")
+            if atk_giocatore == 1:
+                print(colored("|^|ATK","red"),end="  ")
+            if atk_giocatore == 0:
+                print(colored("ATK","grey"),end="  ")
+            if atk_giocatore == -1:
+                print(colored("|v|ATK","light_red"),end="  ")
+            if def_giocatore == 1:
+                print(colored("|^|DEF","blue"),end="  ")
+            if def_giocatore == 0:
+                print(colored("DEF","grey"),end="  ")
+            if def_giocatore == -1:
+                print(colored("|v|DEF","light_blue"),end="  ")
+            if agi_giocatore == 1:
+                print(colored("|^|AGI","green"),end="")    
+            if agi_giocatore == 0:
+                print(colored("AGI","grey"),end="")
+            if agi_giocatore == -1:
+                print(colored("|v|AGI","light_green"),end="")
+            print("|",end="    ")
+            print(nome_giocatore_c_,end=" ")
+            if giocatore_ == giocatore:
+                if cosa_buffare["type"] == "ATK DOWN":
+                    print(colored(" -ATK","red")) #+ATK
+                elif cosa_buffare["type"] == "DEF DOWN":
+                    print(colored(" -DEF","blue")) #+DEF
+                elif cosa_buffare["type"] == "AGI DOWN":
+                    print(colored(" -AGI","green")) #+AGI
+            else:
+                print()
+                
+        aspetta_input()
 
 def difendersi(giocatore_vivo):
 
@@ -1189,12 +1245,14 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                             for nemico_ in lista_nemici:
                                 stat_buff_funzionamento(nemico_,tipo_magia,None)
                                 os.system(clear)
-                                stampa_buff(lista_nemici,nemico_,cosa_buffare)
+                                giocatore = None
+                                stampa_buff(lista_nemici,nemico_,cosa_buffare,tipo_magia,giocatore)
 
                         elif raggio == "singolo":
                             
                             stat_buff_funzionamento(nemico,tipo_magia,lista_giocatori_v)
-                            stampa_buff(lista_nemici,nemico,cosa_buffare)
+                            giocatore = None
+                            stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore)
 
         elif numero_piano == 5:
             nemico_nome = nemico["name"]
@@ -1292,10 +1350,22 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         cosa_buffare = random.choice(lista_magie_nemico_buff)
                     except:
                         fai_magie = True
-                    if fai_magie == False:
-                        tipo_magia_ = cosa_buffare["type"]
-                        for nemico_ in lista_nemici:
-                            stat_buff_funzionamento(nemico_,tipo_magia_,lista_giocatori_v)
+                    raggio = cosa_buffare["raggio"]
+                    tipo_magia = cosa_buffare["type"]
+
+                    if raggio == "gruppo":
+                        stat_buff_funzionamento(nemico,tipo_magia,lista_giocatori_v)
+                        if tipo_magia == "ATK DOWN":
+                            for giocatore in lista_giocatori_v:
+                                stampa_buff(lista_giocatori_v,nemico,cosa_buffare,tipo_magia,giocatore)
+                        else:
+                            os.system(clear)
+                            giocatore = None
+                            stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore)
+                    elif raggio == "singolo":
+                        stat_buff_funzionamento(nemico,tipo_magia,lista_giocatori_v)
+                        giocatore = None
+                        stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore)
 
                 elif scelta_magia == ["cura"]:
                     lista_magie_nemico = nemico["magie"]
@@ -1413,7 +1483,7 @@ def stat_buff_funzionamento(giocatore_vivo_,tipo_magia,lista_giocatori_v):
         giocatore_vivo_.update({"s_CRIT":s_CRIT})
         giocatore_vivo_.update({"CRIT":crit_})
         
-    if tipo_magia == "ATK DOWN" or tipo_magia == "DEF DOWN" or tipo_magia == "AGI DOWN" or tipo_magia == "ccrit DOWN":
+    if tipo_magia == "ATK DOWN" or tipo_magia == "DEF DOWN" or tipo_magia == "AGI DOWN" or tipo_magia == "CRIT DOWN":
         for giocatore in lista_giocatori_v:
             if tipo_magia == "ATK DOWN":
                 atk_ = giocatore["ATK"]
@@ -1927,4 +1997,3 @@ def tutorial():
     os.system(clear)
     print("per selezionare qualcosa nei vari menù basta scrivere il numero (in grigio),\ne poi premere invio\n\nper tornare inditro in un menù basta scrivere \"back\" e poi premere invio.")
     aspetta_input()
-    

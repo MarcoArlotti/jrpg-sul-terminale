@@ -421,15 +421,7 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
             for nemico in lista_nemici:
                 vita_rimasta_nemico = nemico["health"]
 
-                if vita_rimasta_nemico <= 0:
-
-                    exp_drop = nemico["exp_drop"]
-                    exp_player = giocatore_vivo_["exp"]
-                    exp_ottenuta = exp_player + exp_drop
-                    exp_ottenuta_c = colored(exp_ottenuta,"light_blue")
-                    for giocatore in lista_giocatori_v:
-                        giocatore.update({"exp":exp_ottenuta})
-                    
+                if vita_rimasta_nemico <= 0:                  
                     lista_nemici.remove(nemico)
                     break
 
@@ -750,7 +742,7 @@ def main():
             print("inserisci una delle scelte scritta tra gli \"\"")
             aspetta_input()
 
-    numero_piano = 0
+    numero_piano = 4
     while True:
         os.system(clear)
         numero_piano = numero_piano + 1 

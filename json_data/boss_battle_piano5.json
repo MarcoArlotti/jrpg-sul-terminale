@@ -82,9 +82,9 @@
                 "effetto": "cura"
             },
             {
-                "nome": "DEF UP TUTTI",
+                "nome": "DEF UP SINGOLO",
                 "type": "DEF UP",
-                "raggio": "gruppo",
+                "raggio": "singolo",
                 "costo": 0,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
@@ -148,9 +148,9 @@
                 "fonte": "giocatore"
             },
             {
-                "nome": "ATK UP TUTTI",
+                "nome": "ATK UP SINGOLO",
                 "type": "ATK UP",
-                "raggio": "gruppo",
+                "raggio": "singolo",
                 "costo": 0,
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
