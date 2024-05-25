@@ -60,15 +60,6 @@ def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
 
 
     if status == "debole" and not tipo_magia_player == "cura":
-        
-        #nemico_atterrato = nemico_["atterrato"]
-        #if nemico_atterrato == True:
-#
-        #    nemico_.update({"one_more":False})
-        #elif nemico_atterrato == False:
-#
-        #    nemico_.update({"one_more":True})
-        #    nemico_.update({"atterrato":True})
 
         if potenza == "scarsa":
 
@@ -318,10 +309,7 @@ def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_att
                 print(colored(f"{max_vita_nemico}|","green"),end=f" -{damage_tot}HP")
                 if status == "debole":
                     print(colored("|DEBOLE|","cyan"))
-                    print(nemico["atterrato"])
                     if nemico["atterrato"] == False:
-                        print("one_more")
-                        aspetta_input()
                         nemico.update({"one_more":True})
                     nemico.update({"atterrato":True})
                 elif status == "resiste":
@@ -509,6 +497,70 @@ def stampa_cure(giocatore_vivo_,lista_giocatori_v,vita_recuperata):
             print(colored(f"{max_vita_giocatore}|","green"))
                 
 
+    aspetta_input()
+
+def stampa_buff(lista_nemici,nemico,cosa_buffare):
+    i = 0
+    nome_nemico = nemico["name"]
+    nome_nemico_c = colored(nome_nemico,"light_red")
+    os.system(clear)
+    print(colored("\\" * 69,"red"),end="\n\n")
+
+    nome_magia = cosa_buffare["nome"]
+    nome_magia_c = colored(nome_magia,"cyan")
+
+    print(f"il nemico {nome_nemico_c} ha usato {nome_magia_c}")
+    print()
+    for nemico_ in lista_nemici:
+
+        nome_nemico_ = nemico_["name"]
+        nome_nemico_c_ = colored(nome_nemico_,"red")
+        
+
+        
+        i = i+1
+        if i > 0:
+            print(" " * i,end="")
+        
+        atk_nemico = nemico_["ATK"]
+        def_nemico = nemico_["DEF"]
+        agi_nemico = nemico_["AGI"]
+
+        print("|",end="")
+        if atk_nemico == 1:
+            print(colored("|^|ATK","red"),end="  ")
+        if atk_nemico == 0:
+            print(colored("ATK","grey"),end="  ")
+        if atk_nemico == -1:
+            print(colored("|v|ATK","light_red"),end="  ")
+        if def_nemico == 1:
+            print(colored("|^|DEF","blue"),end="  ")
+        if def_nemico == 0:
+            print(colored("DEF","grey"),end="  ")
+        if def_nemico == -1:
+            print(colored("|v|DEF","light_blue"),end="  ")
+
+        if agi_nemico == 1:
+            print(colored("|^|AGI","green"),end="")    
+        if agi_nemico == 0:
+            print(colored("AGI","grey"),end="")
+        if agi_nemico == -1:
+            print(colored("|v|AGI","light_green"),end="")
+        print("|",end="    ")
+
+        print(nome_nemico_c_,end=" ")
+
+        if nemico_["posizione"] == nemico["posizione"]:
+            if cosa_buffare["type"] == "ATK UP":
+                print(colored("+ ^ATK","red")) #+ATK
+
+            elif cosa_buffare["type"] == "DEF UP":
+                print(colored("+ ^DEF","blue")) #+DEF
+
+            elif cosa_buffare["type"] == "AGI UP":
+                print(colored("+ ^AGI","green")) #+AGI
+        else:
+            print()
     aspetta_input()
 
 def difendersi(giocatore_vivo):
@@ -1044,11 +1096,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
     if giocatori_morti == False:
         nemico_nome = colored(nemico["name"],"light_red")
 
-        numero_piano = 5
-        if numero_piano < 3: #se i nemici si trovano al piano 2 o inferiore attaccheranno e basta
-            nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
-
-        elif numero_piano == 3 or numero_piano == 4:
+        if numero_piano < 5:
             scelta_magia = "attacco","magie","buff_stats"
             nemico_nome = nemico["name"]
             scelta_magia = random.choices(scelta_magia,weights=[50,40,10],k=1)
@@ -1124,6 +1172,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     nemico_attacco(nemico,lista_giocatori_v,nemico_nome)
 
                 elif scelta_magia == ["buff_stats"]:
+
                     lista_magie_nemico = nemico["magie"]
                     lista_magie_nemico_buff = []
                     for magie in lista_magie_nemico:
@@ -1139,8 +1188,13 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         if raggio == "gruppo":
                             for nemico_ in lista_nemici:
                                 stat_buff_funzionamento(nemico_,tipo_magia,None)
+                                os.system(clear)
+                                stampa_buff(lista_nemici,nemico_,cosa_buffare)
+
                         elif raggio == "singolo":
+                            
                             stat_buff_funzionamento(nemico,tipo_magia,lista_giocatori_v)
+                            stampa_buff(lista_nemici,nemico,cosa_buffare)
 
         elif numero_piano == 5:
             nemico_nome = nemico["name"]
@@ -1358,6 +1412,7 @@ def stat_buff_funzionamento(giocatore_vivo_,tipo_magia,lista_giocatori_v):
         s_CRIT = 3
         giocatore_vivo_.update({"s_CRIT":s_CRIT})
         giocatore_vivo_.update({"CRIT":crit_})
+        
     if tipo_magia == "ATK DOWN" or tipo_magia == "DEF DOWN" or tipo_magia == "AGI DOWN" or tipo_magia == "ccrit DOWN":
         for giocatore in lista_giocatori_v:
             if tipo_magia == "ATK DOWN":
@@ -1571,7 +1626,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                                     danno_inflitto = danno_inflitto / 1.1
 
                                 if status == "debole":
-                                    if nemico_["guard"] == False and nemico_["atterrato"] == False:
+                                    if nemico_["atterrato"] == False:
                                         nemico_.update({"one_more":True})
                                         nemico_.update({"atterrato":True})
                                     danno_inflitto = danno_inflitto * 1.1

@@ -405,7 +405,6 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                 for nemico_ in lista_nemici:
                 
                     one_more_ = nemico_["one_more"]
-                    atterrato = nemico_["atterrato"]
                     if one_more_ == True:
                         nemico_.update({"one_more":False})
                         one_more = True
