@@ -61,14 +61,14 @@ def magie_funzionamento(percentuale_boost_potenza_magie,magia,nemico_):
 
     if status == "debole" and not tipo_magia_player == "cura":
         
-        nemico_atterrato = nemico_["atterrato"]
-        if nemico_atterrato == True:
-
-            nemico_.update({"one_more":False})
-        elif nemico_atterrato == False:
-
-            nemico_.update({"one_more":True})
-            nemico_.update({"atterrato":True})
+        #nemico_atterrato = nemico_["atterrato"]
+        #if nemico_atterrato == True:
+#
+        #    nemico_.update({"one_more":False})
+        #elif nemico_atterrato == False:
+#
+        #    nemico_.update({"one_more":True})
+        #    nemico_.update({"atterrato":True})
 
         if potenza == "scarsa":
 
@@ -316,10 +316,13 @@ def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_att
         if nemico["posizione"] == chi_attaccare:
             if nemico_preso == [True]:
                 print(colored(f"{max_vita_nemico}|","green"),end=f" -{damage_tot}HP")
-
                 if status == "debole":
                     print(colored("|DEBOLE|","cyan"))
-                    nemico.update({"one_more":True})
+                    print(nemico["atterrato"])
+                    if nemico["atterrato"] == False:
+                        print("one_more")
+                        aspetta_input()
+                        nemico.update({"one_more":True})
                     nemico.update({"atterrato":True})
                 elif status == "resiste":
                     print(colored("|RESISTE|","grey"))
@@ -331,9 +334,8 @@ def stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_att
                 print(colored("|MISS|","grey"))  
         else:
             print(colored(f"{max_vita_nemico}|","green"))
-                
-
     aspetta_input()
+    return lista_nemici
 
 def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici): 
     torna_indietro = False
@@ -431,7 +433,7 @@ def attaccare(giocatore_vivo_,lista_giocatori_v,lista_nemici):
     if damage_tot != None and torna_indietro == False:
         damage_tot = int(damage_tot)
     if torna_indietro == False:
-        stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_)
+        lista_nemici = stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,damage_tot,status,giocatore_vivo_)
     return giocatore_vivo_,lista_nemici,torna_indietro
 
 def preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_):
@@ -1090,7 +1092,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         danno_inflitto = danno_inflitto / 1.1
 
                     if status == "debole":
-                        if giocatore_da_attaccare["guard"] == False:
+                        if giocatore_da_attaccare["guard"] == False and giocatore_da_attaccare["atterrato"] == False:
                             giocatore_da_attaccare.update({"one_more":True})
                             giocatore_da_attaccare.update({"atterrato":True})
                         danno_inflitto = danno_inflitto * 1.1
@@ -1187,8 +1189,9 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                             danno_inflitto = int(danno_inflitto)
 
                         if status == "debole":
-                            giocatore_da_attaccare.update({"one_more":True})
-                            giocatore_da_attaccare.update({"atterrato":True})
+                            if giocatore_da_attaccare["guard"] == False and giocatore_da_attaccare["atterrato"] == False:
+                                giocatore_da_attaccare.update({"one_more":True})
+                                giocatore_da_attaccare.update({"atterrato":True})
                             danno_inflitto = danno_inflitto * 1.1
                         elif status == "resiste":
                             danno_inflitto = danno_inflitto / 1.1
@@ -1568,8 +1571,9 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                                     danno_inflitto = danno_inflitto / 1.1
 
                                 if status == "debole":
-                                    nemico_.update({"one_more":True})
-                                    nemico_.update({"atterrato":True})
+                                    if nemico_["guard"] == False and nemico_["atterrato"] == False:
+                                        nemico_.update({"one_more":True})
+                                        nemico_.update({"atterrato":True})
                                     danno_inflitto = danno_inflitto * 1.1
                                 elif status == "resiste":
                                     danno_inflitto = danno_inflitto / 1.1
@@ -1599,7 +1603,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                 if danno_inflitto != None and torna_indietro == False:
                     danno_inflitto = int(danno_inflitto)
                 if torna_indietro == False:
-                    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,danno_inflitto,status,giocatore_vivo_)
+                    lista_nemici = stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,chi_attaccare,danno_inflitto,status,giocatore_vivo_)
             elif raggio == "gruppo":
 
                 i = 0
@@ -1656,7 +1660,7 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         status = None
                     if danno_inflitto != None:
                         danno_inflitto = int(danno_inflitto)
-                    stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,i,danno_inflitto,status,giocatore_vivo_)
+                    lista_nemici = stampa_danno(lista_nemici,lista_giocatori_v,nemico_preso,nome_nemico,i,danno_inflitto,status,giocatore_vivo_)
         elif tipo_magia == "cura":
             if raggio == "singolo":
                 torna_indietro = False
