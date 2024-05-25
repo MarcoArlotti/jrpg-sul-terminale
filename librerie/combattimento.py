@@ -199,7 +199,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                     costo_magia = magia_["costo"]
                     print(colored(f" |{costo_magia}SP|","magenta"),end=" ")
 
-                nome_magia = magia_["nome"]
+                nome_magia = magia_["name"]
                 print(colored(nome_magia,"light_cyan"),end="\n")
 
                 
@@ -510,7 +510,7 @@ def stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore):
         nome_magia = cosa_buffare["nome"]
         nome_magia_c = colored(nome_magia,"cyan")
 
-        print(f"il nemico {nome_nemico_c} ha usato {nome_magia_c}")
+        print(f"il nemico {nome_nemico_c} ha usato il potenziamento; |{nome_magia_c}|")
         print()
         for nemico_ in lista_nemici:
 
@@ -1217,10 +1217,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     che_magia_usare_nome_c = colored(che_magia_usare_nome,"cyan")
                     os.system(clear)
                     print(colored("/" * 69,"light_red"))
-                    print(colored(f"il nemico {nemico_nome_c},","grey"),end=" ")
-                    print(colored(f"ha usato: |{che_magia_usare_nome_c}|","grey"),end="")
-                    print(colored(f"\n\ninfliggendo -{danno_inflitto_c}HP","grey"),end=" ")
-                    print(colored(f"al {nome_giocatore_scelto_c}","grey"))
+                    print(f"il nemico {nemico_nome_c},ha usato: |{che_magia_usare_nome_c}|\n\ninfliggendo -{danno_inflitto_c}HP al {nome_giocatore_scelto_c}")
                     aspetta_input()
                     giocatore_da_attaccare.update({"health":tot})
 
@@ -1323,10 +1320,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
 
                         os.system(clear)
                         print(colored("/" * 69,"light_red"))
-                        print(colored(f"il nemico {nemico_nome_c},","grey"),end=" ")
-                        print(colored(f"ha usato: |{che_magia_usare_nome_c}|","grey"),end="")
-                        print(colored(f"\n\ninfliggendo -{danno_inflitto_c}HP","grey"),end=" ")
-                        print(colored(f"al {nome_giocatore_scelto_c}","grey"))
+                        print(f"il nemico {nemico_nome_c}, ha usato: |{che_magia_usare_nome_c}|\n\ninfliggendo -{danno_inflitto_c}HP al {nome_giocatore_scelto_c}")
                         aspetta_input()
                         giocatore_da_attaccare.update({"health":tot})
                     else:
@@ -1336,8 +1330,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                         nome_giocatore_scelto_c = colored(nome_giocatore_scelto,colore_nome)
                         os.system(clear)
                         print(colored("/" * 69,"light_red"))
-                        print(colored(f"il nemico {nemico_nome_c},","grey"),end=" ")
-                        print(colored(f"ha mancato {nome_giocatore_scelto_c}","grey"))
+                        print(f"il nemico {nemico_nome_c}, ha mancato {nome_giocatore_scelto_c}")
                         aspetta_input()
 
                 elif scelta_magia == ["buff_stats"]:
@@ -1363,6 +1356,8 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                             giocatore = None
                             stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore)
                     elif raggio == "singolo":
+                        nemico = random.choice(lista_nemici)
+
                         stat_buff_funzionamento(nemico,tipo_magia,lista_giocatori_v)
                         giocatore = None
                         stampa_buff(lista_nemici,nemico,cosa_buffare,tipo_magia,giocatore)
@@ -1399,7 +1394,12 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                                 tot = vita_nemico
 
                             os.system(clear)
+                            nome_nemico = nemico["name"]
+                            nome_nemico_c = colored(nome_nemico,"red")
+                            nome_magia = magia["nome"]
+                            nome_magia_c = colored(nome_magia,"cyan")
                             print(colored("/" * 69,"red"))
+                            print(f"il nemico {nome_nemico_c} ha curato tutti i nemici usando; |{nome_magia_c}|")
                             print()
                             for nemico___ in lista_nemici:
                                 nemico___.update({"posizione":k})

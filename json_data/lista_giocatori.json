@@ -103,6 +103,16 @@
                 "effetto": "stats"
             },
             {
+                "nome": "cura normale",
+                "potenza": "normale",
+                "type": "cura",
+                "raggio": "singolo",
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "effetto": "magia",
+                "fonte": "giocatore"
+            },
+            {
                 "nome": "scarica pesante SINGOLO",
                 "potenza": "normale",
                 "type": "elettric",
@@ -179,6 +189,16 @@
                 "cosa_consuma": "hp",
                 "fonte": "giocatore",
                 "effetto": "stats"
+            },
+            {
+                "nome": "ghiaccio devastante SINGOLO",
+                "potenza": "devastante",
+                "type": "ice",
+                "raggio": "singolo",
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "effetto": "magia",
+                "fonte": "giocatore"
             },
             {
                 "nome": "vento pesante SINGOLO",
