@@ -1172,7 +1172,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     lista_magie_nemico = nemico["magie"]
                     lista_magie_nemico_magia = []
                     for magie in lista_magie_nemico:
-                        if magie["effetto"] == ["magia"]:
+                        if magie["effetto"] == "magia":
                             lista_magie_nemico_magia.append(magie)
                         rifai = False
                     random.shuffle(lista_magie_nemico_magia)
