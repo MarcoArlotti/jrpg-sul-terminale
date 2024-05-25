@@ -726,9 +726,10 @@ def main():
     rifai = True
     while rifai == True:
         os.system(clear)
-        #iniziare_run = input(str(colored("iniziare la run...\n\n\"yes\"\n\"no\"(leggi un tutorial per sapere come giocare)\n","cyan")))
+        c = "(per leggere un tutorial per sapere come giocare)"
+        c_c = colored(c,"red")
+        iniziare_run = input(str(colored(f"iniziare la run...\n\n\"yes\"\n\"no\"{c_c}\n","grey")))
         os.system(clear)
-        iniziare_run = "yes" #DEBUG
         if iniziare_run == "yes":
             rifai = False
             inizio_run() 
@@ -742,7 +743,6 @@ def main():
             print("inserisci una delle scelte scritta tra gli \"\"")
             aspetta_input()
 
-    numero_piano = 4
     while True:
         os.system(clear)
         numero_piano = numero_piano + 1 
