@@ -199,7 +199,7 @@ def magie(giocatore_vivo_,lista_giocatori_v,lista_nemici):
                     costo_magia = magia_["costo"]
                     print(colored(f" |{costo_magia}SP|","magenta"),end=" ")
 
-                nome_magia = magia_["name"]
+                nome_magia = magia_["nome"]
                 print(colored(nome_magia,"light_cyan"),end="\n")
 
                 
@@ -454,17 +454,16 @@ def preso_o_mancato(nemico_,tipo_magia,giocatore_vivo_):
     flip = True,False
     nemico_preso = random.choices(flip,weights=[nemico_velocità_opposto,nemico_velocità],k=1)
     nemico_crit = False
-    nemico_atterrato = nemico_["atterrato"]
 
-    if tipo_magia == "slash" and nemico_preso:
+    if tipo_magia == "slash" or tipo_magia == "melee" and nemico_preso:
 
         crit = True,False
         possibilità_crit = giocatore_vivo_["possibilit\u00c3\u00a0_crit"]
         possibilità_crit_opposto = 100 - possibilità_crit
-
-        if nemico_atterrato == False and nemico_preso == [True]:
+        if nemico_preso == [True]:
 
             nemico_crit = random.choices(crit,weights=[possibilità_crit,possibilità_crit_opposto],k=1)
+
             if nemico_crit == [True]:
                 nemico_.update({"crit":True})
                 nemico_.update({"atterrato":True})
@@ -634,8 +633,6 @@ def difendersi(giocatore_vivo):
     os.system(clear)
 
 def rimuovi_cura(selezione_basica,lista_oggetti_zaino,cura_scelta):
-    print(cura_scelta["effetto"])
-    aspetta_input()
     i = 0
     for oggetto_ in lista_oggetti_zaino:
         i = i + 1
@@ -999,7 +996,6 @@ def menù_oggetti():
         elif torna_indietro == False and len(lista_oggetti_cure) <= 9 and finito == False: #selezione basica di max len di 9
             selezione_basica = True
             scala_di_uno = True
-            aspetta_input()
             for a in range(len(lista_oggetti_cure)):
                 cura_attuale = lista_oggetti_cure[a]
 
@@ -1174,7 +1170,7 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     for magie in lista_magie_nemico:
                         if magie["effetto"] == "magia":
                             lista_magie_nemico_magia.append(magie)
-                        rifai = False
+
                     random.shuffle(lista_magie_nemico_magia)
                     che_magia_usare = random.choice(lista_magie_nemico_magia)
 
@@ -1217,7 +1213,17 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
                     che_magia_usare_nome_c = colored(che_magia_usare_nome,"cyan")
                     os.system(clear)
                     print(colored("/" * 69,"light_red"))
-                    print(f"il nemico {nemico_nome_c},ha usato: |{che_magia_usare_nome_c}|\n\ninfliggendo -{danno_inflitto_c}HP al {nome_giocatore_scelto_c}")
+                    print(f"il nemico {nemico_nome_c},ha usato: |{che_magia_usare_nome_c}|\n\ninfliggendo -{danno_inflitto_c}HP al {nome_giocatore_scelto_c}, ",end="")
+                    if status == "debole":
+                        print("|",end="")
+                        print(colored("DEBOLE","cyan"),end="")
+                        print("|")
+                    elif status == "normale":
+                        print()
+                    elif status == "resiste":
+                        print("|",end="")
+                        print(colored("RESISTE","grey"),end="")
+                        print("|")
                     aspetta_input()
                     giocatore_da_attaccare.update({"health":tot})
 
@@ -1320,7 +1326,17 @@ def AI_nemico(nemico,lista_nemici,lista_giocatori_v,numero_piano,lista_giocatori
 
                         os.system(clear)
                         print(colored("/" * 69,"light_red"))
-                        print(f"il nemico {nemico_nome_c}, ha usato: |{che_magia_usare_nome_c}|\n\ninfliggendo -{danno_inflitto_c}HP al {nome_giocatore_scelto_c}")
+                        print(f"il nemico {nemico_nome_c},ha usato: |{che_magia_usare_nome_c}|\n\ninfliggendo -{danno_inflitto_c}HP al {nome_giocatore_scelto_c}, ",end="")
+                        if status == "debole":
+                            print("|",end="")
+                            print(colored("DEBOLE","cyan"),end="")
+                            print("|")
+                        elif status == "normale":
+                            print()
+                        elif status == "resiste":
+                            print("|",end="")
+                            print(colored("RESISTE","grey"),end="")
+                            print("|")
                         aspetta_input()
                         giocatore_da_attaccare.update({"health":tot})
                     else:

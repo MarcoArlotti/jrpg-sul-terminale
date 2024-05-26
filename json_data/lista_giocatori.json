@@ -13,7 +13,7 @@
         "crit": false,
         "danno_magie": 2,
         "armatura": 3,
-        "possibilit\u00c3\u00a0_crit": 80.0,
+        "possibilit\u00c3\u00a0_crit": 12.0,
         "magie": [
             {
                 "nome": "cura del gruppo normale",
@@ -91,7 +91,7 @@
         "crit": false,
         "danno_magie": 3,
         "armatura": 1.4,
-        "possibilit\u00c3\u00a0_crit": 80.0,
+        "possibilit\u00c3\u00a0_crit": 15.0,
         "magie": [
             {
                 "nome": "DEF UP TUTTI",
@@ -179,7 +179,7 @@
         "crit": false,
         "danno_magie": 2,
         "armatura": 2.2,
-        "possibilit\u00c3\u00a0_crit": 80.0,
+        "possibilit\u00c3\u00a0_crit": 20.0,
         "magie": [
             {
                 "nome": "AGI UP TUTTI",

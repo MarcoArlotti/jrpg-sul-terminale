@@ -356,7 +356,6 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
 
             rifai_input = True
             while rifai_input == True:
-                
                 rifai_input = False
                 os.system(clear)
 
@@ -410,11 +409,13 @@ def scelta_nel_turno(giocatore_vivo_,lista_nemici,lista_giocatori_v,lista_giocat
                         one_more = True
                         rifai = True
 
-                    crit = nemico_["crit"]
-                    if crit == True:
+                    crit_ = nemico_["crit"]
+                    if crit_ == True:
                         nemico_.update({"crit":False})
                         crit = True
                         rifai = True
+                    if one_more == True or crit == True:
+                        break
             
 
         for i in range(len(lista_nemici)):
