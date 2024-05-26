@@ -67,8 +67,95 @@
         "resiste": [
             "elettrical"
         ],
-        "guard": true,
+        "guard": false,
         "posizione": 1,
+        "ATK": 0,
+        "DEF": 0,
+        "AGI": 0,
+        "s_ATK": 0,
+        "s_DEF": 0,
+        "s_AGI": 0
+    },
+    {
+        "name": "CASO",
+        "colore_nome": "green",
+        "max_health": 220,
+        "health": 220,
+        "schivata": 23.0,
+        "exp": 0.0,
+        "max_sp": 36,
+        "sp": 36,
+        "atterrato": false,
+        "one_more": false,
+        "crit": false,
+        "danno_magie": 3,
+        "armatura": 1.4,
+        "possibilit\u00c3\u00a0_crit": 15.0,
+        "magie": [
+            {
+                "nome": "DEF UP TUTTI",
+                "type": "DEF UP",
+                "raggio": "gruppo",
+                "costo": 50,
+                "cosa_consuma": "hp",
+                "fonte": "giocatore",
+                "effetto": "stats"
+            },
+            {
+                "nome": "cura normale",
+                "potenza": "normale",
+                "type": "cura",
+                "raggio": "singolo",
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "effetto": "magia",
+                "fonte": "giocatore"
+            },
+            {
+                "nome": "scarica pesante SINGOLO",
+                "potenza": "normale",
+                "type": "elettric",
+                "raggio": "singolo",
+                "costo": 4,
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
+            },
+            {
+                "nome": "scarica TUTTI",
+                "potenza": "scarsa",
+                "type": "elettric",
+                "raggio": "gruppo",
+                "costo": 8,
+                "cosa_consuma": "sp",
+                "fonte": "giocatore",
+                "effetto": "magia"
+            },
+            {
+                "nome": "cura del gruppo debole",
+                "potenza": "scarsa",
+                "type": "cura",
+                "raggio": "gruppo",
+                "costo": 9,
+                "cosa_consuma": "sp",
+                "effetto": "magia",
+                "fonte": "giocatore"
+            }
+        ],
+        "debole": [
+            "elettric"
+        ],
+        "resiste": [
+            "ice"
+        ],
+        "damage_base": 9.0,
+        "current_equip_melee": {
+            "damage": 32,
+            "price": 0,
+            "type": null
+        },
+        "guard": false,
+        "posizione": 2,
         "ATK": 0,
         "DEF": 0,
         "AGI": 0,

@@ -1691,6 +1691,8 @@ def magie_che_tipo(fonte,tipo_magia,raggio,lista_nemici,magia,lista_giocatori_v,
                         aspetta_input()
                         os.system(clear)
                         rifai = True
+                    if chi_attaccare < 1 or chi_attaccare > len(lista_nemici):
+                        rifai = True
                 for nemico_ in lista_nemici:
                     id_nemico = nemico_["posizione"]
                     nome_nemico = nemico_["name"]
